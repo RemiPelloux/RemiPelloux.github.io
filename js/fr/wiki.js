@@ -14,7 +14,7 @@ export default {
   edit: 'Une erreur dans ma personne ? <a href="https://github.com/RemiPelloux/RemiPelloux.github.io/edit/main/wiki/index.html">Ouvrez une pull request</a>.', // unslop-ignore: the question is the joke
   "h-start": "Premiers pas",
   start: qa(
-    ["C'est quoi, Rémi ?", "Un CTO chez OpenPro, basé à Nice. Et un processus qui transforme les soirées libres en dépôts GitHub. Les deux tournent en production."],
+    ["C'est quoi, Rémi ?", "Un CTO chez OpenPro, né à Antibes, basé à Nice. Et un processus qui transforme les soirées libres en dépôts GitHub. Les deux tournent en production."],
     ["Comment installer Rémi ?", "Impossible. Je suis en source disponible, pas en open source. Vous pouvez cloner mes dépôts publics, c'est déjà l'essentiel de moi."],
     ["Quelle est la configuration requise ?", `Du café. J'ai rétro-conçu le protocole de ma machine De'Longhi et écrit ${gh("delonghi-coffee-api", "une API REST pour elle")}, donc cette dépendance est au moins documentée.`],
   ),
@@ -22,6 +22,7 @@ export default {
   reference: qa(
     ["Pourquoi tous les projets commencent par Open ?", "Nommer est difficile et j'ai trouvé un préfixe qui marche. OpenPro, OpenVision, OpenPlod, OpenNative, OpenSw, OpenAgents. Si j'ouvre une boulangerie, ce sera OpenBread."],
     ["470 contributions le 24 octobre 2026. C'est un bug ?", "Non. C'était un samedi et personne n'avait posé de réunion."],
+    ["Pourquoi tout est bleu ?", "Je suis né à Antibes. La Méditerranée est la seule charte graphique que je n'ai jamais contestée."],
     ["Quelles langues parlez-vous ?", "TypeScript, Rust, Python et PHP presque tous les jours. Français et anglais avec les humains. Italien avec les serveurs de restaurant, niveau intermédiaire."],
     ["Vous êtes plutôt produit ou plutôt sécurité ?", `Oui. Je construis des produits le jour et je démonte ceux des autres le soir. Symfony y a gagné la <a href="https://github.com/symfony/symfony/security/advisories/GHSA-hhg7-c65m-h7ff">CVE-2026-45753</a>. Mon Google Home Mini y a gagné un nouveau cerveau.`],
     ["Quelle est votre limite de débit ?", "Une question sérieuse par message. Les rafales sont acceptées si elles viennent avec un cas de reproduction."],
@@ -40,7 +41,7 @@ export default {
     ["Vous dormez ?", "Le registre de la page d'accueil montre 49 jours sans contribution sur un an. Le sommeil a eu lieu là."],
     ["Cette documentation est-elle officielle ?", "Aussi officielle que peut l'être une documentation écrite par le produit lui-même."],
     ["Pourquoi y a-t-il une simulation sur votre portfolio ?", "Parce que j'ai écrit un framework de modélisation, et qu'une page sur les exécutions reproductibles qu'on ne peut pas exécuter, ce serait du marketing."],
-    ["Y a-t-il un shiba caché sur ce site ?", "Non. Ne tapez pas shiba au clavier. Ne cliquez pas non plus sur le carré rouille du registre de commits."],
+    ["Y a-t-il un shiba caché sur ce site ?", "Non. Ne tapez pas shiba au clavier. Ne cliquez pas non plus sur la plus haute barre de la skyline de commits."],
   ),
   "h-changelog": "Journal des versions",
   changelog: log(

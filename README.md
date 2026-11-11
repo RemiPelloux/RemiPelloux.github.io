@@ -1,6 +1,6 @@
 # Rémi Pelloux, portfolio
 
-The source of [remipelloux.github.io](https://remipelloux.github.io/). Static files served as they are by GitHub Pages. No build step, no framework, no tracker. French and English, three themes.
+The source of [remipelloux.github.io](https://remipelloux.github.io/). Static files served as they are by GitHub Pages. No build step, no framework, no tracker. French and English, four themes.
 
 ## Layout
 
@@ -15,6 +15,7 @@ The source of [remipelloux.github.io](https://remipelloux.github.io/). Static fi
 | `js/juice.js` | Screen shake, squash and stretch, tones, feedback tiers |
 | `js/ledger.js`, `js/skyline.js` | Contribution year drawn as a 3D skyline on a canvas, read by pointer or arrow keys |
 | `js/name.js`, `js/reveal.js`, `js/cursor.js` | Reactive display type, scroll reveals and counters, pointer ring and project previews |
+| `js/sea.js`, `js/marquee.js`, `css/riviera.css` | The sea under the skyline, the place-name marquee and the coast map |
 | `assets/work/` | Project illustrations shown next to the pointer |
 | `js/model.js`, `js/model-ui.js` | Seeded Schelling model and its canvas |
 | `js/shiba.js` | The dog. Type `shiba` on any page |
@@ -42,4 +43,4 @@ It needs the `gh` CLI, logged in. Update the edition date in `index.html` in the
 
 ## Rules
 
-Colours, type and copy follow [unslop](https://github.com/RemiPelloux/unslop), and the code follows the Pelloux size limits: files under 300 lines, function bodies under 25. Motion is a deliberate break of the unslop motion budget: the language transition, the shake, the ledger and the dog are there on purpose. All of it stops under `prefers-reduced-motion`, and sound is off until switched on.
+The accent is Antibes blue, which sits inside the hue band unslop bans for accents. That is a deliberate choice. Otherwise colours, type and copy follow [unslop](https://github.com/RemiPelloux/unslop), and the code follows the Pelloux size limits: files under 300 lines, function bodies under 25. Motion is a deliberate break of the unslop motion budget: the language transition, the shake, the ledger and the dog are there on purpose. All of it stops under `prefers-reduced-motion`, and sound is off until switched on.

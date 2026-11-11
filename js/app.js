@@ -7,6 +7,8 @@ import { mountModel } from "./model-ui.js";
 import { mountCv } from "./cv.js";
 import { startRouter } from "./router.js";
 import { mountReveal } from "./reveal.js";
+import { mountSea } from "./sea.js";
+import { mountMarquee } from "./marquee.js";
 import "./cursor.js";
 import "./shiba.js";
 
@@ -17,6 +19,8 @@ function mountAll() {
   mountModel();
   mountCv();
   mountReveal();
+  mountSea();
+  mountMarquee();
 }
 
 ready.then(() => {
