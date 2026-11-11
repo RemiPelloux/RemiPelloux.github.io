@@ -6,6 +6,7 @@ import { mountLedger } from "./ledger.js";
 import { mountModel } from "./model-ui.js";
 import { mountCv } from "./cv.js";
 import { startRouter } from "./router.js";
+import { playIntro } from "./intro.js";
 import { mountReveal } from "./reveal.js";
 import { mountMarquee } from "./marquee.js";
 import "./coast.js";
@@ -25,4 +26,5 @@ function mountAll() {
 ready.then(() => {
   mountAll();
   startRouter(mountAll);
+  playIntro();
 });

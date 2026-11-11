@@ -205,3 +205,10 @@
     max-width: none;
   }
 }
+
+/* Nine places on the France map: a shorter stagger so the last one is not a long wait. */
+
+.motion [data-reveal].in .france .place,
+.motion [data-reveal].in .france .place circle {
+  transition-delay: calc(1700ms + var(--i) * 220ms);
+}
