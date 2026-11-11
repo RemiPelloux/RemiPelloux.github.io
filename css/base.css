@@ -198,7 +198,7 @@ input {
   font-family: var(--font-mono);
   font-size: var(--t14);
   cursor: pointer;
-  transition: background-color var(--fast) ease-out, color var(--fast) ease-out, transform 180ms var(--spring);
+  transition: background-color var(--fast) ease-out, color var(--fast) ease-out, transform 180ms var(--spring), translate 320ms var(--spring);
 }
 
 .button:active {

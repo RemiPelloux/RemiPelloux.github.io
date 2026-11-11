@@ -1,6 +1,7 @@
 // A ring follows the pointer and grows over links. Over a work row with a preview,
 // the project illustration floats next to it. Mouse and trackpad only.
 
+const MAGNET_PULL = 0.28; // share of the pointer offset a button follows
 const EASE = 0.18; // share of the remaining distance covered each frame
 const PREVIEW_OFFSET_PX = 28;
 const fine = window.matchMedia("(hover: hover) and (pointer: fine)");
@@ -11,6 +12,7 @@ const image = document.createElement("img");
 const target = { x: 0, y: 0 };
 const now = { x: 0, y: 0 };
 let running = false;
+let magnet = null;
 
 function frame() {
   now.x += (target.x - now.x) * EASE;
@@ -29,7 +31,20 @@ function showPreview(row) {
   if (source && image.getAttribute("src") !== source) image.src = source;
 }
 
+// A button leans toward the pointer while it is over it, and springs back after.
+function pull(event) {
+  const button = event.target.closest?.(".button");
+  if (magnet && magnet !== button) magnet.style.translate = "";
+  magnet = button;
+  if (!button) return;
+  const box = button.getBoundingClientRect();
+  const dx = (event.clientX - (box.left + box.width / 2)) * MAGNET_PULL;
+  const dy = (event.clientY - (box.top + box.height / 2)) * MAGNET_PULL;
+  button.style.translate = `${dx}px ${dy}px`;
+}
+
 function onMove(event) {
+  pull(event);
   target.x = event.clientX;
   target.y = event.clientY;
   ring.classList.add("show");

@@ -3,7 +3,7 @@ import { LEDGER_START, LEDGER_COUNTS } from "./ledger-data.js";
 import { locale, t } from "./i18n.js";
 import { blip, calm, shake } from "./juice.js";
 import { releaseShiba } from "./shiba.js";
-import { createSkyline } from "./skyline.js";
+import { Skyline } from "./skyline.js";
 
 const LEVEL_FLOORS = [1, 10, 40, 100]; // contributions needed for steps 1 to 4
 const PEAK_LEVEL = 5;
@@ -87,7 +87,7 @@ export function mountLedger() {
   canvas = document.querySelector("[data-ledger]");
   readout = document.querySelector("[data-ledger-read]");
   if (!canvas || !readout) return;
-  skyline = createSkyline(canvas, LEDGER_COUNTS, levels);
+  skyline = new Skyline(canvas, LEDGER_COUNTS, levels);
   canvas.addEventListener("pointermove", onPointer);
   canvas.addEventListener("pointerdown", onPointer);
   canvas.addEventListener("pointerleave", () => select(-1));
@@ -100,5 +100,6 @@ export function mountLedger() {
 
 const live = () => Boolean(canvas?.isConnected && skyline);
 document.addEventListener("langchange", () => live() && (readout.textContent = describe()));
-document.addEventListener("themechange", () => live() && skyline.draw());
+document.addEventListener("themechange", () => live() && skyline.retheme());
+document.addEventListener("introdone", () => live() && skyline.replay(calm()));
 window.addEventListener("resize", () => live() && skyline.draw());

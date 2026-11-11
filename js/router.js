@@ -20,7 +20,7 @@ function routeOf(url) {
 }
 
 async function fetchPage(route) {
-  const response = await fetch(route);
+  const response = await fetch(route, { cache: "no-cache" });
   if (!response.ok) throw new Error(`${route}: ${response.status}`);
   return new DOMParser().parseFromString(await response.text(), "text/html");
 }

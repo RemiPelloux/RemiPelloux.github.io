@@ -1,0 +1,54 @@
+/* Opening sequence: strips cover the page while the commit count runs up. */
+
+.intro-running .wrap {
+  visibility: hidden;
+}
+
+.intro-running:not(.intro-covered) body {
+  background: var(--ink);
+}
+
+.intro-running [data-name] span {
+  animation-play-state: paused;
+}
+
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 12;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+}
+
+.intro i {
+  background: var(--ink);
+  transform-origin: bottom;
+}
+
+.intro i:nth-child(3n + 2) {
+  background: var(--accent);
+}
+
+.intro div {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  gap: var(--s3);
+  padding: var(--s5);
+  color: var(--paper);
+}
+
+.intro b {
+  font-family: var(--font-serif);
+  font-size: clamp(4rem, 19vw, 17rem); /* unslop-ignore: opening counter, on screen for a second */
+  font-weight: 600;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+.intro span {
+  font-family: var(--font-mono);
+  font-size: var(--t16);
+}

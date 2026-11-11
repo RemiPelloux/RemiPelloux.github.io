@@ -21,7 +21,17 @@ The source of [remipelloux.github.io](https://remipelloux.github.io/). Static fi
 | `js/shiba.js` | The dog. Type `shiba` on any page |
 | `js/cv.js`, `css/cv.css` | CV export through the print dialog, one A4 page |
 | `css/` | Tokens and three themes in `base.css`, then one file per concern |
+| `js/intro.js`, `css/intro.css` | Opening sequence, once per browser session |
+| `scripts/stamp.py` | Versions the CSS and JavaScript links |
 | `scripts/refresh-ledger.sh` | Regenerates `js/ledger-data.js` from GitHub |
+
+## Before committing
+
+```sh
+python3 scripts/stamp.py
+```
+
+It writes one version on every local stylesheet, script and module (through an import map), so a deploy never serves a mix of old and new files. Run it after any change under `css/` or `js/`.
 
 ## CV export
 
@@ -40,6 +50,10 @@ bash scripts/refresh-ledger.sh
 ```
 
 It needs the `gh` CLI, logged in. Update the edition date in `index.html` in the same commit.
+
+## Data
+
+The France outline on the map comes from [france-geojson](https://github.com/gregoiredavid/france-geojson) (IGN data, Licence Ouverte), simplified.
 
 ## Rules
 

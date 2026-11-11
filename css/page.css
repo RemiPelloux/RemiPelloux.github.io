@@ -61,7 +61,12 @@
 /* Masthead. The name is set far above the 56px type scale on purpose. */
 
 .masthead {
-  padding-block: var(--s6) var(--s6);
+  padding-block: var(--s5) 0;
+}
+
+.about {
+  padding-block: var(--s6) var(--s8);
+  border-top: 1px solid var(--rule-strong);
 }
 
 .name {
@@ -82,7 +87,6 @@
 .masthead-grid {
   display: grid;
   gap: var(--s6);
-  margin-top: var(--s7);
 }
 
 .lede {
@@ -127,8 +131,7 @@
 /* Contribution ledger */
 
 .ledger {
-  padding-block: var(--s5) var(--s8);
-  border-top: 1px solid var(--rule-strong);
+  padding-block: 0 var(--s6);
 }
 
 .ledger-head {
@@ -136,7 +139,7 @@
   flex-wrap: wrap;
   gap: var(--s2) var(--s6);
   justify-content: space-between;
-  margin-bottom: var(--s4);
+  margin-block: var(--s3);
 }
 
 .ledger-read {
