@@ -26,7 +26,7 @@ export default {
     job("Lead developer R&amp;D, MOABI", "Juil. 2023 à sept. 2024 · Valbonne",
       "Pilotage du développement produit et de la R&amp;D. Recherche sur la dépendance énergétique du logiciel.",
       "Migration d'un backend C, Symfony 5.3 vers 6.4, audits de sécurité.",
-      "Clients : Dassault Aviation, DGA, Thales, Decathlon. Sur site à Rennes et aux Pays-Bas."),
+      "Clients : Dassault Aviation, DGA, Thales, Decathlon. Sur site à Rennes et à Hengelo, aux Pays-Bas."),
     job("Lead developer full-stack, Therascience", "Oct. 2020 à juil. 2023 · Monaco",
       "Outils internes de logistique, de CRM et d'automatisation. API, supervision et interfaces e-commerce.",
       "Gestion de prestataires externes et déploiements sécurisés."),
