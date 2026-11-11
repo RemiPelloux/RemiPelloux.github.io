@@ -150,12 +150,12 @@
   }
 
   .coast .sea-name {
-    font-size: 16px;
-    letter-spacing: 0.15em;
+    font-size: 22px;
+    letter-spacing: 0.1em;
   }
 
   .coast .sea-geo {
-    font-size: 12px;
+    font-size: 16px;
   }
 
   .coast-legend {

@@ -34,6 +34,8 @@
   inset: 0;
   display: grid;
   place-content: center;
+  justify-items: center;
+  text-align: center;
   gap: var(--s3);
   padding: var(--s5);
   color: var(--paper);
@@ -41,7 +43,7 @@
 
 .intro b {
   font-family: var(--font-serif);
-  font-size: clamp(4rem, 19vw, 17rem); /* unslop-ignore: opening counter, on screen for a second */
+  font-size: clamp(4.5rem, 24vw, 17rem); /* unslop-ignore: opening counter, on screen for a second */
   font-weight: 600;
   line-height: 0.9;
   letter-spacing: -0.04em;

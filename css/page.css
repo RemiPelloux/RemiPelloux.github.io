@@ -47,13 +47,12 @@
     width: 100%;
   }
 
-  .topbar nav li:has(.button) {
-    flex: 1 1 0;
+  .topbar nav ul {
+    gap: var(--s2) var(--s3);
   }
 
   .topbar .button {
-    width: 100%;
-    padding-inline: var(--s2);
+    padding-inline: var(--s3);
     white-space: nowrap;
   }
 }
