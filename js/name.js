@@ -7,7 +7,7 @@ const NEAR_WEIGHT = 200;
 const LIFT_PX = 10;
 const WAVE_STAGGER_MS = 35;
 
-const heading = document.querySelector("[data-name]");
+let heading = null;
 let letters = [];
 let pointer = null;
 let queued = false;
@@ -26,6 +26,7 @@ function split() {
 
 function paint() {
   queued = false;
+  if (!heading?.isConnected) return;
   for (const letter of letters) {
     const box = letter.getBoundingClientRect();
     const dx = pointer.x - (box.left + box.width / 2);
@@ -45,12 +46,17 @@ function onMove(event) {
 }
 
 function wave() {
+  if (!heading?.isConnected) return;
   letters.forEach((letter, index) => setTimeout(() => pop(letter), index * WAVE_STAGGER_MS));
 }
 
-if (heading && !calm()) {
+export function mountName() {
+  heading = document.querySelector("[data-name]");
+  if (!heading || calm()) return;
   split();
-  window.addEventListener("pointermove", onMove, { passive: true });
-  document.addEventListener("langchange", wave);
   heading.addEventListener("click", wave);
+  wave();
 }
+
+window.addEventListener("pointermove", onMove, { passive: true });
+document.addEventListener("langchange", wave);

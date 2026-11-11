@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rémi Pelloux, CV</title>
+  <meta name="description" content="CV of Rémi Pelloux, CTO and co-founder of OpenPro. In French and English, exportable as PDF.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%231A1A18'/%3E%3Crect x='4' y='4' width='8' height='8' fill='%23B4441C'/%3E%3C/svg%3E">
+  <script src="/js/boot.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,200..900&display=swap">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/page.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/fx.css">
+  <link rel="stylesheet" href="/css/cv.css">
+  <link rel="stylesheet" href="/css/wiki.css">
+</head>
+<body data-page="cv">
+<div class="wrap" data-shake>
+  <header class="topbar mono no-print">
+    <a href="/" data-i18n="back">Back to the portfolio</a>
+    <nav aria-label="CV actions">
+      <ul>
+        <li><a href="/wiki/">Wiki</a></li>
+        <li><button class="button" type="button" data-lang-switch>Français</button></li>
+        <li><button class="button" type="button" data-theme-switch>Theme</button></li>
+        <li><button class="button primary" type="button" data-export data-i18n="export">Export as PDF</button></li>
+      </ul>
+    </nav>
+  </header>
+  <p class="cv-hint mono faint no-print" data-i18n="hint">Export opens the print dialog: choose "Save as PDF". Switch the language first to get the other version. To print private contact details, add ?email=you@example.com&amp;tel=0600000000 to the address. They stay in your browser.</p>
+
+  <main class="sheet">
+    <header class="cv-head">
+      <h1>Rémi Pelloux</h1>
+      <p class="cv-role" data-i18n="role">CTO and co-founder. Product engineer, SaaS, AI and security.</p>
+      <p class="mono cv-contact"><span data-i18n="city">Nice, France</span> · <a href="https://www.linkedin.com/in/remipelloux/">linkedin.com/in/remipelloux</a> · <a href="https://github.com/RemiPelloux">github.com/RemiPelloux</a> · <a href="https://remipelloux.github.io/">remipelloux.github.io</a><span data-private></span></p>
+    </header>
+
+    <div class="cv-grid">
+      <div class="cv-main">
+        <section>
+          <h2 data-i18n="h-profile">Profile</h2>
+          <p data-i18n="profile">Product-minded CTO. I design, build and ship complete SaaS platforms, architecture to production. Ten years across full-stack development, AI and LLM systems, application security and cloud infrastructure, for a startup I co-founded and for clients such as Dassault Aviation, DGA, Thales and Decathlon.</p>
+        </section>
+        <section>
+          <h2 data-i18n="h-exp">Experience</h2>
+          <div data-i18n="exp">
+            <div class="job"><h3>CTO and co-founder, OpenPro</h3><p class="mono when">Feb. 2023 to now · Nice, remote</p>
+              <ul><li>AI recruitment platform: product design and technical architecture, built to production.</li><li>PHP and Symfony core, React and TypeScript web, iOS and Android apps, Python AI layer with retrieval and MCP.</li><li>Presentations to companies and large HR groups. GDPR compliance on EU cloud infrastructure.</li></ul></div>
+            <div class="job"><h3>Software engineer, security and full-stack lead, SaaS Office</h3><p class="mono when">Sep. 2024 to Feb. 2025 · Valbonne</p>
+              <ul><li>Vulnerability management tool in Python.</li><li>Framework for automated attack simulation on network, DNS and cloud.</li><li>Full-stack development with Symfony, React and TypeScript, tested with Cypress.</li></ul></div>
+            <div class="job"><h3>Lead developer R&amp;D, MOABI</h3><p class="mono when">Jul. 2023 to Sep. 2024 · Valbonne</p>
+              <ul><li>Led product development and R&amp;D. Research on software energy dependence.</li><li>C backend migration, Symfony 5.3 to 6.4, security audits.</li><li>Clients: Dassault Aviation, DGA, Thales, Decathlon.</li></ul></div>
+            <div class="job"><h3>Lead full-stack developer, Therascience</h3><p class="mono when">Oct. 2020 to Jul. 2023 · Monaco</p>
+              <ul><li>Internal tools for logistics, CRM and automation. APIs, monitoring and e-commerce interfaces.</li><li>Managed external contractors and secured deployments.</li></ul></div>
+            <div class="job"><h3>CTO and lead developer, Votre-marketing.fr and AdWatch</h3><p class="mono when">Mar. 2019 to Jul. 2020 · Sophia Antipolis</p>
+              <ul><li>Internal CRMs and business applications. Facebook and Google Ads campaigns.</li></ul></div>
+            <div class="job"><h3>Consultant and trainer in web development</h3><p class="mono when">Oct. 2016 to Mar. 2019 · Pôle Emploi, Orsys, SoftTeam</p>
+              <ul><li>Courses in HTML, CSS, JavaScript, PHP, Symfony, Node.js and Python.</li></ul></div>
+          </div>
+        </section>
+      </div>
+
+      <aside class="cv-side">
+        <section>
+          <h2 data-i18n="h-skills">Skills</h2>
+          <dl data-i18n="skills">
+            <dt>Languages</dt><dd>TypeScript, Rust, Python, PHP, C</dd>
+            <dt>Web and apps</dt><dd>React, Next.js, Vue, Symfony, Node.js, Tauri, Electron</dd>
+            <dt>AI</dt><dd>LLM agents, retrieval, MCP servers, agent-based modeling</dd>
+            <dt>Security</dt><dd>Application security, audits, attack simulation, reverse engineering</dd>
+            <dt>Infrastructure</dt><dd>AWS, Docker, PostgreSQL, Redis, CI/CD, EU and GDPR hosting</dd>
+          </dl>
+        </section>
+        <section>
+          <h2 data-i18n="h-sec">Security</h2>
+          <ul data-i18n="sec">
+            <li>CVE-2026-45753, XSS in Symfony HtmlSanitizer, reported and fixed in 2026.</li>
+            <li>Finding accepted by the Tailscale security team, fix in progress.</li>
+            <li>Public research: HackoogleMini, php-upload-rce, GalaxyCrash.</li>
+          </ul>
+        </section>
+        <section>
+          <h2 data-i18n="h-oss">Open source</h2>
+          <ul data-i18n="oss">
+            <li>OpenVision, AI coding workspace with your own models.</li>
+            <li>OpenPlod, vault for Plaud recordings, 39 stars.</li>
+            <li>Modelly, agent-based modeling for Python.</li>
+            <li>Containust, container runtime in Rust without a daemon.</li>
+            <li>SmarttyTest, test impact analysis.</li>
+          </ul>
+        </section>
+        <section>
+          <h2 data-i18n="h-products">Products</h2>
+          <ul data-i18n="products">
+            <li>OpenWhistle, audio to structured data, EU hosted.</li>
+            <li>LeadsIt, B2B lead generation from Google Maps.</li>
+            <li>OpenCM, SaaS for social media agencies.</li>
+          </ul>
+        </section>
+        <section>
+          <h2 data-i18n="h-edu">Education</h2>
+          <ul data-i18n="edu">
+            <li>Master's degree in computer science, SophiaTech, Sophia Antipolis.</li>
+            <li>Bachelor's degree in computer science, Université de Nice.</li>
+          </ul>
+        </section>
+        <section>
+          <h2 data-i18n="h-lang">Languages</h2>
+          <p data-i18n="langs">French, native. English, professional. Italian, intermediate.</p>
+        </section>
+      </aside>
+    </div>
+  </main>
+</div>
+<script type="module" src="/js/app.js"></script>
+</body>
+</html>

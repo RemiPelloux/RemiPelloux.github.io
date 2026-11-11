@@ -6,7 +6,9 @@ The source of [remipelloux.github.io](https://remipelloux.github.io/). Static fi
 
 | Path | Content |
 | --- | --- |
-| `index.html`, `cv.html`, `wiki.html`, `404.html` | Pages. English copy lives in the HTML |
+| `index.html`, `cv/index.html`, `wiki/index.html` | The routes `/`, `/cv/` and `/wiki/`. English copy lives in the HTML |
+| `js/app.js`, `js/router.js` | Entry point and client-side router: links between routes swap the page without a reload |
+| `404.html`, `cv.html`, `wiki.html` | Not-found page and redirects from the old addresses |
 | `js/fr/*.js` | French copy for each page, keyed by `data-i18n` |
 | `js/i18n.js`, `js/boot.js` | Language and theme state |
 | `js/chrome.js`, `js/wipe.js` | Top bar switches and the language transition |
@@ -20,7 +22,7 @@ The source of [remipelloux.github.io](https://remipelloux.github.io/). Static fi
 
 ## CV export
 
-Open `cv.html`, pick the language, press "Export as PDF" and save from the print dialog. To include private contact details in the PDF without publishing them, open `cv.html?email=you@example.com&tel=0600000000`. The values are read in the browser and never stored.
+Open `/cv/`, pick the language, press "Export as PDF" and save from the print dialog. To include private contact details in the PDF without publishing them, open `/cv/?email=you@example.com&tel=0600000000`. The values are read in the browser and never stored.
 
 ## Run it
 

@@ -6,14 +6,16 @@
   <title>Rémi Pelloux, CTO at OpenPro</title>
   <meta name="description" content="Rémi Pelloux, CTO and co-founder of OpenPro in Nice, France. AI developer tools, local-first desktop apps, Rust systems tools, agent-based modeling and security research.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%231A1A18'/%3E%3Crect x='4' y='4' width='8' height='8' fill='%23B4441C'/%3E%3C/svg%3E">
-  <script src="js/boot.js"></script>
+  <script src="/js/boot.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,200..900&display=swap">
-  <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/page.css">
-  <link rel="stylesheet" href="css/components.css">
-  <link rel="stylesheet" href="css/fx.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/page.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/fx.css">
+  <link rel="stylesheet" href="/css/cv.css">
+  <link rel="stylesheet" href="/css/wiki.css">
 </head>
 <body data-page="index">
 <div class="wrap" data-shake>
@@ -23,8 +25,8 @@
       <ul>
         <li><a href="#work" data-i18n="nav-work">Work</a></li>
         <li><a href="#security" data-i18n="nav-security">Security</a></li>
-        <li><a href="cv.html">CV</a></li>
-        <li><a href="wiki.html">Wiki</a></li>
+        <li><a href="/cv/">CV</a></li>
+        <li><a href="/wiki/">Wiki</a></li>
         <li><button class="button primary" type="button" data-lang-switch>Français</button></li>
         <li><button class="button" type="button" data-theme-switch>Theme</button></li>
         <li><button class="button" type="button" data-sound-switch>Sound: off</button></li>
@@ -43,7 +45,7 @@
         <p class="contact-links">
           <a class="button primary" href="https://www.linkedin.com/in/remipelloux/" data-i18n="cta-linkedin">Write to me on LinkedIn</a>
           <a class="button" href="https://github.com/RemiPelloux" data-i18n="cta-github">Open GitHub profile</a>
-          <a class="button" href="cv.html" data-i18n="cta-cv">Read the CV</a>
+          <a class="button" href="/cv/" data-i18n="cta-cv">Read the CV</a>
         </p>
       </div>
     </section>
@@ -174,7 +176,7 @@
           </tbody>
         </table>
         <p data-i18n="rec-edu">Master's degree in computer science, SophiaTech, Sophia Antipolis. Bachelor's degree, Université de Nice. French native, English professional, Italian intermediate.</p>
-        <p data-i18n="rec-more">The full record is on the <a href="cv.html">CV, in French and English</a>. The unofficial one is in the <a href="wiki.html">wiki</a>.</p>
+        <p data-i18n="rec-more">The full record is on the <a href="/cv/">CV, in French and English</a>. The unofficial one is in the <a href="/wiki/">wiki</a>.</p>
       </div>
     </section>
   </main>
@@ -184,9 +186,6 @@
     <span data-i18n="colophon">Written by hand, no framework, no tracker. Three themes, two languages, one dog.</span>
   </footer>
 </div>
-<script type="module" src="js/chrome.js"></script>
-<script type="module" src="js/name.js"></script>
-<script type="module" src="js/ledger.js"></script>
-<script type="module" src="js/model-ui.js"></script>
+<script type="module" src="/js/app.js"></script>
 </body>
 </html>

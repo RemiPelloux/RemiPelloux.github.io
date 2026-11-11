@@ -1,6 +1,6 @@
 // Canvas and controls for the Schelling model.
 import { COLS, ROWS, createModel, step, meanLikeShare } from "./model.js";
-import { locale, ready, t } from "./i18n.js";
+import { locale, t } from "./i18n.js";
 import { feedback } from "./juice.js";
 
 const CELL = 20; // canvas pixels per grid cell
@@ -11,13 +11,12 @@ const MAX_SEED = 2 ** 32 - 1;
 const PERCENT = 100;
 const COLOR_TOKENS = ["--paper-2", "--ink", "--accent"]; // empty, group 1, group 2
 
-const root = document.querySelector("[data-model]");
-const canvas = root?.querySelector("canvas");
-const context = canvas?.getContext("2d");
-const seedInput = root?.querySelector("[data-model-seed]");
-const runButton = root?.querySelector("[data-model-run]");
-const readout = root?.querySelector("[data-model-read]");
-const status = root?.querySelector("[data-model-status]");
+let canvas = null;
+let context = null;
+let seedInput = null;
+let runButton = null;
+let readout = null;
+let status = null;
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
 let model;
@@ -114,16 +113,32 @@ function stepOnce() {
   report();
 }
 
-function start() {
+const live = () => Boolean(canvas?.isConnected);
+
+export function mountModel() {
+  if (frame) cancelAnimationFrame(frame);
+  frame = 0;
+  const root = document.querySelector("[data-model]");
+  canvas = root?.querySelector("canvas") ?? null;
+  if (!canvas) return;
+  context = canvas.getContext("2d");
+  seedInput = root.querySelector("[data-model-seed]");
+  runButton = root.querySelector("[data-model-run]");
+  readout = root.querySelector("[data-model-read]");
+  status = root.querySelector("[data-model-status]");
   canvas.width = COLS * CELL;
   canvas.height = ROWS * CELL;
   runButton.addEventListener("click", toggleRun);
   root.querySelector("[data-model-step]").addEventListener("click", stepOnce);
   root.querySelector("[data-model-reset]").addEventListener("click", reset);
   seedInput.addEventListener("change", reset);
-  document.addEventListener("themechange", draw);
-  document.addEventListener("langchange", () => { report(); labelRun(); });
   reset();
+  labelRun();
 }
 
-if (context) ready.then(start);
+document.addEventListener("themechange", () => live() && draw());
+document.addEventListener("langchange", () => {
+  if (!live()) return;
+  report();
+  labelRun();
+});
