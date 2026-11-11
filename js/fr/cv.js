@@ -38,11 +38,11 @@ export default {
   ].join(""),
   "h-skills": "Compétences",
   skills: pairs(
-    ["Langages", "TypeScript, Rust, Python, PHP, C"],
-    ["Web et applications", "React, Next.js, Vue, Symfony, Node.js, Tauri, Electron"],
+    ["Langages", "TypeScript, Rust, Python, PHP, C, C++, Swift, Kotlin, Go, SQL, Shell"],
+    ["Web et applications", "React, Next.js, Vue, Symfony, Node.js, Tauri, Electron, Flutter"],
     ["IA", "Agents LLM, recherche documentaire, serveurs MCP, modélisation multi-agents"],
     ["Sécurité", "Sécurité applicative, audits, simulation d'attaques, rétro-ingénierie"],
-    ["Infrastructure", "AWS, Docker, PostgreSQL, Redis, CI/CD, hébergement UE et RGPD"],
+    ["Infrastructure", "AWS, Docker, Terraform, PostgreSQL, Redis, CI/CD, hébergement UE et RGPD"],
   ),
   "h-sec": "Sécurité",
   sec: list(

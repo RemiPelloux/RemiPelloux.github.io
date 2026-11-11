@@ -1,0 +1,77 @@
+/* Toolbox: a bar chart of languages and a grid of tools. One series, so one colour. */
+
+.bars {
+  --max: 95; /* the largest value in the list */
+  display: grid;
+  gap: var(--s2);
+  max-width: 900px;
+}
+
+.bars li {
+  display: grid;
+  grid-template-columns: 11ch minmax(0, 1fr) 3ch;
+  gap: var(--s3);
+  align-items: center;
+}
+
+.bars .bar {
+  height: var(--s3);
+  width: calc(var(--v) / var(--max) * 100%);
+  min-width: 2px;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  background: var(--accent);
+  transform-origin: left;
+}
+
+.bars .mono {
+  text-align: right;
+}
+
+.bars li:hover .bar {
+  background: var(--ink);
+}
+
+/* Bars grow from the baseline, one after the other */
+
+.motion [data-reveal] .bar {
+  transform: scaleX(0);
+}
+
+.motion [data-reveal].in .bar {
+  transform: scaleX(1);
+  transition: transform 900ms cubic-bezier(0.2, 0.8, 0.2, 1) calc(300ms + var(--i) * 60ms);
+}
+
+.tools {
+  display: grid;
+  gap: var(--s5) var(--s6);
+}
+
+.tools dt {
+  padding-top: var(--s3);
+  border-top: 1px solid var(--rule);
+  font-weight: 600;
+}
+
+.tools dd {
+  margin-top: var(--s1);
+  color: var(--ink-2);
+}
+
+@media (min-width: 720px) {
+  .tools {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1100px) {
+  .tools {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media print {
+  .bars .bar {
+    transform: none !important;
+  }
+}
