@@ -161,3 +161,41 @@
     display: block;
   }
 }
+
+/* France map: training stops are filled, MOABI missions are rings, home is the large dot. */
+
+.map-title {
+  font-size: var(--t14);
+  font-weight: 500;
+}
+
+.coast.france {
+  max-width: 640px;
+}
+
+.coast .mission circle {
+  fill: var(--paper);
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+
+.coast .home circle {
+  fill: var(--ink);
+}
+
+.coast-legend.always {
+  display: block;
+  max-width: 640px;
+}
+
+@media (min-width: 880px) {
+  .coast-legend.always {
+    max-width: none;
+    columns: 2;
+    column-gap: var(--s6);
+  }
+
+  .coast-legend.always li {
+    break-inside: avoid;
+  }
+}
