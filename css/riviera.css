@@ -1,11 +1,4 @@
-/* Riviera pieces: the sea under the skyline, the place-name marquee, the coast map. */
-
-.sea {
-  display: block;
-  width: 100%;
-  height: 150px;
-  margin-top: calc(var(--s4) * -1);
-}
+/* Riviera pieces: the place-name marquee, the coast map. */
 
 .marquee {
   overflow: hidden;
@@ -162,9 +155,5 @@
 
   .coast-legend {
     display: block;
-  }
-
-  .sea {
-    height: 110px;
   }
 }

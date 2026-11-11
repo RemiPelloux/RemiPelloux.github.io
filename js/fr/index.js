@@ -95,7 +95,7 @@ export default {
   "rec-body": [
     row("Depuis 2023", "CTO et cofondateur, OpenPro", "Conception produit, architecture et développement full-stack d'une plateforme de recrutement par IA. Nice, à distance."),
     row("2024 à 2025", "Lead sécurité et full-stack, SaaS Office", "Un outil de gestion des vulnérabilités en Python et un framework qui simule des attaques réseau, DNS et cloud. Valbonne."),
-    row("2023 à 2024", "Lead developer R&amp;D, MOABI", "Recherche sur la dépendance énergétique du logiciel, migration d'un backend C, Symfony 5.3 vers 6.4, audits de sécurité. Clients : Dassault Aviation, DGA, Thales, Decathlon. Sur site à Rennes et aux Pays-Bas."),
+    row("2023 à 2024", "Lead developer R&amp;D, MOABI", "Recherche sur la dépendance énergétique du logiciel, migration d'un backend C, Symfony 5.3 vers 6.4, audits de sécurité. Clients : Dassault Aviation, DGA, Thales, Decathlon. Sur site à Rennes et à Hengelo, aux Pays-Bas."),
     row("2020 à 2023", "Lead developer full-stack, Therascience", "Outils internes de logistique et de CRM, API, supervision et interfaces e-commerce. Monaco."),
     row("2019 à 2020", "CTO, Votre-marketing.fr et AdWatch", "CRM internes, applications métier et campagnes publicitaires. Sophia Antipolis."),
     row("2016 à 2019", "Formateur en développement web", "Formations HTML, CSS, JavaScript, PHP, Symfony, Node.js et Python pour Pôle Emploi, Orsys et SoftTeam, à Lille, Paris, Lyon, Clermont-Ferrand, Bordeaux et Poitiers."),
@@ -103,7 +103,7 @@ export default {
   "rec-edu": "Master en informatique, SophiaTech, Sophia Antipolis. Licence, Université de Nice. Français langue maternelle, anglais professionnel, italien intermédiaire.",
   "rec-more": 'Le parcours complet est dans le <a href="/cv/">CV, en français et en anglais</a>. La version non officielle est dans le <a href="/wiki/">wiki</a>.',
   "h-riviera": "Terrain connu",
-  "riv-intro": "Né à Antibes, études à Sophia Antipolis. Puis trois ans sur les routes comme formateur, à Lille, Paris, Lyon, Clermont-Ferrand, Bordeaux et Poitiers, avant de revenir sur la côte : Monaco, Valbonne, Nice, avec des missions à Rennes et aux Pays-Bas pour MOABI.",
+  "riv-intro": "Né à Antibes, études à Sophia Antipolis. Puis trois ans sur les routes comme formateur, à Lille, Paris, Lyon, Clermont-Ferrand, Bordeaux et Poitiers, avant de revenir sur la côte : Monaco, Valbonne, Nice, avec des missions à Rennes et à Hengelo, aux Pays-Bas, pour MOABI.",
   "coast-title": "Carte schématique de la Côte d'Azur avec Antibes, Sophia Antipolis, Valbonne, Nice et Monaco.",
   "p-antibes": "Antibes, né ici",
   "p-sophia": "Sophia Antipolis, 2015 à 2020",
