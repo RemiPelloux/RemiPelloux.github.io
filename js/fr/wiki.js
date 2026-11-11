@@ -50,7 +50,7 @@ export default {
     ["v2023.07", "Ajout : R&amp;D chez MOABI. Migration d'un backend C et de Symfony 5.3 vers 6.4, sans interruption de service côté sommeil."],
     ["v2020.10", "Ajout : outils de logistique, de CRM et d'e-commerce chez Therascience, à Monaco."],
     ["v2019.03", "Ajout : premier titre de CTO. Découverte du prix des campagnes publicitaires."],
-    ["v2016.10", "Version initiale. Changement cassant : début de l'enseignement de PHP à des adultes."],
+    ["v2016.10", "Version initiale. Changement cassant : début de l'enseignement de PHP à des adultes, à Lille, Paris, Lyon, Clermont-Ferrand, Bordeaux et Poitiers."],
   ),
   foot: "Sans garantie. Les réponses sont presque toutes vraies. Les dates le sont toutes.",
 };

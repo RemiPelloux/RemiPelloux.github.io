@@ -41,6 +41,23 @@
   text-decoration: underline;
 }
 
+@media (max-width: 720px) {
+  .topbar nav,
+  .topbar nav ul {
+    width: 100%;
+  }
+
+  .topbar nav li:has(.button) {
+    flex: 1 1 0;
+  }
+
+  .topbar .button {
+    width: 100%;
+    padding-inline: var(--s2);
+    white-space: nowrap;
+  }
+}
+
 /* Masthead. The name is set far above the 56px type scale on purpose. */
 
 .masthead {
