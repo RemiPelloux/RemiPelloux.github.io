@@ -76,7 +76,7 @@
   font-family: var(--font-serif);
   font-size: 20px;
   font-style: italic;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.2em;
 }
 
 /* The shore draws first, then the route, then the places appear in career order. */
@@ -151,6 +151,10 @@
   .coast .sea-name {
     font-size: 16px;
     letter-spacing: 0.15em;
+  }
+
+  .coast .sea-geo {
+    font-size: 12px;
   }
 
   .coast-legend {
