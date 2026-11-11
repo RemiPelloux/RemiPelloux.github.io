@@ -1,0 +1,200 @@
+/* Tokens, reset and type. Palette and scales follow UNSLOP 1.6. */
+
+:root {
+  --paper: #F7F5F0;
+  --paper-2: #EFECE4;
+  --paper-3: #E5E1D6;
+  --ink: #1A1A18;
+  --ink-2: #4A4843;
+  --ink-3: #6F6C64;
+  --rule: #D9D5CB;
+  --rule-strong: #1A1A18;
+  --accent: #B4441C;
+  --accent-ink: #FFFFFF;
+  --focus: #1A1A18;
+  --radius: 2px;
+
+  /* Ledger steps, lightest to darkest. */
+  --l0: #EFECE4;
+  --l1: #CFCABD;
+  --l2: #8F8B81;
+  --l3: #4A4843;
+  --l4: #1A1A18;
+
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 12px;
+  --s4: 16px;
+  --s5: 24px;
+  --s6: 32px;
+  --s7: 48px;
+  --s8: 64px;
+  --s9: 96px;
+  --s10: 128px;
+
+  --t12: 0.75rem;
+  --t14: 0.875rem;
+  --t16: 1rem;
+  --t18: 1.125rem;
+  --t21: 1.3125rem;
+  --t24: 1.5rem;
+  --t32: 2rem;
+  --t40: 2.5rem;
+  --t56: 3.5rem;
+
+  --font-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  --fast: 120ms;
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --paper: #141412;
+  --paper-2: #1E1D1A;
+  --paper-3: #2A2925;
+  --ink: #ECE9E1;
+  --ink-2: #B5B1A7;
+  --ink-3: #8F8B81;
+  --rule: #34322E;
+  --rule-strong: #ECE9E1;
+  --accent: #E2703F;
+  --accent-ink: #141412;
+  --focus: #ECE9E1;
+  --l0: #1E1D1A;
+  --l1: #3A3833;
+  --l2: #6F6C64;
+  --l3: #B5B1A7;
+  --l4: #ECE9E1;
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  box-shadow: none;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--t16);
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3,
+p,
+ol,
+ul,
+dl,
+dd,
+figure {
+  margin: 0;
+}
+
+ol,
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+p {
+  max-width: 66ch;
+  text-wrap: pretty;
+}
+
+a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+button,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+.button {
+  min-height: 44px;
+  padding: var(--s2) var(--s4);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: var(--t14);
+  cursor: pointer;
+  transition: background-color var(--fast) ease-out, color var(--fast) ease-out;
+}
+
+.button:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.button.primary {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.button.primary:hover {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--t14);
+  font-variant-numeric: tabular-nums;
+}
+
+.faint {
+  color: var(--ink-2);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
