@@ -34,7 +34,7 @@ export default {
     job("CTO et lead developer, Votre-marketing.fr et AdWatch", "Mars 2019 à juil. 2020 · Sophia Antipolis",
       "CRM internes et applications métier. Campagnes Facebook et Google Ads."),
     job("Consultant et formateur en développement web", "Oct. 2016 à mars 2019 · Pôle Emploi, Orsys, SoftTeam",
-      "Formations HTML, CSS, JavaScript, PHP, Symfony, Node.js et Python, à Lille, Paris, Lyon, Clermont-Ferrand, Bordeaux et Poitiers."),
+      "Formations HTML, CSS, JavaScript, PHP, Symfony, Node.js et Python, à Lille, Paris, Lyon, Clermont-Ferrand, Bordeaux, Poitiers, Aix-en-Provence et Avignon."),
   ].join(""),
   "h-skills": "Compétences",
   skills: pairs(
