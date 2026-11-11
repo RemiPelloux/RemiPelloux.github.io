@@ -5,156 +5,166 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Rémi Pelloux, CTO at OpenPro</title>
   <meta name="description" content="Rémi Pelloux, CTO and co-founder of OpenPro in Nice, France. AI developer tools, local-first desktop apps, Rust systems tools, agent-based modeling and security research.">
-  <script>
-    (function () {
-      var saved = null;
-      try { saved = localStorage.getItem("theme"); } catch (error) { saved = null; }
-      var dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      document.documentElement.dataset.theme = saved || (dark ? "dark" : "light");
-    })();
-  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%231A1A18'/%3E%3Crect x='4' y='4' width='8' height='8' fill='%23B4441C'/%3E%3C/svg%3E">
+  <script src="js/boot.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,200..900&display=swap">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/page.css">
   <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/fx.css">
 </head>
-<body>
-<div class="wrap">
+<body data-page="index">
+<div class="wrap" data-shake>
   <header class="topbar mono">
-    <span>Portfolio, edition of 11 November 2026. <span data-clock></span></span>
+    <span><span data-i18n="edition">Portfolio, edition of 11 November 2026.</span> <span data-clock></span></span>
     <nav aria-label="Sections">
       <ul>
-        <li><a href="#work">Work</a></li>
-        <li><a href="#model">Model</a></li>
-        <li><a href="#openpro">OpenPro</a></li>
-        <li><a href="#record">Record</a></li>
-        <li><button class="button" type="button" data-theme-switch>Switch paper</button></li>
+        <li><a href="#work" data-i18n="nav-work">Work</a></li>
+        <li><a href="#security" data-i18n="nav-security">Security</a></li>
+        <li><a href="cv.html">CV</a></li>
+        <li><a href="wiki.html">Wiki</a></li>
+        <li><button class="button primary" type="button" data-lang-switch>Français</button></li>
+        <li><button class="button" type="button" data-theme-switch>Theme</button></li>
+        <li><button class="button" type="button" data-sound-switch>Sound: off</button></li>
       </ul>
     </nav>
   </header>
 
   <main>
     <section class="masthead">
-      <h1 class="name">Rémi Pelloux</h1>
+      <h1 class="name" data-name>Rémi Pelloux</h1>
       <div class="masthead-grid">
         <div>
-          <p class="lede">CTO and co-founder of OpenPro, in Nice, France. I build AI developer tools that run on your own models, desktop apps that keep data on your machine, systems tools in Rust and a Python framework for agent-based modeling.</p>
-          <p class="faint">Before OpenPro: security, R&amp;D and full-stack work for clients including Dassault Aviation, DGA, Thales and Decathlon.</p>
+          <p class="lede" data-i18n="lede">CTO and co-founder of OpenPro, in Nice, France. I build AI developer tools that run on your own models, desktop apps that keep data on your machine, systems tools in Rust and a Python framework for agent-based modeling.</p>
+          <p class="faint" data-i18n="lede-2">Before OpenPro: security, R&amp;D and full-stack work for clients including Dassault Aviation, DGA, Thales and Decathlon. One CVE in Symfony so far.</p>
         </div>
         <p class="contact-links">
-          <a class="button primary" href="https://www.linkedin.com/in/remipelloux/">Write to me on LinkedIn</a>
-          <a class="button" href="https://github.com/RemiPelloux">Open GitHub profile</a>
-          <a class="button" href="https://github.com/sponsors/RemiPelloux">Sponsor my work</a>
+          <a class="button primary" href="https://www.linkedin.com/in/remipelloux/" data-i18n="cta-linkedin">Write to me on LinkedIn</a>
+          <a class="button" href="https://github.com/RemiPelloux" data-i18n="cta-github">Open GitHub profile</a>
+          <a class="button" href="cv.html" data-i18n="cta-cv">Read the CV</a>
         </p>
       </div>
     </section>
 
     <section class="ledger" aria-labelledby="ledger-title">
       <div class="ledger-head mono">
-        <h2 class="mono" id="ledger-title">One year of commits, one square a day</h2>
-        <span class="faint">Source: GitHub contribution calendar, 11 November 2026</span>
+        <h2 class="mono" id="ledger-title" data-i18n="ledger-title">One year of commits, one square a day</h2>
+        <span class="faint" data-i18n="ledger-source">Source: GitHub contribution calendar, 11 November 2026</span>
       </div>
       <div class="ledger-grid" data-ledger-grid tabindex="0" role="group" aria-label="Contribution calendar. Use the arrow keys to read a day."></div>
       <p class="ledger-read mono" data-ledger-read aria-live="polite">14,720 contributions, public and private, in the year to 11 November 2026. Active on 319 of 368 days.</p>
     </section>
 
     <section class="band" id="work">
-      <h2><span>01</span>Selected work</h2>
+      <h2><span>01</span><span data-i18n="h-work">Selected work</span></h2>
       <div class="band-body">
         <ol class="work">
           <li><span class="n mono">01</span>
             <div><h3><a href="https://github.com/RemiPelloux/OpenVision">OpenVision</a></h3>
-              <p>An AI coding workspace where you choose the models. Explorer, editor, terminals, Git worktrees, agents and Tab autocomplete in one desktop app, pointed at any OpenAI-compatible API or a server on 127.0.0.1. No account, no login.</p></div>
-            <dl class="mono"><dd>2026, development preview</dd><dd>Portable Windows x64 build</dd><dd>Electron, TypeScript, MCP</dd></dl></li>
+              <p data-i18n="w1">An AI coding workspace where you choose the models. Explorer, editor, terminals, Git worktrees, agents and Tab autocomplete in one desktop app, pointed at any OpenAI-compatible API or a server on 127.0.0.1. No account, no login.</p></div>
+            <dl class="mono" data-i18n="w1m"><dd>2026, development preview</dd><dd>Portable Windows x64 build</dd><dd>Electron, TypeScript, MCP</dd></dl></li>
           <li><span class="n mono">02</span>
             <div><h3><a href="https://github.com/RemiPelloux/OpenPlod">OpenPlod</a></h3>
-              <p>A vault on your own disk for Plaud Note Pro recordings. It imports audio over Bluetooth, keeps the original files and turns them into transcripts, Markdown documents and chats that cite their sources. Ships a REST API and a read-only MCP server.</p></div>
-            <dl class="mono"><dd>2026, MIT</dd><dd>39 stars on 11 November 2026</dd><dd>Tauri, Rust, TypeScript</dd></dl></li>
+              <p data-i18n="w2">A vault on your own disk for Plaud Note Pro recordings. It imports audio over Bluetooth, keeps the original files and turns them into transcripts, Markdown documents and chats that cite their sources. Ships a REST API and a read-only MCP server.</p></div>
+            <dl class="mono" data-i18n="w2m"><dd>2026, MIT</dd><dd>39 stars on 11 November 2026</dd><dd>Tauri, Rust, TypeScript</dd></dl></li>
           <li><span class="n mono">03</span>
             <div><h3><a href="https://remipelloux.github.io/Modelly/">Modelly</a></h3>
-              <p>A framework for agent-based modeling in Python. Scenarios are typed and every run is seeded, so a shared config returns the same numbers. Agents are numpy-backed, on grids, networks and continuous space, with pandas data collection.</p></div>
-            <dl class="mono"><dd>2026, Apache-2.0</dd><dd>Docs published on GitHub Pages</dd><dd>Python, numpy, pandas, C</dd></dl></li>
+              <p data-i18n="w3">A framework for agent-based modeling in Python. Scenarios are typed and every run is seeded, so a shared config returns the same numbers. Agents are numpy-backed, on grids, networks and continuous space, with pandas data collection.</p></div>
+            <dl class="mono" data-i18n="w3m"><dd>2026, Apache-2.0</dd><dd>Docs published on GitHub Pages</dd><dd>Python, numpy, pandas, C</dd></dl></li>
           <li><span class="n mono">04</span>
             <div><h3><a href="https://github.com/RemiPelloux/HackoogleMini">HackoogleMini</a></h3>
-              <p>Reverse engineering the Google Home Mini to replace Google Assistant with a local LLM and an MCP voice bot. Covers YAFFS2 kernel exploit research, the BLE setup protocol and firmware acquisition.</p></div>
-            <dl class="mono"><dd>2026, security research</dd><dd>21 stars on 11 November 2026</dd><dd>Python</dd></dl></li>
+              <p data-i18n="w4">Reverse engineering the Google Home Mini to replace Google Assistant with a local LLM and an MCP voice bot. Covers YAFFS2 kernel exploit research, the BLE setup protocol and firmware acquisition.</p></div>
+            <dl class="mono" data-i18n="w4m"><dd>2026, security research</dd><dd>21 stars on 11 November 2026</dd><dd>Python</dd></dl></li>
           <li><span class="n mono">05</span>
             <div><h3><a href="https://github.com/RemiPelloux/Containust">Containust</a></h3>
-              <p>A container runtime in Rust with no background daemon. Each ctst command talks to the backend directly. Stacks are described in a small declarative language, images are pulled by pinned digest, and an offline flag blocks the network for air-gapped machines.</p></div>
-            <dl class="mono"><dd>2026, source-available</dd><dd>Linux namespaces, cgroups v2, OCI</dd><dd>Rust</dd></dl></li>
+              <p data-i18n="w5">A container runtime in Rust with no background daemon. Each ctst command talks to the backend directly. Stacks are described in a small declarative language, images are pulled by pinned digest, and an offline flag blocks the network for air-gapped machines.</p></div>
+            <dl class="mono" data-i18n="w5m"><dd>2026, source-available</dd><dd>Linux namespaces, cgroups v2, OCI</dd><dd>Rust</dd></dl></li>
           <li><span class="n mono">06</span>
-            <div><h3><a href="https://github.com/RemiPelloux/php-upload-rce">php-upload-rce</a></h3>
-              <p>Source-level analysis and detection tooling for the PHP session.upload_progress use-after-free, CVE-2026-109618 and CVE-2026-109619, fixed on 21 October 2026. Heap layout study, reproduction lab, exposure scanner and a one-line remediation guide.</p></div>
-            <dl class="mono"><dd>2026, security research</dd><dd>CVSS 9.2</dd><dd>Python</dd></dl></li>
-          <li><span class="n mono">07</span>
             <div><h3><a href="https://github.com/RemiPelloux/unslop">unslop</a></h3>
-              <p>Rules for interfaces and copy that do not look machine-made, with scripts that check them: no shadows, no gradients, no emoji, 350 banned words. This page is built to those rules.</p></div>
-            <dl class="mono"><dd>2026</dd><dd>Skill, linter and scanner</dd><dd>Python, Markdown</dd></dl></li>
-          <li><span class="n mono">08</span>
+              <p data-i18n="w6">Rules for interfaces and copy that do not look machine-made, with scripts that check them: no shadows, no gradients, no emoji, 350 banned words. The colours, type and copy of this site follow them.</p></div>
+            <dl class="mono" data-i18n="w6m"><dd>2026</dd><dd>Skill, linter and scanner</dd><dd>Python, Markdown</dd></dl></li>
+          <li><span class="n mono">07</span>
             <div><h3><a href="https://remipelloux.github.io/SmarttyTest/">SmarttyTest</a></h3>
-              <p>Test impact analysis: run only the tests a change can affect, across Jest, Vitest, node:test, Playwright, Cypress and Angular. Every skipped test comes with a reason.</p></div>
-            <dl class="mono"><dd>2026, Apache-2.0</dd><dd>Python and PHP in preview</dd><dd>TypeScript</dd></dl></li>
+              <p data-i18n="w7">Test impact analysis: run only the tests a change can affect, across Jest, Vitest, node:test, Playwright, Cypress and Angular. Every skipped test comes with a reason.</p></div>
+            <dl class="mono" data-i18n="w7m"><dd>2026, Apache-2.0</dd><dd>Python and PHP in preview</dd><dd>TypeScript</dd></dl></li>
         </ol>
 
         <table class="table">
-          <caption class="visually-hidden">More public work</caption>
-          <thead class="mono"><tr><th scope="col">Project</th><th scope="col">What it is</th><th scope="col">Stack</th></tr></thead>
-          <tbody>
+          <caption class="visually-hidden" data-i18n="more-caption">More public work</caption>
+          <thead class="mono"><tr data-i18n="more-head"><th scope="col">Project</th><th scope="col">What it is</th><th scope="col">Stack</th></tr></thead>
+          <tbody data-i18n="more-body">
             <tr><th scope="row"><a href="https://github.com/RemiPelloux/OpenNative">OpenNative</a></th><td>Windows games on Android handhelds. A fork of GameNative, validated on AYN Thor. 14 stars.</td><td class="mono">Kotlin, C++</td></tr>
             <tr><th scope="row"><a href="https://github.com/RemiPelloux/agent-mangaka-forge">agent-mangaka-forge</a></th><td>Manga page generation skills with persistent character memory. 19 stars.</td><td class="mono">Python</td></tr>
             <tr><th scope="row"><a href="https://github.com/RemiPelloux/android-hid-kb">android-hid-kb</a></th><td>A rooted Android phone as a USB keyboard, using configfs and shell builtins only. 10 stars.</td><td class="mono">Shell, Python</td></tr>
-            <tr><th scope="row"><a href="https://github.com/RemiPelloux/GalaxyCrash">GalaxyCrash</a></th><td>Temporary root for Samsung Galaxy research devices, a fork of DirtyFrag. A reboot undoes it. 5 stars.</td><td class="mono">Java</td></tr>
             <tr><th scope="row"><a href="https://remipelloux.github.io/kill-my-idea/">kill-my-idea</a></th><td>A Claude Code plugin that researches a business idea and scores it out of 100.</td><td class="mono">HTML, Markdown</td></tr>
             <tr><th scope="row"><a href="https://remipelloux.github.io/gitverse/">gitverse</a></th><td>A Git course with a simulated terminal and a live commit graph.</td><td class="mono">TypeScript</td></tr>
             <tr><th scope="row"><a href="https://github.com/RemiPelloux/DrosoSimBetter">DrosoSim Next</a></th><td>Real-time decision simulator against the fruit fly Drosophila suzukii.</td><td class="mono">TypeScript</td></tr>
             <tr><th scope="row"><a href="https://github.com/RemiPelloux/lumasync">LumaSync</a></th><td>Local Philips Hue ambilight driven by screen capture.</td><td class="mono">Rust, Tauri</td></tr>
           </tbody>
         </table>
-        <p class="mono faint">Star counts read from GitHub on 11 November 2026.</p>
+        <p class="mono faint" data-i18n="stars-note">Star counts read from GitHub on 11 November 2026.</p>
       </div>
     </section>
 
     <section class="band model" id="model" data-model>
-      <h2><span>02</span>A seeded run</h2>
+      <h2><span>02</span><span data-i18n="h-model">A seeded run</span></h2>
       <div class="band-body">
-        <p class="statement">Reproducible runs are the point of Modelly. Here is the idea in 100 lines of JavaScript: a Schelling model where each agent moves when fewer than 45 % of its neighbours match it.</p>
+        <p class="statement" data-i18n="model-intro">Reproducible runs are the point of Modelly. Here is the idea in 100 lines of JavaScript: a Schelling model where each agent moves when fewer than 45 % of its neighbours match it.</p>
         <canvas role="img" aria-label="Grid of dark and rust agents that sort into clusters as the model runs."></canvas>
         <div class="model-controls">
-          <label class="mono">Seed <input type="number" min="0" step="1" value="42" inputmode="numeric" data-model-seed></label>
+          <label class="mono"><span data-i18n="seed">Seed</span> <input type="number" min="0" step="1" value="42" inputmode="numeric" data-model-seed></label>
           <button class="button primary" type="button" data-model-run>Run model</button>
-          <button class="button" type="button" data-model-step>Step once</button>
-          <button class="button" type="button" data-model-reset>Reset grid</button>
+          <button class="button" type="button" data-model-step data-i18n="step-once">Step once</button>
+          <button class="button" type="button" data-model-reset data-i18n="reset-grid">Reset grid</button>
         </div>
         <p class="model-read mono" data-model-read>The model needs JavaScript.</p>
         <p class="visually-hidden" data-model-status aria-live="polite"></p>
-        <p class="faint">Run it twice with the same seed and the readout ends on the same numbers. Change the seed and the clusters land elsewhere.</p>
+        <p class="faint" data-i18n="model-note">Run it twice with the same seed and the readout ends on the same numbers. Change the seed and the clusters land elsewhere.</p>
+      </div>
+    </section>
+
+    <section class="band" id="security">
+      <h2><span>03</span><span data-i18n="h-security">Security and contributions</span></h2>
+      <div class="band-body">
+        <p class="statement" data-i18n="sec-intro">I build products during the day and take other people's apart in the evening. What I find goes to the maintainers first.</p>
+        <table class="table">
+          <caption class="visually-hidden" data-i18n="sec-caption">Disclosures, research and contributions</caption>
+          <thead class="mono"><tr data-i18n="sec-head"><th scope="col">Reference</th><th scope="col">Project</th><th scope="col">What happened</th></tr></thead>
+          <tbody data-i18n="sec-body">
+            <tr><td class="mono"><a href="https://github.com/symfony/symfony/security/advisories/GHSA-hhg7-c65m-h7ff">CVE-2026-45753</a></td><th scope="row">Symfony HtmlSanitizer</th><td>The URL sanitizer skipped the action, formaction, poster and cite attributes, so a javascript: URI survived sanitization and allowed XSS. I reported it and the Symfony team fixed it. Advisory published on 28 May 2026.</td></tr>
+            <tr><td class="mono">2026, in triage</td><th scope="row">Tailscale</th><td>Reports sent to the Tailscale security team. One finding was new to them and is being fixed, with credit in the fix. Another matched an issue they had already fixed. Details stay private until the fix ships.</td></tr>
+            <tr><td class="mono"><a href="https://github.com/RemiPelloux/php-upload-rce">CVE-2026-109618</a></td><th scope="row">PHP</th><td>Independent source-level analysis of the session.upload_progress use-after-free, also CVE-2026-109619, CVSS 9.2, fixed on 21 October 2026. Heap layout study, reproduction lab and exposure scanner. I did not find this one, I studied it.</td></tr>
+            <tr><td class="mono"><a href="https://github.com/RemiPelloux/GalaxyCrash">GalaxyCrash</a></td><th scope="row">Samsung Galaxy</th><td>Temporary root for research on your own device, a stability fork of DirtyFrag built on CVE-2026-43284. A reboot undoes it. 5 stars.</td></tr>
+            <tr><td class="mono"><a href="https://github.com/hashgraph-online/awesome-ai-plugins/pull/1282">PR 1282</a></td><th scope="row">awesome-ai-plugins</th><td>Merged pull request adding kill-my-idea to the list, 11 November 2026.</td></tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
     <section class="band" id="openpro">
-      <h2><span>03</span>At OpenPro</h2>
+      <h2><span>04</span><span data-i18n="h-openpro">At OpenPro</span></h2>
       <div class="band-body">
-        <p class="statement"><a href="https://openpro.ai">OpenPro</a> is a French professional network for people, jobs and companies, with video CVs, AI matching, messaging and an assistant named Mia, on web, iOS and Android.</p>
-        <p>The code is private. As CTO since February 2023, this is the engineering I answer for.</p>
-        <ul class="points">
+        <p class="statement" data-i18n="op-intro"><a href="https://openpro.ai">OpenPro</a> is a French professional network for people, jobs and companies, with video CVs, AI matching, messaging and an assistant named Mia, on web, iOS and Android.</p>
+        <p data-i18n="op-2">The code is private. As CTO since February 2023, this is the engineering I answer for.</p>
+        <ul class="points" data-i18n="op-points">
           <li><strong>Product platform.</strong> A PHP and Symfony core, TypeScript and React on the web, apps for iOS and Android, shipped on one roadmap.</li>
           <li><strong>Applied AI.</strong> Matching, retrieval and the Mia assistant, written in Python and connected through MCP.</li>
           <li><strong>Open integrations.</strong> ATS connectors through a <a href="https://github.com/RemiPelloux/openpro-connector-sdk">public SDK</a> over HTTP and MCP.</li>
           <li><strong>Infrastructure.</strong> PostgreSQL and Redis on AWS, in Docker, released through CI/CD, hosted in the EU under GDPR.</li>
         </ul>
-        <p>Other products I built and run: <a href="https://leadsit.eu">LeadsIt</a>, B2B lead lists from Google Maps, OpenWhistle, audio turned into structured data, and <a href="https://deal-club.fun">deal-club.fun</a>, a French real-estate card game that plays offline.</p>
+        <p data-i18n="op-other">Other products I built and run: <a href="https://leadsit.eu">LeadsIt</a>, B2B lead lists from Google Maps, OpenWhistle, audio turned into structured data, and <a href="https://deal-club.fun">deal-club.fun</a>, a French real-estate card game that plays offline.</p>
       </div>
     </section>
 
     <section class="band" id="record">
-      <h2><span>04</span>Record</h2>
+      <h2><span>05</span><span data-i18n="h-record">Record</span></h2>
       <div class="band-body">
         <table class="table">
-          <caption class="visually-hidden">Work history</caption>
-          <thead class="mono"><tr><th scope="col">Years</th><th scope="col">Role</th><th scope="col">Work</th></tr></thead>
-          <tbody>
+          <caption class="visually-hidden" data-i18n="rec-caption">Work history</caption>
+          <thead class="mono"><tr data-i18n="rec-head"><th scope="col">Years</th><th scope="col">Role</th><th scope="col">Work</th></tr></thead>
+          <tbody data-i18n="rec-body">
             <tr><td class="mono">2023 to now</td><th scope="row">CTO and co-founder, OpenPro</th><td>Product design, architecture and full-stack build of an AI recruitment platform. Nice, remote.</td></tr>
             <tr><td class="mono">2024 to 2025</td><th scope="row">Security and full-stack lead, SaaS Office</th><td>A vulnerability management tool in Python and a framework that simulates attacks on network, DNS and cloud. Valbonne.</td></tr>
             <tr><td class="mono">2023 to 2024</td><th scope="row">Lead developer R&amp;D, MOABI</th><td>Research on software energy dependence, a C backend migration, Symfony 5.3 to 6.4, security audits. Clients: Dassault Aviation, DGA, Thales, Decathlon.</td></tr>
@@ -163,24 +173,19 @@
             <tr><td class="mono">2016 to 2019</td><th scope="row">Web development trainer</th><td>Courses in HTML, CSS, JavaScript, PHP, Symfony, Node.js and Python for Pôle Emploi, Orsys and SoftTeam.</td></tr>
           </tbody>
         </table>
-        <p>Master's degree in computer science, SophiaTech, Sophia Antipolis. Bachelor's degree, Université de Nice. French native, English professional, Italian intermediate.</p>
-        <p>TypeScript, Rust, Python and PHP most days. React, Tauri, Symfony, PostgreSQL and AWS around them.</p>
-        <ul class="points">
-          <li><strong>Useful workflows first.</strong> The first install and the hundredth use both get tested.</li>
-          <li><strong>Your data stays yours.</strong> Local storage, portable formats, practical APIs.</li>
-          <li><strong>Measure before claiming.</strong> Latency, recovery and acceptance gates, written down.</li>
-          <li><strong>Credit upstream.</strong> Forks and integrations name the projects they build on.</li>
-        </ul>
+        <p data-i18n="rec-edu">Master's degree in computer science, SophiaTech, Sophia Antipolis. Bachelor's degree, Université de Nice. French native, English professional, Italian intermediate.</p>
+        <p data-i18n="rec-more">The full record is on the <a href="cv.html">CV, in French and English</a>. The unofficial one is in the <a href="wiki.html">wiki</a>.</p>
       </div>
     </section>
   </main>
 
   <footer class="footer mono">
-    <span>Rémi Pelloux. <a href="https://www.linkedin.com/in/remipelloux/">LinkedIn</a>, <a href="https://github.com/RemiPelloux">GitHub</a>.</span>
-    <span>Written by hand: one HTML file, three stylesheets, four scripts. No framework, no tracker.</span>
+    <span>Rémi Pelloux. <a href="https://www.linkedin.com/in/remipelloux/">LinkedIn</a>, <a href="https://github.com/RemiPelloux">GitHub</a>, <a href="https://github.com/sponsors/RemiPelloux">Sponsors</a>.</span>
+    <span data-i18n="colophon">Written by hand, no framework, no tracker. Three themes, two languages, one dog.</span>
   </footer>
 </div>
-<script type="module" src="js/masthead.js"></script>
+<script type="module" src="js/chrome.js"></script>
+<script type="module" src="js/name.js"></script>
 <script type="module" src="js/ledger.js"></script>
 <script type="module" src="js/model-ui.js"></script>
 </body>

@@ -27,7 +27,8 @@
 .topbar nav ul {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--s1) var(--s5);
+  gap: var(--s1) var(--s4);
+  align-items: center;
 }
 
 .topbar a {
@@ -53,6 +54,18 @@
   letter-spacing: -0.03em;
   white-space: nowrap;
   margin-left: -0.04em;
+  cursor: default;
+}
+
+.name span {
+  display: inline-block;
+  white-space: pre;
+  will-change: transform;
+}
+
+:root[data-theme="terminal"] .name {
+  font-size: clamp(2.5rem, 11.4vw, 10.5rem); /* unslop-ignore: poster-size name */
+  letter-spacing: -0.05em;
 }
 
 .masthead-grid {
@@ -128,6 +141,8 @@
 .ledger-grid i {
   aspect-ratio: 1;
   background: var(--l0);
+  animation: cell-in 420ms var(--spring) backwards;
+  animation-delay: calc(var(--c) * 14ms);
 }
 
 .ledger-grid .l1 { background: var(--l1); }
@@ -169,7 +184,7 @@
   font-weight: 500;
 }
 
-.band > h2 span {
+.band > h2 span:first-child {
   color: var(--accent);
   margin-right: var(--s3);
 }

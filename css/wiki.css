@@ -1,0 +1,94 @@
+/* Wiki: a documentation layout with a side table of contents. */
+
+.docs {
+  display: grid;
+  gap: var(--s6);
+  padding-block: var(--s6) var(--s9);
+}
+
+.docs-nav a {
+  display: block;
+  padding-block: var(--s2);
+  text-decoration: none;
+}
+
+.docs-nav a:hover {
+  text-decoration: underline;
+}
+
+.docs-body h1 {
+  font-size: clamp(3.5rem, 9vw, 7rem); /* unslop-ignore: page title, same register as the home masthead */
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+}
+
+.docs-body .lede {
+  margin-top: var(--s5);
+}
+
+.docs-body .lede + p {
+  margin-top: var(--s4);
+}
+
+.docs-body section {
+  margin-top: var(--s8);
+  padding-top: var(--s4);
+  border-top: 1px solid var(--rule-strong);
+  scroll-margin-top: var(--s4);
+}
+
+.docs-body h2 {
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: var(--t14);
+  font-weight: 500;
+}
+
+.qa dt {
+  margin-top: var(--s6);
+  font-family: var(--font-serif);
+  font-size: var(--t24);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.qa dt::before {
+  content: "Q. ";
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: var(--t14);
+  font-weight: 500;
+}
+
+.qa dd {
+  max-width: 66ch;
+  margin-top: var(--s2);
+  padding-left: var(--s4);
+  border-left: 1px solid var(--rule-strong);
+}
+
+.qa.log dt {
+  font-family: var(--font-mono);
+  font-size: var(--t14);
+  font-weight: 500;
+}
+
+.qa.log dt::before {
+  content: none;
+}
+
+@media (min-width: 880px) {
+  .docs {
+    grid-template-columns: 200px minmax(0, 1fr);
+    gap: var(--s7);
+  }
+
+  .docs-nav ul {
+    position: sticky;
+    top: var(--s5);
+  }
+
+  .qa dt {
+    font-size: var(--t32);
+  }
+}
