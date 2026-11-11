@@ -15,7 +15,7 @@ The source of [remipelloux.github.io](https://remipelloux.github.io/). Static fi
 | `js/juice.js` | Screen shake, squash and stretch, tones, feedback tiers |
 | `js/ledger.js`, `js/skyline.js` | Contribution year drawn as a 3D skyline on a canvas, read by pointer or arrow keys |
 | `js/name.js`, `js/reveal.js`, `js/cursor.js` | Reactive display type, scroll reveals and counters, pointer ring and project previews |
-| `js/marquee.js`, `js/coast.js`, `css/riviera.css` | The place-name marquee and the coast map with its position readout |
+| `js/marquee.js`, `js/coast.js`, `css/riviera.css` | The place-name marquee, the France and coast maps and their position readout |
 | `assets/work/` | Project illustrations shown next to the pointer |
 | `js/model.js`, `js/model-ui.js` | Seeded Schelling model and its canvas |
 | `js/shiba.js` | The dog. Type `shiba` on any page |

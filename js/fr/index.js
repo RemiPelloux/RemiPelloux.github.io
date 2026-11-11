@@ -104,6 +104,10 @@ export default {
   "rec-more": 'Le parcours complet est dans le <a href="/cv/">CV, en français et en anglais</a>. La version non officielle est dans le <a href="/wiki/">wiki</a>.',
   "h-riviera": "Terrain connu",
   "riv-intro": "Né à Antibes, études à Sophia Antipolis. Puis trois ans sur les routes comme formateur, à Lille, Paris, Lyon, Clermont-Ferrand, Bordeaux et Poitiers, avant de revenir sur la côte : Monaco, Valbonne, Nice, avec des missions à Rennes et à Hengelo, aux Pays-Bas, pour MOABI.",
+  "map1-title": "France et Pays-Bas : là où j'ai formé et là où MOABI m'a envoyé",
+  "france-title": "Carte schématique de la France avec Lille, Paris, Lyon, Clermont-Ferrand, Bordeaux, Poitiers et Rennes, Hengelo aux Pays-Bas, et la Côte d'Azur.",
+  "france-legend": "<li><span>Lille, formateur, 2016 à 2019</span><span>50,63° N, 3,06° E</span></li><li><span>Paris, formateur, 2016 à 2019</span><span>48,86° N, 2,35° E</span></li><li><span>Lyon, formateur, 2016 à 2019</span><span>45,76° N, 4,84° E</span></li><li><span>Clermont-Ferrand, formateur, 2016 à 2019</span><span>45,78° N, 3,09° E</span></li><li><span>Bordeaux, formateur, 2016 à 2019</span><span>44,84° N, 0,58° O</span></li><li><span>Poitiers, formateur, 2016 à 2019</span><span>46,58° N, 0,34° E</span></li><li><span>Rennes, mission MOABI, 2023 à 2024</span><span>48,11° N, 1,68° O</span></li><li><span>Hengelo, mission MOABI, 2023 à 2024</span><span>52,27° N, 6,79° E</span></li><li><span>Côte d'Azur, chez moi, voir la carte ci-dessous</span><span>43,65° N, 7,20° E</span></li>",
+  "map2-title": "La côte, de plus près",
   "coast-title": "Carte schématique de la Côte d'Azur avec Antibes, Sophia Antipolis, Valbonne, Nice et Monaco.",
   "p-antibes": "Antibes, né ici",
   "p-sophia": "Sophia Antipolis, 2015 à 2020",
@@ -117,6 +121,6 @@ export default {
   "g-nice": "43,70° N, 7,27° E",
   "p-sea": "Méditerranée",
   "g-sea": "43,60° N, 7,36° E",
-  "riv-note": "Schématique, pas à l'échelle. Le trait suit l'ordre du parcours ci-dessus. Pointez la carte pour lire une position.",
+  "riv-note": "Les deux cartes sont schématiques. Sur la côte, le trait suit l'ordre du parcours ci-dessus. Pointez l'une ou l'autre carte pour lire une position.",
   colophon: "Écrit à la main sur la Côte d'Azur. Sans framework ni traceur. Quatre thèmes, deux langues, un chien.",
 };
