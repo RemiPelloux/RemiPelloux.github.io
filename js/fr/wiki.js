@@ -5,6 +5,7 @@ const gh = (repo, label) => `<a href="https://github.com/RemiPelloux/${repo}">${
 const toc = (...entries) => entries.map(([id, label]) => `<li><a href="#${id}">${label}</a></li>`).join("");
 
 export default {
+  skip: "Aller au contenu",
   title: "Rémi docs, le manuel non officiel",
   version: "v2026.11, stable en semaine",
   "nav-home": "Portfolio",

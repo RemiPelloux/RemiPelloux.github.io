@@ -232,6 +232,21 @@ input {
   color: var(--ink-2);
 }
 
+.skip {
+  position: absolute;
+  left: var(--s4);
+  top: var(--s4);
+  z-index: 11;
+  padding: var(--s3) var(--s4);
+  background: var(--ink);
+  color: var(--paper);
+  transform: translateY(-300%);
+}
+
+.skip:focus {
+  transform: none;
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;

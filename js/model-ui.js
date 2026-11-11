@@ -114,6 +114,14 @@ function stepOnce() {
 }
 
 const live = () => Boolean(canvas?.isConnected);
+const AUTO_RUN_VISIBLE_SHARE = 0.7;
+
+// The first time the grid is well in view, the model starts by itself.
+const autoRun = new IntersectionObserver(([entry]) => {
+  if (!entry.isIntersecting || reducedMotion.matches) return;
+  autoRun.disconnect();
+  if (!frame && model.steps === 0) toggleRun();
+}, { threshold: AUTO_RUN_VISIBLE_SHARE });
 
 export function mountModel() {
   if (frame) cancelAnimationFrame(frame);
@@ -134,6 +142,8 @@ export function mountModel() {
   seedInput.addEventListener("change", reset);
   reset();
   labelRun();
+  autoRun.disconnect();
+  autoRun.observe(canvas);
 }
 
 document.addEventListener("themechange", () => live() && draw());
