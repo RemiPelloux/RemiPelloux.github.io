@@ -1,6 +1,6 @@
 // Draws the contribution ledger and reports the day under the pointer or the arrow keys.
 import { LEDGER_START, LEDGER_COUNTS } from "./ledger-data.js";
-import { locale, ready, t } from "./i18n.js";
+import { locale, t } from "./i18n.js";
 import { blip, pop } from "./juice.js";
 import { releaseShiba } from "./shiba.js";
 
@@ -17,8 +17,8 @@ const KEY_STEPS = {
   ArrowDown: 1,
 };
 
-const grid = document.querySelector("[data-ledger-grid]");
-const readout = document.querySelector("[data-ledger-read]");
+let grid = null;
+let readout = null;
 const peakIndex = LEDGER_COUNTS.indexOf(Math.max(...LEDGER_COUNTS));
 let selected = -1;
 
@@ -90,8 +90,16 @@ function render() {
   grid.addEventListener("pointerleave", () => select(-1));
   grid.addEventListener("keydown", onKey);
   grid.addEventListener("blur", () => select(-1));
-  document.addEventListener("langchange", () => select(selected));
+  selected = -1;
   select(-1);
 }
 
-if (grid && readout) ready.then(render);
+export function mountLedger() {
+  grid = document.querySelector("[data-ledger-grid]");
+  readout = document.querySelector("[data-ledger-read]");
+  if (grid && readout) render();
+}
+
+document.addEventListener("langchange", () => {
+  if (grid?.isConnected) select(selected);
+});

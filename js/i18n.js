@@ -1,9 +1,8 @@
 // English lives in the HTML. French comes from js/fr/<page>.js, keyed by data-i18n.
 
 const root = document.documentElement;
-const page = document.body.dataset.page;
-const english = new Map();
-const englishTitle = document.title;
+const english = new WeakMap();
+let englishTitle = document.title;
 
 export const lang = () => root.lang || "en";
 export const t = (en, fr) => (lang() === "fr" ? fr : en);
@@ -17,9 +16,14 @@ export function store(key, value) {
   }
 }
 
+// The router calls this when it swaps in a page, so the English title follows.
+export function adoptTitle(title) {
+  englishTitle = title;
+}
+
 async function dictionary(code) {
   if (code !== "fr") return null;
-  return (await import(`./fr/${page}.js`)).default;
+  return (await import(`./fr/${document.body.dataset.page}.js`)).default;
 }
 
 export async function setLang(code) {

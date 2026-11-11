@@ -84,6 +84,6 @@ export default {
     row("2016 à 2019", "Formateur en développement web", "Formations HTML, CSS, JavaScript, PHP, Symfony, Node.js et Python pour Pôle Emploi, Orsys et SoftTeam."),
   ].join(""),
   "rec-edu": "Master en informatique, SophiaTech, Sophia Antipolis. Licence, Université de Nice. Français langue maternelle, anglais professionnel, italien intermédiaire.",
-  "rec-more": 'Le parcours complet est dans le <a href="cv.html">CV, en français et en anglais</a>. La version non officielle est dans le <a href="wiki.html">wiki</a>.',
+  "rec-more": 'Le parcours complet est dans le <a href="/cv/">CV, en français et en anglais</a>. La version non officielle est dans le <a href="/wiki/">wiki</a>.',
   colophon: "Écrit à la main, sans framework ni traceur. Trois thèmes, deux langues, un chien.",
 };

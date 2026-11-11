@@ -11,7 +11,7 @@ export default {
   toc: toc(["start", "Premiers pas"], ["reference", "Référence"], ["troubleshooting", "Dépannage"], ["faq", "FAQ"], ["changelog", "Journal des versions"]),
   h1: "Rémi docs",
   intro: "Le manuel de Rémi Pelloux, écrit par Rémi Pelloux. Je pose les questions et j'y réponds, ce qui raccourcit les tickets de support.",
-  edit: 'Une erreur dans ma personne ? <a href="https://github.com/RemiPelloux/RemiPelloux.github.io/edit/main/wiki.html">Ouvrez une pull request</a>.', // unslop-ignore: the question is the joke
+  edit: 'Une erreur dans ma personne ? <a href="https://github.com/RemiPelloux/RemiPelloux.github.io/edit/main/wiki/index.html">Ouvrez une pull request</a>.', // unslop-ignore: the question is the joke
   "h-start": "Premiers pas",
   start: qa(
     ["C'est quoi, Rémi ?", "Un CTO chez OpenPro, basé à Nice. Et un processus qui transforme les soirées libres en dépôts GitHub. Les deux tournent en production."],

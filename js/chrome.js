@@ -1,5 +1,6 @@
 // Top bar: language, theme and sound switches, and the local time in Nice.
-import { lang, locale, ready, setLang, store, t } from "./i18n.js";
+// Clicks are delegated, so the switches keep working after a route change.
+import { lang, locale, setLang, store, t } from "./i18n.js";
 import { feedback, soundOn } from "./juice.js";
 import { wipe } from "./wipe.js";
 
@@ -11,17 +12,28 @@ const THEME_NAMES = {
 };
 const CLOCK_INTERVAL_MS = 30_000;
 const root = document.documentElement;
-const langButton = document.querySelector("[data-lang-switch]");
-const themeButton = document.querySelector("[data-theme-switch]");
-const soundButton = document.querySelector("[data-sound-switch]");
-const clock = document.querySelector("[data-clock]");
+const find = (name) => document.querySelector(`[data-${name}]`);
 let busy = false;
 
-function label() {
-  if (langButton) langButton.textContent = t("Français", "English");
-  if (themeButton) themeButton.textContent = t("Theme: ", "Thème : ") + t(...THEME_NAMES[root.dataset.theme]);
-  if (soundButton) soundButton.textContent = t("Sound: ", "Son : ") + (soundOn() ? "on" : "off");
-  if (clock) showTime();
+function clockText() {
+  const time = new Intl.DateTimeFormat(locale(), {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "Europe/Paris",
+  }).format(new Date());
+  return t(`${time} in Nice`, `${time} à Nice`);
+}
+
+function setText(name, text) {
+  const element = find(name);
+  if (element) element.textContent = text;
+}
+
+export function mountChrome() {
+  setText("lang-switch", t("Français", "English"));
+  setText("theme-switch", t("Theme: ", "Thème : ") + t(...THEME_NAMES[root.dataset.theme]));
+  setText("sound-switch", t("Sound: ", "Son : ") + (soundOn() ? "on" : "off"));
+  setText("clock", clockText());
 }
 
 async function switchLang() {
@@ -32,33 +44,29 @@ async function switchLang() {
   busy = false;
 }
 
-function switchTheme() {
+function switchTheme(button) {
   const index = THEMES.indexOf(root.dataset.theme);
   root.dataset.theme = THEMES[(index + 1) % THEMES.length];
   store("theme", root.dataset.theme);
-  label();
-  feedback("medium", themeButton);
+  mountChrome();
+  feedback("medium", button);
   document.dispatchEvent(new Event("themechange"));
 }
 
-function switchSound() {
+function switchSound(button) {
   store("sound", soundOn() ? "off" : "on");
-  label();
-  feedback("small", soundButton);
+  mountChrome();
+  feedback("small", button);
 }
 
-function showTime() {
-  const time = new Intl.DateTimeFormat(locale(), {
-    hour: "2-digit",
-    minute: "2-digit",
-    timeZone: "Europe/Paris",
-  }).format(new Date());
-  clock.textContent = t(`${time} in Nice`, `${time} à Nice`);
+function onClick(event) {
+  const button = event.target.closest("button");
+  if (!button) return;
+  if ("langSwitch" in button.dataset) switchLang();
+  if ("themeSwitch" in button.dataset) switchTheme(button);
+  if ("soundSwitch" in button.dataset) switchSound(button);
 }
 
-langButton?.addEventListener("click", switchLang);
-themeButton?.addEventListener("click", switchTheme);
-soundButton?.addEventListener("click", switchSound);
-document.addEventListener("langchange", label);
-if (clock) setInterval(showTime, CLOCK_INTERVAL_MS);
-ready.then(label);
+document.addEventListener("click", onClick);
+document.addEventListener("langchange", mountChrome);
+setInterval(() => setText("clock", clockText()), CLOCK_INTERVAL_MS);
