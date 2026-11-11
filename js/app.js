@@ -5,6 +5,7 @@ import { mountName } from "./name.js";
 import { mountLedger } from "./ledger.js";
 import { mountModel } from "./model-ui.js";
 import { mountCv } from "./cv.js";
+import { mountStars } from "./stars.js";
 import { startRouter } from "./router.js";
 import { playIntro } from "./intro.js";
 import { mountReveal } from "./reveal.js";
@@ -19,6 +20,7 @@ function mountAll() {
   mountModel();
   mountCv();
   mountReveal();
+  mountStars();
   mountMarquee();
 }
 

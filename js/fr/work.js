@@ -14,9 +14,9 @@ export default {
   head: '<th scope="col">Dépôt</th><th scope="col">Ce que c\'est</th><th scope="col">Langage</th>',
   body: [
     row("openterm", "Terminal pensé pour l'IA, basé sur Ghostty : commandes conscientes des tokens, preuves chiffrées, n'importe quel modèle.", "Rust"),
-    row("AirFranceFilterScript", "Ratline, un comparateur de tarifs Air France en euros et en Miles. 2 étoiles.", "TypeScript"),
-    row("Sniper", "Outil de pentest assisté par apprentissage automatique. 2 étoiles.", "Python"),
-    row("lbc-api", "API REST au-dessus d'un client Leboncoin, en service FastAPI à couches. 1 étoile.", "Python"),
+    row("AirFranceFilterScript", "Ratline, un comparateur de tarifs Air France en euros et en Miles. <span data-stars='AirFranceFilterScript'>2 étoiles</span>.", "TypeScript"),
+    row("Sniper", "Outil de pentest assisté par apprentissage automatique. <span data-stars='Sniper'>2 étoiles</span>.", "Python"),
+    row("lbc-api", "API REST au-dessus d'un client Leboncoin, en service FastAPI à couches. <span data-stars='lbc-api'>1 étoile</span>.", "Python"),
     row("modelly-hub", "Index des modèles Modelly publiés : fiches, DOI, sommes de contrôle.", "JSON"),
     row("rjs", "Une alternative à npm écrite en Rust.", "Rust"),
     row("RouteMaster", "Bibliothèque de routage pour applications TypeScript.", "TypeScript"),
