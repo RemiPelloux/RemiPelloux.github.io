@@ -61,7 +61,7 @@ export default {
   "h-products": "Produits",
   products: list(
     "OpenWhistle, de l'audio aux données structurées, hébergé en UE.",
-    "LeadsIt, génération de prospects B2B depuis Google Maps.",
+    "LeadsIt, solution de recherche de leads B2B automatisée.",
     "OpenCM, SaaS pour agences de réseaux sociaux.",
   ),
   "h-edu": "Formation",
