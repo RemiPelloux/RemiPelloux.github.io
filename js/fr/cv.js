@@ -5,6 +5,7 @@ const job = (title, when, ...items) =>
 const pairs = (...entries) => entries.map(([term, text]) => `<dt>${term}</dt><dd>${text}</dd>`).join("");
 
 export default {
+  skip: "Aller au contenu",
   title: "Rémi Pelloux, CV",
   back: "Retour au portfolio",
   export: "Exporter en PDF",
