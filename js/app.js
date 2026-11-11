@@ -9,7 +9,6 @@ import { startRouter } from "./router.js";
 import { playIntro } from "./intro.js";
 import { mountReveal } from "./reveal.js";
 import { mountMarquee } from "./marquee.js";
-import "./coast.js";
 import "./cursor.js";
 import "./shiba.js";
 

@@ -144,10 +144,6 @@
   border-top: 1px solid var(--rule);
 }
 
-.coast-legend span:last-child {
-  color: var(--accent);
-}
-
 @media (max-width: 720px) {
   .coast .place text {
     display: none;
