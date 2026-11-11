@@ -9,6 +9,8 @@ const TILT_RANGE = 0.35; // extra skew from the pointer
 const INSET = 0.14; // gap around each bar, as a share of the cell
 const MAX_HEIGHT_COLS = 7; // tallest bar, in column widths
 const HEADROOM_COLS = 1.2; // room above the tallest bar for the wave
+const STRETCH_BELOW_PX = 900; // narrower canvases get taller bars, so a phone still shows a skyline
+const MAX_STRETCH = 2.4;
 const FLOOR_PX = 1.5;
 const FRONT_SHADE = 0.22;
 const SIDE_SHADE = 0.42;
@@ -59,7 +61,8 @@ export class Skyline {
     const ratio = window.devicePixelRatio || 1;
     const width = this.canvas.clientWidth;
     const col = width / (this.weeks + DAYS * (BASE_SKEW + TILT_RANGE));
-    const height = col * (MAX_HEIGHT_COLS + HEADROOM_COLS + DAYS * DEPTH_RATIO + 0.5);
+    const rise = col * Math.min(MAX_STRETCH, Math.max(1, STRETCH_BELOW_PX / width));
+    const height = rise * (MAX_HEIGHT_COLS + HEADROOM_COLS) + col * (DAYS * DEPTH_RATIO + 0.5);
     const pixels = [Math.round(width * ratio), Math.round(height * ratio)];
     if (this.canvas.width !== pixels[0] || this.canvas.height !== pixels[1]) {
       [this.canvas.width, this.canvas.height] = pixels;
@@ -69,9 +72,10 @@ export class Skyline {
     this.context.clearRect(0, 0, width, height);
     return {
       col,
+      rise,
       skew: BASE_SKEW + this.tiltAmount * TILT_RANGE,
       originX: DAYS * col * (BASE_SKEW + TILT_RANGE),
-      originY: col * (MAX_HEIGHT_COLS + HEADROOM_COLS),
+      originY: rise * (MAX_HEIGHT_COLS + HEADROOM_COLS),
     };
   }
 
@@ -83,13 +87,13 @@ export class Skyline {
     return Math.exp(-(((week - crest) / WAVE_WIDTH_WEEKS) ** 2));
   }
 
-  barHeight(index, col, now) {
+  barHeight(index, rise, now) {
     const week = Math.floor(index / DAYS);
     const age = (now - this.born - week * RISE_STAGGER_MS) / RISE_MS;
-    const rise = age >= 1 ? 1 : Math.max(0, easeOutBack(Math.max(0, age)));
-    const full = Math.sqrt(this.counts[index] / this.peak) * MAX_HEIGHT_COLS * col;
+    const grown = age >= 1 ? 1 : Math.max(0, easeOutBack(Math.max(0, age)));
+    const full = Math.sqrt(this.counts[index] / this.peak) * MAX_HEIGHT_COLS * rise;
     const crest = this.wave(week, now);
-    return Math.max(FLOOR_PX, full * rise * (1 + WAVE_GAIN * crest) + WAVE_LIFT_COLS * col * crest * rise);
+    return Math.max(FLOOR_PX, full * grown * (1 + WAVE_GAIN * crest) + WAVE_LIFT_COLS * rise * crest * grown);
   }
 
   face(points, color, shade) {
@@ -107,7 +111,7 @@ export class Skyline {
   drawBar(view, index, now) {
     const week = Math.floor(index / DAYS);
     const day = index % DAYS;
-    const h = this.barHeight(index, view.col, now);
+    const h = this.barHeight(index, view.rise, now);
     const [a, b, c, d] = CORNERS.map(([dx, dy]) => [
       view.originX + (week + dx) * view.col - (day + dy) * view.col * view.skew,
       view.originY + (day + dy) * view.col * DEPTH_RATIO,
