@@ -13,26 +13,32 @@
   border-top: 1px solid var(--rule-strong);
 }
 
-.marquee-track {
-  display: flex;
-  width: max-content;
-  will-change: transform;
-}
-
 .marquee p {
   max-width: none;
-  padding-right: 0.3em;
   font-family: var(--font-serif);
-  font-size: clamp(3rem, 10vw, 9rem); /* unslop-ignore: display line, same register as the name */
+  font-size: clamp(2.25rem, 10vw, 9rem); /* unslop-ignore: display line, same register as the name */
   font-weight: 600;
-  line-height: 1;
+  line-height: 1.05;
   letter-spacing: -0.03em;
-  white-space: nowrap;
 }
 
 .marquee i {
   color: var(--accent);
   font-weight: 300;
+}
+
+/* Rolling state, set by marquee.js. Without it the names wrap and nothing is cut off. */
+
+.marquee-track.rolling {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.marquee-track.rolling p {
+  padding-right: 0.3em;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .coast {
@@ -65,6 +71,11 @@
   fill: var(--ink);
   font-family: var(--font-mono);
   font-size: 9px;
+}
+
+.coast .geo {
+  fill: var(--accent);
+  font-size: 7.5px;
 }
 
 .coast .sea-name {
@@ -118,4 +129,42 @@
 
 .motion .coast .sea-name {
   animation: drift 4s ease-in-out infinite alternate;
+}
+
+/* Small screens: the labels inside the map are too small to read, so a list carries them. */
+
+.coast-legend {
+  display: none;
+}
+
+.coast-legend li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--s3);
+  justify-content: space-between;
+  padding-block: var(--s2);
+  border-top: 1px solid var(--rule);
+}
+
+.coast-legend span:last-child {
+  color: var(--accent);
+}
+
+@media (max-width: 720px) {
+  .coast .place text {
+    display: none;
+  }
+
+  .coast .sea-name {
+    font-size: 16px;
+    letter-spacing: 0.15em;
+  }
+
+  .coast-legend {
+    display: block;
+  }
+
+  .sea {
+    height: 110px;
+  }
 }

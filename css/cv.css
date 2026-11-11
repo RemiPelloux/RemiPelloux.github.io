@@ -152,3 +152,7 @@
     text-decoration: none;
   }
 }
+
+.cv-hint {
+  overflow-wrap: anywhere;
+}

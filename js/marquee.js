@@ -26,6 +26,7 @@ export function mountMarquee() {
   track = document.querySelector("[data-marquee]");
   if (!track || still.matches) return;
   if (track.children.length < COPIES) track.append(track.firstElementChild.cloneNode(true));
+  track.classList.add("rolling");
   lastTime = performance.now();
   lastScroll = window.scrollY;
   if (!running) requestAnimationFrame(frame);
