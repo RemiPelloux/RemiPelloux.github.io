@@ -1,0 +1,117 @@
+/* Components: tables, model, point lists, footer. */
+
+/* Plain tables: more work, record */
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: var(--s3) var(--s4) var(--s3) 0;
+  border-top: 1px solid var(--rule);
+  text-align: left;
+  vertical-align: top;
+  font-weight: 400;
+}
+
+.table thead th {
+  border-top: 0;
+  color: var(--ink-2);
+}
+
+.table td:first-child,
+.table tbody th {
+  white-space: nowrap;
+}
+
+.table tbody th {
+  font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  .table,
+  .table tbody,
+  .table tr,
+  .table td,
+  .table tbody th {
+    display: block;
+    white-space: normal;
+  }
+
+  .table thead {
+    display: none;
+  }
+
+  .table td,
+  .table tbody th {
+    border-top: 0;
+    padding-block: 0 var(--s1);
+  }
+
+  .table tr {
+    padding-block: var(--s3);
+    border-top: 1px solid var(--rule);
+  }
+}
+
+/* Model */
+
+.model canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--rule-strong);
+  background: var(--paper-2);
+  image-rendering: pixelated;
+}
+
+.model-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s3);
+  align-items: end;
+}
+
+.model-controls label {
+  display: grid;
+  gap: var(--s1);
+}
+
+.model-controls input {
+  width: 9ch;
+  min-height: 44px;
+  padding: var(--s2) var(--s3);
+  border: 1px solid var(--ink-3);
+  border-radius: var(--radius);
+  background: var(--paper);
+  font-family: var(--font-mono);
+  font-size: var(--t16);
+}
+
+.model-read {
+  min-height: 3em;
+}
+
+/* Lists inside bands */
+
+.points > li {
+  max-width: 66ch;
+  padding-block: var(--s3);
+  border-top: 1px solid var(--rule);
+}
+
+.points strong {
+  font-weight: 600;
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s3) var(--s6);
+  justify-content: space-between;
+  padding-block: var(--s5) var(--s8);
+  border-top: 1px solid var(--rule-strong);
+  color: var(--ink-2);
+}
