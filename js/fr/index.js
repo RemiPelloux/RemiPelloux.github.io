@@ -5,7 +5,7 @@ const project = (link, text, stack) => `<tr><th scope="row">${link}</th><td>${te
 const gh = (repo, label = repo) => `<a href="https://github.com/RemiPelloux/${repo}">${label}</a>`;
 const head = (...cells) => cells.map((cell) => `<th scope="col">${cell}</th>`).join("");
 const area = (title, text) => `<li><h3>${title}</h3><p>${text}</p></li>`;
-const point = (title, text) => `<li><strong>${title}</strong> ${text}</li>`;
+const point = (text) => `<li>${text}</li>`;
 
 export default {
   skip: "Aller au contenu",
@@ -37,7 +37,7 @@ export default {
   closing: "Écrivez-moi",
   "closing-note": "LinkedIn est le plus rapide. Je lis tous les messages qui ne sont pas du démarchage.",
   "h-work": "Projets choisis",
-  w1: "Un atelier de code avec IA où vous choisissez les modèles. Explorateur, éditeur, terminaux, worktrees Git, agents et autocomplétion Tab dans une seule application de bureau, branchée sur n'importe quelle API compatible OpenAI ou sur un serveur en 127.0.0.1. Ni compte ni connexion.",
+  w1: "Un atelier de code avec IA où vous choisissez les modèles. Explorateur, éditeur, terminaux, worktrees Git, agents et autocomplétion Tab dans une seule application de bureau, branchée sur n'importe quelle API compatible OpenAI ou sur un serveur en 127.0.0.1. Aucun compte n'est nécessaire.",
   w1m: dd("2026, préversion de développement", "Version portable Windows x64", "Electron, TypeScript, MCP"),
   w2: "Un coffre sur votre propre disque pour les enregistrements du Plaud Note Pro. Il importe l'audio en Bluetooth, garde les fichiers d'origine et en tire des transcriptions, des documents Markdown et des conversations qui citent leurs sources. Livré avec une API REST et un serveur MCP en lecture seule.",
   w2m: dd("2026, MIT", "<span data-stars='OpenPlod'>39 étoiles</span> sur GitHub", "Tauri, Rust, TypeScript"),
@@ -72,7 +72,7 @@ export default {
   ].join(""),
   "archive-link": '<a href="/work/">Tous les autres dépôts publics sont dans l\'archive</a>.',
   "h-model": "Une exécution à graine fixe",
-  "model-intro": "Des exécutions reproductibles, c'est la raison d'être de Modelly. Voici l'idée en 100 lignes de JavaScript : un modèle de Schelling où chaque agent déménage quand moins de 45 % de ses voisins lui ressemblent.",
+  "model-intro": "Modelly existe pour rendre les exécutions reproductibles. La même idée tient en 100 lignes de JavaScript, avec un modèle de Schelling où chaque agent déménage quand moins de 45 % de ses voisins lui ressemblent.",
   seed: "Graine",
   "step-once": "Avancer d'un pas",
   "reset-grid": "Réinitialiser la grille",
@@ -91,10 +91,10 @@ export default {
   "op-intro": '<a href="https://openpro.ai">OpenPro</a> est un réseau professionnel français pour les personnes, les offres et les entreprises, avec CV vidéo, matching par IA, messagerie et une assistante nommée Mia, sur le web, iOS et Android.',
   "op-2": "Le code est privé. CTO depuis février 2023, voici l'ingénierie dont je réponds.",
   "op-points": [
-    point("Plateforme produit.", "Un cœur PHP et Symfony, TypeScript et React sur le web, des applications iOS et Android, livrés sur une seule feuille de route."),
-    point("IA appliquée.", "Le matching, la recherche documentaire et l'assistante Mia, écrits en Python et reliés par MCP."),
-    point("Intégrations ouvertes.", `Des connecteurs ATS via un ${gh("openpro-connector-sdk", "SDK public")} en HTTP et MCP.`),
-    point("Infrastructure.", "PostgreSQL et Redis sur AWS, sous Docker, livrés par CI/CD, hébergés dans l'UE et conformes au RGPD."),
+    point("Un cœur PHP et Symfony, TypeScript et React sur le web, des applications iOS et Android, livrés sur une seule feuille de route."),
+    point("Le matching, la recherche documentaire et l'assistante Mia, écrits en Python et reliés par MCP."),
+    point(`Des connecteurs ATS via un ${gh("openpro-connector-sdk", "SDK public")} en HTTP et MCP.`),
+    point("PostgreSQL et Redis sur AWS, sous Docker, livrés par CI/CD, hébergés dans l'UE et conformes au RGPD."),
   ].join(""),
   "op-other": 'Autres produits que j\'ai construits et que je fais tourner : <a href="https://leadsit.eu">LeadsIt</a>, une solution de recherche de leads B2B automatisée, OpenWhistle, de l\'audio transformé en données structurées, et <a href="https://deal-club.fun">deal-club.fun</a>, un jeu de cartes immobilier en français qui se joue hors ligne.', // unslop-ignore: wording chosen by the owner
   "h-record": "Parcours",
@@ -129,5 +129,5 @@ export default {
   "p-nice": "Nice, aujourd'hui",
   "p-sea": "Méditerranée",
   "g-sea": "43,60° N, 7,36° E",
-  colophon: "Écrit à la main sur la Côte d'Azur. Sans framework ni traceur. Quatre thèmes, deux langues, un chien.",
+  colophon: "Fait sur la Côte d'Azur, sans framework ni traceur. Quatre thèmes, deux langues et un chien.",
 };
