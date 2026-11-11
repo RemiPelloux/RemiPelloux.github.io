@@ -29,7 +29,6 @@ export default {
     row("InsideGPT", "Téléverser des documents, les vectoriser et les interroger avec GPT-3.", "Python"),
     row("JarvisCodeGPT", "Assistant de code basé sur GPT-3.", "Python"),
     row("Multi-Threaded-Prime-Number-Calculation", "Calcul de nombres premiers sur plusieurs threads.", "Python"),
-    row("marine-courtois", "Site de portfolio scientifique pour une chercheuse en biologie mathématique.", "JavaScript"),
     row("VoiceApp-MisterPizza", "Application de commande vocale pour une pizzeria.", "JavaScript"),
     row("alotaxi", "Service de localisation pour prestataires.", "JavaScript"),
     row("EatIt", "Maquette du site EatIt.", "PHP"),
