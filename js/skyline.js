@@ -163,6 +163,11 @@ export class Skyline {
     this.draw();
   }
 
+  // Sets the tilt without drawing: the running loop picks it up.
+  lean(amount) {
+    this.tiltAmount = amount;
+  }
+
   retheme() {
     this.colors = null;
     this.draw();

@@ -1,0 +1,95 @@
+/* Second motion layer: word reveals, the name sinking behind the skyline on scroll,
+   sticky section labels, row and link hovers. Skipped under reduced motion,
+   because the .motion class is never set. */
+
+/* Words rise from behind a mask */
+
+.w {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+}
+
+.w > span {
+  display: inline-block;
+  transition: transform 800ms cubic-bezier(0.2, 0.8, 0.2, 1) calc(120ms + var(--i) * 16ms);
+}
+
+.motion [data-reveal]:not(.in) .w > span {
+  transform: translateY(115%);
+  transition: none;
+}
+
+a .w > span {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+/* The name sinks and shrinks a little as the first screen scrolls away. --hero runs 0 to 1. */
+
+.motion .name {
+  transform: translateY(calc(var(--hero, 0) * 56px)) scale(calc(1 - var(--hero, 0) * 0.05));
+  transform-origin: left top;
+  opacity: calc(1 - var(--hero, 0) * 0.55);
+}
+
+.ledger {
+  position: relative;
+  z-index: 1;
+}
+
+/* Work rows: a line draws across the top when the row is pointed at */
+
+@media (hover: hover) {
+  .work > li::before {
+    content: "";
+    position: absolute;
+    inset: -1px 0 auto 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 500ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .work > li:hover::before {
+    transform: scaleX(1);
+  }
+
+  .work h3 a {
+    display: inline-block;
+    transition: transform 400ms var(--spring);
+  }
+
+  .work > li:hover h3 a {
+    transform: translateX(var(--s3));
+  }
+
+  /* Text links: the underline thickens and drops */
+
+  p a,
+  .table a,
+  .points a {
+    transition: text-underline-offset 200ms ease-out, text-decoration-thickness 200ms ease-out;
+  }
+
+  p a:hover,
+  .table a:hover,
+  .points a:hover {
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.34em;
+  }
+}
+
+/* Section labels stay in view while their section scrolls */
+
+@media (min-width: 880px) {
+  .band > h2 {
+    position: sticky;
+    top: var(--s5);
+    align-self: start;
+  }
+}

@@ -99,6 +99,16 @@ export function mountLedger() {
 }
 
 const live = () => Boolean(canvas?.isConnected && skyline);
+const touch = window.matchMedia("(hover: none)");
+const TILT_SCROLL_PX = 500; // scroll distance over which a phone tilts the skyline end to end
+
+// A phone has no pointer to tilt the skyline, so the scroll does it.
+function onScroll() {
+  if (!live() || !touch.matches || calm()) return;
+  skyline.lean(Math.min(1, window.scrollY / TILT_SCROLL_PX) - 0.5);
+}
+
+window.addEventListener("scroll", onScroll, { passive: true });
 document.addEventListener("langchange", () => live() && (readout.textContent = describe()));
 document.addEventListener("themechange", () => live() && skyline.retheme());
 document.addEventListener("introdone", () => live() && skyline.replay(calm()));
