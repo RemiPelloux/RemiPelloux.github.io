@@ -1,7 +1,7 @@
 // Top bar: language, theme and sound switches, and the local time in Nice.
 // Clicks are delegated, so the switches keep working after a route change.
 import { lang, locale, setLang, store, t } from "./i18n.js";
-import { feedback, soundOn } from "./juice.js";
+import { calm, feedback, soundOn } from "./juice.js";
 import { wipe } from "./wipe.js";
 
 const THEMES = ["light", "dark", "terminal"];
@@ -44,13 +44,22 @@ async function switchLang() {
   busy = false;
 }
 
-function switchTheme(button) {
+function applyNextTheme() {
   const index = THEMES.indexOf(root.dataset.theme);
   root.dataset.theme = THEMES[(index + 1) % THEMES.length];
   store("theme", root.dataset.theme);
   mountChrome();
-  feedback("medium", button);
   document.dispatchEvent(new Event("themechange"));
+}
+
+// The new theme grows out of the button as a circle, where the browser supports it.
+function switchTheme(button) {
+  const box = button.getBoundingClientRect();
+  root.style.setProperty("--reveal-x", `${box.left + box.width / 2}px`);
+  root.style.setProperty("--reveal-y", `${box.top + box.height / 2}px`);
+  if (document.startViewTransition && !calm()) document.startViewTransition(applyNextTheme);
+  else applyNextTheme();
+  feedback("medium", button);
 }
 
 function switchSound(button) {

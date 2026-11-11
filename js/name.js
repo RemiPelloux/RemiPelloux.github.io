@@ -1,33 +1,34 @@
-// The name reacts to the pointer: letters near it thin out and lift.
-import { calm, pop } from "./juice.js";
+// Display type reacts to the pointer: letters near it thin out and lift.
+// Applies to every [data-name] element: the masthead name and the closing link.
+import { calm } from "./juice.js";
 
 const REACH_PX = 320; // distance at which a letter stops reacting
 const REST_WEIGHT = 600;
 const NEAR_WEIGHT = 200;
 const LIFT_PX = 10;
-const WAVE_STAGGER_MS = 35;
 
-let heading = null;
 let letters = [];
 let pointer = null;
 let queued = false;
 
-function split() {
-  const text = heading.textContent;
-  heading.setAttribute("aria-label", text);
-  letters = [...text].map((character) => {
+function split(element) {
+  const text = element.textContent;
+  element.setAttribute("aria-label", text);
+  const spans = [...text].map((character, index) => {
     const span = document.createElement("span");
     span.textContent = character;
     span.setAttribute("aria-hidden", "true");
+    span.style.setProperty("--i", index);
     return span;
   });
-  heading.replaceChildren(...letters);
+  element.replaceChildren(...spans);
+  return spans;
 }
 
 function paint() {
   queued = false;
-  if (!heading?.isConnected) return;
   for (const letter of letters) {
+    if (!letter.isConnected) continue;
     const box = letter.getBoundingClientRect();
     const dx = pointer.x - (box.left + box.width / 2);
     const dy = pointer.y - (box.top + box.height / 2);
@@ -40,23 +41,16 @@ function paint() {
 
 function onMove(event) {
   pointer = { x: event.clientX, y: event.clientY };
-  if (queued) return;
+  if (queued || !letters.length) return;
   queued = true;
   requestAnimationFrame(paint);
 }
 
-function wave() {
-  if (!heading?.isConnected) return;
-  letters.forEach((letter, index) => setTimeout(() => pop(letter), index * WAVE_STAGGER_MS));
-}
-
+// Splitting again replays the rise animation, which is what a language change should do.
 export function mountName() {
-  heading = document.querySelector("[data-name]");
-  if (!heading || calm()) return;
-  split();
-  heading.addEventListener("click", wave);
-  wave();
+  if (calm()) return;
+  letters = [...document.querySelectorAll("[data-name]")].flatMap(split);
 }
 
 window.addEventListener("pointermove", onMove, { passive: true });
-document.addEventListener("langchange", wave);
+document.addEventListener("langchange", mountName);

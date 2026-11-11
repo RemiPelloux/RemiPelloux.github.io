@@ -5,17 +5,6 @@
   will-change: transform;
 }
 
-@keyframes cell-in {
-  from {
-    transform: scale(0);
-  }
-}
-
-.ledger-grid .on {
-  transform: scale(1.5);
-  transition: transform 160ms var(--spring);
-}
-
 /* Language wipe */
 
 .wipe {
@@ -82,23 +71,16 @@
   font-size: var(--t14);
 }
 
-/* Work rows lean in when pointed at */
+/* Work rows: the number grows when the row is pointed at */
 
 @media (hover: hover) {
-  .work > li {
-    transition: transform 220ms var(--spring), background-color var(--fast) ease-out;
-  }
-
-  .work > li:hover {
-    transform: translateX(var(--s3));
-  }
-
   .work .n {
     display: inline-block;
+    transform-origin: left center;
     transition: transform 220ms var(--spring);
   }
 
   .work > li:hover .n {
-    transform: scale(1.6) rotate(-8deg);
+    transform: scale(1.35);
   }
 }
