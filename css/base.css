@@ -47,6 +47,7 @@
   --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
 
   --fast: 120ms;
+  --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   color-scheme: light;
 }
 
@@ -67,6 +68,28 @@
   --l2: #6F6C64;
   --l3: #B5B1A7;
   --l4: #ECE9E1;
+  color-scheme: dark;
+}
+
+:root[data-theme="terminal"] {
+  --paper: #0B0F0B;
+  --paper-2: #121912;
+  --paper-3: #1B251B;
+  --ink: #B9F2A1;
+  --ink-2: #8CC078;
+  --ink-3: #6C9A5C;
+  --rule: #24331F;
+  --rule-strong: #B9F2A1;
+  --accent: #F2C14E;
+  --accent-ink: #0B0F0B;
+  --focus: #F2C14E;
+  --l0: #121912;
+  --l1: #24401F;
+  --l2: #3F7A33;
+  --l3: #7CC463;
+  --l4: #B9F2A1;
+  --font-sans: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --font-serif: "IBM Plex Mono", ui-monospace, Menlo, monospace;
   color-scheme: dark;
 }
 
@@ -154,7 +177,11 @@ input {
   font-family: var(--font-mono);
   font-size: var(--t14);
   cursor: pointer;
-  transition: background-color var(--fast) ease-out, color var(--fast) ease-out;
+  transition: background-color var(--fast) ease-out, color var(--fast) ease-out, transform 180ms var(--spring);
+}
+
+.button:active {
+  transform: scale(0.94, 0.9);
 }
 
 .button:hover {
@@ -196,5 +223,6 @@ input {
 @media (prefers-reduced-motion: reduce) {
   * {
     transition: none !important;
+    animation: none !important;
   }
 }

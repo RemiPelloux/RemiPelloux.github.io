@@ -1,0 +1,154 @@
+/* CV sheet: an A4 page on screen, one page on paper. */
+
+.cv-hint {
+  max-width: none;
+  padding-block: var(--s4);
+}
+
+.sheet {
+  max-width: 210mm;
+  margin: var(--s4) auto var(--s9);
+  padding: var(--s6) var(--s5);
+  border: 1px solid var(--rule-strong);
+  font-size: var(--t14);
+}
+
+.cv-head {
+  padding-bottom: var(--s4);
+  border-bottom: 1px solid var(--rule-strong);
+}
+
+.cv-head h1 {
+  font-size: var(--t56);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.cv-role {
+  margin-top: var(--s2);
+  font-family: var(--font-serif);
+  font-size: var(--t18);
+}
+
+.cv-contact {
+  max-width: none;
+  margin-top: var(--s2);
+  font-size: var(--t12);
+}
+
+.cv-grid {
+  display: grid;
+  gap: var(--s5);
+  margin-top: var(--s4);
+}
+
+.sheet h2 {
+  margin-bottom: var(--s2);
+  padding-bottom: var(--s1);
+  border-bottom: 1px solid var(--rule);
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: var(--t12);
+  font-weight: 500;
+}
+
+.sheet section + section {
+  margin-top: var(--s4);
+}
+
+.sheet h3 {
+  font-family: var(--font-sans);
+  font-size: var(--t14);
+}
+
+.job + .job {
+  margin-top: var(--s3);
+}
+
+.when {
+  color: var(--ink-2);
+  font-size: var(--t12);
+}
+
+.sheet li {
+  position: relative;
+  padding-left: var(--s3);
+}
+
+.sheet li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.7em;
+  width: var(--s1);
+  height: 1px;
+  background: var(--ink);
+}
+
+.cv-side dt {
+  font-weight: 600;
+}
+
+.cv-side dd + dt {
+  margin-top: var(--s2);
+}
+
+@media (min-width: 720px) {
+  .sheet {
+    padding: var(--s7);
+  }
+
+  .cv-grid {
+    grid-template-columns: 1.75fr 1fr;
+    gap: var(--s6);
+  }
+}
+
+@page {
+  size: A4;
+  margin: 11mm 12mm;
+}
+
+@media print {
+  :root[data-theme] {
+    --paper: #FFFFFF;
+    --ink: #1A1A18;
+    --ink-2: #4A4843;
+    --rule: #D9D5CB;
+    --rule-strong: #1A1A18;
+    --accent: #B4441C;
+    --font-sans: "IBM Plex Sans", system-ui, sans-serif;
+    --font-serif: "Source Serif 4", Georgia, serif;
+  }
+
+  .no-print {
+    display: none;
+  }
+
+  .wrap {
+    max-width: none;
+    padding: 0;
+  }
+
+  .sheet {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 8.6pt;
+    line-height: 1.38;
+  }
+
+  .cv-head h1 {
+    font-size: 30pt;
+  }
+
+  .cv-grid {
+    grid-template-columns: 1.75fr 1fr;
+    gap: 8mm;
+  }
+
+  a {
+    text-decoration: none;
+  }
+}

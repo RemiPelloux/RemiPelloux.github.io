@@ -1,5 +1,7 @@
 // Canvas and controls for the Schelling model.
 import { COLS, ROWS, createModel, step, meanLikeShare } from "./model.js";
+import { locale, ready, t } from "./i18n.js";
+import { feedback } from "./juice.js";
 
 const CELL = 20; // canvas pixels per grid cell
 const GAP = 2;
@@ -17,7 +19,6 @@ const runButton = root?.querySelector("[data-model-run]");
 const readout = root?.querySelector("[data-model-read]");
 const status = root?.querySelector("[data-model-status]");
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-const numberFormat = new Intl.NumberFormat("en-GB");
 
 let model;
 let frame = 0;
@@ -42,10 +43,17 @@ function draw() {
 
 function report() {
   const like = Math.round(meanLikeShare(model.grid) * PERCENT);
+  const moved = new Intl.NumberFormat(locale()).format(model.moved);
   const state = model.settled
-    ? `Settled after ${model.steps} steps. Every agent is content.`
-    : `Step ${model.steps}. ${numberFormat.format(model.moved)} agents moved.`;
-  readout.textContent = `Seed ${model.seed}. ${state} Like neighbours: ${like} %.`;
+    ? t(`Settled after ${model.steps} steps. Every agent is content.`, `Stable après ${model.steps} pas. Chaque agent est satisfait.`)
+    : t(`Step ${model.steps}. ${moved} agents moved.`, `Pas ${model.steps}. ${moved} agents déplacés.`);
+  const seed = t(`Seed ${model.seed}.`, `Graine ${model.seed}.`);
+  const tail = t(`Like neighbours: ${like} %.`, `Voisins semblables : ${like} %.`);
+  readout.textContent = `${seed} ${state} ${tail}`;
+}
+
+function labelRun() {
+  runButton.textContent = frame ? t("Pause model", "Mettre en pause") : t("Run model", "Lancer le modèle");
 }
 
 function finished() {
@@ -55,8 +63,10 @@ function finished() {
 function stop() {
   cancelAnimationFrame(frame);
   frame = 0;
-  runButton.textContent = "Run model";
-  if (finished()) status.textContent = readout.textContent;
+  labelRun();
+  if (!finished()) return;
+  status.textContent = readout.textContent;
+  feedback("large", readout);
 }
 
 function tick() {
@@ -78,8 +88,8 @@ function toggleRun() {
   if (frame) return stop();
   if (finished()) reset();
   if (reducedMotion.matches) return runToEnd();
-  runButton.textContent = "Pause model";
   frame = requestAnimationFrame(tick);
+  labelRun();
 }
 
 function readSeed() {
@@ -112,7 +122,8 @@ function start() {
   root.querySelector("[data-model-reset]").addEventListener("click", reset);
   seedInput.addEventListener("change", reset);
   document.addEventListener("themechange", draw);
+  document.addEventListener("langchange", () => { report(); labelRun(); });
   reset();
 }
 
-if (context) start();
+if (context) ready.then(start);

@@ -1,0 +1,104 @@
+/* Motion and game feel. Deliberate break of the UNSLOP motion budget, asked for by the owner.
+   Every animation here is switched off under prefers-reduced-motion (see base.css). */
+
+[data-shake] {
+  will-change: transform;
+}
+
+@keyframes cell-in {
+  from {
+    transform: scale(0);
+  }
+}
+
+.ledger-grid .on {
+  transform: scale(1.5);
+  transition: transform 160ms var(--spring);
+}
+
+/* Language wipe */
+
+.wipe {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  pointer-events: none;
+}
+
+.wipe i {
+  background: var(--ink);
+  transform: scaleY(0);
+}
+
+.wipe i:nth-child(3n + 2) {
+  background: var(--accent);
+}
+
+.wipe b {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--paper);
+  font-family: var(--font-serif);
+  font-size: min(46vw, 80vh); /* unslop-ignore: stamp letters, shown for under a second */
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  opacity: 0;
+}
+
+/* Shiba */
+
+.shiba {
+  position: fixed;
+  left: 0;
+  bottom: var(--s2);
+  z-index: 9;
+  pointer-events: none;
+}
+
+.shiba canvas {
+  display: block;
+  image-rendering: pixelated;
+}
+
+.shiba canvas[hidden] {
+  display: none;
+}
+
+.shiba span {
+  position: absolute;
+  left: 100%;
+  bottom: 100%;
+  padding: var(--s1) var(--s2);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: var(--t14);
+}
+
+/* Work rows lean in when pointed at */
+
+@media (hover: hover) {
+  .work > li {
+    transition: transform 220ms var(--spring), background-color var(--fast) ease-out;
+  }
+
+  .work > li:hover {
+    transform: translateX(var(--s3));
+  }
+
+  .work .n {
+    display: inline-block;
+    transition: transform 220ms var(--spring);
+  }
+
+  .work > li:hover .n {
+    transform: scale(1.6) rotate(-8deg);
+  }
+}
