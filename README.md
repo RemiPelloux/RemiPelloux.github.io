@@ -6,7 +6,7 @@ The source of [remipelloux.github.io](https://remipelloux.github.io/). Static fi
 
 | Path | Content |
 | --- | --- |
-| `index.html`, `cv/index.html`, `wiki/index.html` | The routes `/`, `/cv/` and `/wiki/`. English copy lives in the HTML |
+| `index.html`, `cv/index.html`, `wiki/index.html`, `work/index.html` | The routes `/`, `/cv/`, `/wiki/` and `/work/` (archive of other public repositories). English copy lives in the HTML |
 | `js/app.js`, `js/router.js` | Entry point and client-side router: links between routes swap the page without a reload |
 | `404.html`, `cv.html`, `wiki.html` | Not-found page and redirects from the old addresses |
 | `js/fr/*.js` | French copy for each page, keyed by `data-i18n` |

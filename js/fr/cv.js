@@ -41,7 +41,7 @@ export default {
     ["Langages", "TypeScript, Rust, Python, PHP, C, C++, Swift, Kotlin, Go, SQL, Shell"],
     ["Web et applications", "React, Next.js, Vue, Symfony, Node.js, Tauri, Electron, Flutter"],
     ["IA", "Agents LLM, recherche documentaire, serveurs MCP, modélisation multi-agents"],
-    ["Sécurité", "Sécurité applicative, audits, simulation d'attaques, rétro-ingénierie"],
+    ["Sécurité", "Sécurité applicative, audits, simulation d'attaques, rétro-ingénierie avec IDA et Ghidra"],
     ["Infrastructure", "AWS, Docker, Terraform, PostgreSQL, Redis, CI/CD, hébergement UE et RGPD"],
   ),
   "h-sec": "Sécurité",
