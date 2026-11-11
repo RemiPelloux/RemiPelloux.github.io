@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Rémi Pelloux, CTO at OpenPro</title>
   <meta name="description" content="Rémi Pelloux, CTO and co-founder of OpenPro in Nice, France. AI developer tools, local-first desktop apps, Rust systems tools, agent-based modeling and security research.">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%231A1A18'/%3E%3Crect x='4' y='4' width='8' height='8' fill='%23B4441C'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%231A1A18'/%3E%3Crect x='4' y='4' width='8' height='8' fill='%230B5CAD'/%3E%3C/svg%3E">
   <script src="/js/boot.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="/css/components.css">
   <link rel="stylesheet" href="/css/fx.css">
   <link rel="stylesheet" href="/css/spectacle.css">
+  <link rel="stylesheet" href="/css/riviera.css">
   <link rel="stylesheet" href="/css/cv.css">
   <link rel="stylesheet" href="/css/wiki.css">
 </head>
@@ -41,7 +42,7 @@
       <div class="masthead-grid">
         <div>
           <p class="lede" data-i18n="lede">CTO and co-founder of OpenPro, in Nice, France. I build AI developer tools that run on your own models, desktop apps that keep data on your machine, systems tools in Rust and a Python framework for agent-based modeling.</p>
-          <p class="faint" data-i18n="lede-2">Before OpenPro: security, R&amp;D and full-stack work for clients including Dassault Aviation, DGA, Thales and Decathlon. One CVE in Symfony so far.</p>
+          <p class="faint" data-i18n="lede-2">Born in Antibes, 43.58° N, 7.12° E. Before OpenPro: security, R&amp;D and full-stack work for clients including Dassault Aviation, DGA, Thales and Decathlon. One CVE in Symfony so far.</p>
         </div>
         <p class="contact-links">
           <a class="button primary" href="https://www.linkedin.com/in/remipelloux/" data-i18n="cta-linkedin">Write to me on LinkedIn</a>
@@ -57,6 +58,7 @@
         <span class="faint" data-i18n="ledger-source">Source: GitHub contribution calendar, 11 November 2026</span>
       </div>
       <canvas class="skyline" data-ledger tabindex="0" role="img" aria-label="Contribution calendar drawn as a skyline, one bar per day. Use the arrow keys to read a day."></canvas>
+      <canvas class="sea" data-sea aria-hidden="true"></canvas>
       <p class="ledger-read mono" data-ledger-read aria-live="polite">14,720 contributions, public and private, in the year to 11 November 2026. Active on 319 of 368 days.</p>
     </section>
 
@@ -68,6 +70,10 @@
       <div><dt data-count="1">1</dt><dd data-i18n="st5">CVE reported, in Symfony</dd></div>
       <p class="note mono faint" data-i18n="st-note">GitHub figures read on 11 November 2026. Contributions include private repositories.</p>
     </dl>
+
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track" data-marquee><p>Antibes <i>Sophia Antipolis</i> Monaco <i>Valbonne</i> Nice <i>Côte d'Azur</i> </p></div>
+    </div>
 
     <section class="band" id="practice" data-reveal>
       <h2><span>00</span><span data-i18n="h-practice">Practice</span></h2>
@@ -137,7 +143,7 @@
       <h2><span>02</span><span data-i18n="h-model">A seeded run</span></h2>
       <div class="band-body">
         <p class="statement" data-i18n="model-intro">Reproducible runs are the point of Modelly. Here is the idea in 100 lines of JavaScript: a Schelling model where each agent moves when fewer than 45 % of its neighbours match it.</p>
-        <canvas role="img" aria-label="Grid of dark and rust agents that sort into clusters as the model runs."></canvas>
+        <canvas role="img" aria-label="Grid of dark and blue agents that sort into clusters as the model runs."></canvas>
         <div class="model-controls">
           <label class="mono"><span data-i18n="seed">Seed</span> <input type="number" min="0" step="1" value="42" inputmode="numeric" data-model-seed></label>
           <button class="button primary" type="button" data-model-run>Run model</button>
@@ -202,6 +208,25 @@
         <p data-i18n="rec-more">The full record is on the <a href="/cv/">CV, in French and English</a>. The unofficial one is in the <a href="/wiki/">wiki</a>.</p>
       </div>
     </section>
+    <section class="band" id="riviera" data-reveal>
+      <h2><span>06</span><span data-i18n="h-riviera">Home ground</span></h2>
+      <div class="band-body">
+        <p class="statement" data-i18n="riv-intro">Born in Antibes, studied in Sophia Antipolis, worked in Monaco and Valbonne, based in Nice. Ten years of work, almost all of it within about 30 km of where I was born.</p>
+        <svg class="coast" viewBox="0 0 500 320" role="img" aria-labelledby="coast-title">
+          <title id="coast-title" data-i18n="coast-title">Schematic map of the French Riviera coast with Antibes, Sophia Antipolis, Valbonne, Nice and Monaco.</title>
+          <path class="shore" pathLength="1" d="M0,250 C40,262 90,250 120,268 C135,290 150,305 165,296 C160,285 158,278 160,270 C190,230 230,150 290,112 C305,118 312,128 325,124 C335,105 350,100 372,92 C400,80 430,70 455,60 C470,55 485,48 500,44"/>
+          <path class="route" pathLength="1" d="M155,276 L80,226 L454,58 L38,192 L292,106"/>
+          <g class="place" style="--i:0"><circle cx="155" cy="276" r="5"/><text x="166" y="290" data-i18n="p-antibes">Antibes, born here</text></g>
+          <g class="place" style="--i:1"><circle cx="80" cy="226" r="4"/><text x="60" y="246" data-i18n="p-sophia">Sophia Antipolis, 2015 to 2020</text></g>
+          <g class="place" style="--i:2"><circle cx="454" cy="58" r="4"/><text x="492" y="82" text-anchor="end" data-i18n="p-monaco">Monaco, 2020 to 2023</text></g>
+          <g class="place" style="--i:3"><circle cx="38" cy="192" r="4"/><text x="30" y="178" data-i18n="p-valbonne">Valbonne, 2023 to 2025</text></g>
+          <g class="place" style="--i:4"><circle cx="292" cy="106" r="5"/><text x="304" y="150" data-i18n="p-nice">Nice, now</text></g>
+          <text class="sea-name" x="330" y="250" data-i18n="p-sea">Mediterranean</text>
+        </svg>
+        <p class="mono faint" data-i18n="riv-note">Schematic, not to scale. The line follows the order of the record above.</p>
+      </div>
+    </section>
+
     <section class="closing">
       <a href="https://www.linkedin.com/in/remipelloux/" data-name data-i18n="closing">Write to me</a>
       <p class="mono faint" data-i18n="closing-note">LinkedIn is the fastest way. I read every message that is not a sales pitch.</p>
@@ -210,7 +235,7 @@
 
   <footer class="footer mono">
     <span>Rémi Pelloux. <a href="https://www.linkedin.com/in/remipelloux/">LinkedIn</a>, <a href="https://github.com/RemiPelloux">GitHub</a>, <a href="https://github.com/sponsors/RemiPelloux">Sponsors</a>.</span>
-    <span data-i18n="colophon">Written by hand, no framework, no tracker. Three themes, two languages, one dog.</span>
+    <span data-i18n="colophon">Written by hand on the French Riviera. No framework, no tracker. Four themes, two languages, one dog.</span>
   </footer>
 </div>
 <script type="module" src="/js/app.js"></script>

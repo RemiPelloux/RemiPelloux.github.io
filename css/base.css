@@ -9,7 +9,7 @@
   --ink-3: #6F6C64;
   --rule: #D9D5CB;
   --rule-strong: #1A1A18;
-  --accent: #B4441C;
+  --accent: #0B5CAD; /* unslop-ignore: Antibes blue, asked for by the owner, inside the banned hue band on purpose */
   --accent-ink: #FFFFFF;
   --focus: #1A1A18;
   --radius: 2px;
@@ -60,7 +60,7 @@
   --ink-3: #8F8B81;
   --rule: #34322E;
   --rule-strong: #ECE9E1;
-  --accent: #E2703F;
+  --accent: #6FB8F5;
   --accent-ink: #141412;
   --focus: #ECE9E1;
   --l0: #1E1D1A;
@@ -80,9 +80,9 @@
   --ink-3: #6C9A5C;
   --rule: #24331F;
   --rule-strong: #B9F2A1;
-  --accent: #F2C14E;
+  --accent: #5CC8FF;
   --accent-ink: #0B0F0B;
-  --focus: #F2C14E;
+  --focus: #5CC8FF;
   --l0: #121912;
   --l1: #24401F;
   --l2: #3F7A33;
@@ -90,6 +90,27 @@
   --l4: #B9F2A1;
   --font-sans: "IBM Plex Mono", ui-monospace, Menlo, monospace;
   --font-serif: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  color-scheme: dark;
+}
+
+/* Azur: the sea off Antibes, sand for ink, the sun for accent. */
+:root[data-theme="azur"] {
+  --paper: #06324F;
+  --paper-2: #0A3D60;
+  --paper-3: #104A72;
+  --ink: #F6EBD3;
+  --ink-2: #C9D3D6;
+  --ink-3: #9FB4BF;
+  --rule: #1C5A85;
+  --rule-strong: #F6EBD3;
+  --accent: #FFD23F;
+  --accent-ink: #06324F;
+  --focus: #FFD23F;
+  --l0: #0A3D60;
+  --l1: #1F6190;
+  --l2: #3F8FBF;
+  --l3: #8CC6E4;
+  --l4: #F6EBD3;
   color-scheme: dark;
 }
 

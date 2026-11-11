@@ -41,8 +41,8 @@ function summary() {
   const days = LEDGER_COUNTS.length;
   const peak = LEDGER_COUNTS[peakIndex];
   return t(
-    `${total} contributions, public and private, since ${dayLabel(0)}. Active on ${active} of ${days} days. Tallest bar, in rust: ${dayLabel(peakIndex)}, with ${peak}.`,
-    `${total} contributions, publiques et privées, depuis le ${dayLabel(0)}. Actif ${active} jours sur ${days}. La plus haute barre, en rouille : ${dayLabel(peakIndex)}, avec ${peak}.`,
+    `${total} contributions, public and private, since ${dayLabel(0)}. Active on ${active} of ${days} days. Tallest bar, in colour: ${dayLabel(peakIndex)}, with ${peak}.`,
+    `${total} contributions, publiques et privées, depuis le ${dayLabel(0)}. Actif ${active} jours sur ${days}. La plus haute barre, en couleur : ${dayLabel(peakIndex)}, avec ${peak}.`,
   );
 }
 

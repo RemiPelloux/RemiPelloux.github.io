@@ -4,10 +4,11 @@ import { lang, locale, setLang, store, t } from "./i18n.js";
 import { calm, feedback, soundOn } from "./juice.js";
 import { wipe } from "./wipe.js";
 
-const THEMES = ["light", "dark", "terminal"];
+const THEMES = ["light", "dark", "azur", "terminal"];
 const THEME_NAMES = {
   light: ["Paper", "Papier"],
   dark: ["Ink", "Encre"],
+  azur: ["Azur", "Azur"],
   terminal: ["Terminal", "Terminal"],
 };
 const CLOCK_INTERVAL_MS = 30_000;
