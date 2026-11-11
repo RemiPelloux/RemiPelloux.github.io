@@ -53,7 +53,7 @@ export default {
   "h-oss": "Open source",
   oss: list(
     "OpenVision, atelier de code avec IA et vos propres modèles.",
-    "OpenPlod, coffre pour enregistrements Plaud, 39 étoiles.",
+    "OpenPlod, coffre pour enregistrements Plaud, <span data-stars='OpenPlod'>39 étoiles</span>.",
     "Modelly, modélisation multi-agents pour Python.",
     "Containust, runtime de conteneurs en Rust, sans démon.",
     "SmarttyTest, analyse d'impact des tests.",

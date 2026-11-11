@@ -17,11 +17,12 @@ const easeOutExpo = (x) => (x >= 1 ? 1 : 1 - 2 ** (-10 * x));
 const glyph = () => SCRAMBLE_GLYPHS[Math.floor(Math.random() * SCRAMBLE_GLYPHS.length)];
 
 function countUp(element) {
-  const target = Number(element.dataset.count);
   const format = new Intl.NumberFormat(locale());
   const start = performance.now();
   function tick(now) {
     const done = Math.min(1, (now - start) / COUNT_MS);
+    // Read on every frame: the live star count can arrive while the number is still counting.
+    const target = Number(element.dataset.count);
     element.textContent = format.format(Math.round(target * easeOutExpo(done)));
     if (done < 1 && element.isConnected) requestAnimationFrame(tick);
   }
