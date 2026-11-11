@@ -116,6 +116,7 @@ export default {
   "g-valbonne": "43,64° N, 7,01° E",
   "g-nice": "43,70° N, 7,27° E",
   "p-sea": "Méditerranée",
+  "g-sea": "43,60° N, 7,36° E",
   "riv-note": "Schématique, pas à l'échelle. Le trait suit l'ordre du parcours ci-dessus. Pointez la carte pour lire une position.",
   colophon: "Écrit à la main sur la Côte d'Azur. Sans framework ni traceur. Quatre thèmes, deux langues, un chien.",
 };
