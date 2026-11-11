@@ -4,6 +4,7 @@ const row = (first, head, text) => `<tr><td class="mono">${first}</td><th scope=
 const project = (link, text, stack) => `<tr><th scope="row">${link}</th><td>${text}</td><td class="mono">${stack}</td></tr>`;
 const gh = (repo, label = repo) => `<a href="https://github.com/RemiPelloux/${repo}">${label}</a>`;
 const head = (...cells) => cells.map((cell) => `<th scope="col">${cell}</th>`).join("");
+const area = (title, text) => `<li><h3>${title}</h3><p>${text}</p></li>`;
 const point = (title, text) => `<li><strong>${title}</strong> ${text}</li>`;
 
 export default {
@@ -16,8 +17,24 @@ export default {
   "cta-linkedin": "M'écrire sur LinkedIn",
   "cta-github": "Ouvrir le profil GitHub",
   "cta-cv": "Lire le CV",
-  "ledger-title": "Un an de commits, un carré par jour",
+  "ledger-title": "Un an de commits, une barre par jour",
   "ledger-source": "Source : calendrier de contributions GitHub, 11 novembre 2026",
+  st1: "contributions en 12 mois",
+  st2: "dépôts publics",
+  st3: "étoiles sur ces dépôts",
+  st4: "ans à livrer du logiciel",
+  st5: "CVE signalée, dans Symfony",
+  "st-note": "Chiffres GitHub relevés le 11 novembre 2026. Les contributions incluent les dépôts privés.",
+  "h-practice": "Pratique",
+  "pr-intro": "Je mène un produit du premier schéma d'architecture à la production, et je continue à le faire tourner ensuite. Quatre domaines, chacun appuyé par un travail visible sur cette page.",
+  "pr-list": [
+    area("Architecture de plateforme", "Web, iOS, Android et intégrations partenaires sur un seul cœur chez OpenPro. PostgreSQL, Redis, AWS, CI/CD, hébergement en UE conforme au RGPD."),
+    area("IA appliquée", "Matching, recherche documentaire et assistants en production. Des agents aux outils approuvés, des serveurs MCP et des modèles que vous hébergez vous-même."),
+    area("Ingénierie de la sécurité", "Audits et simulation d'attaques pour des clients de la défense et de l'industrie. Une CVE dans Symfony, de la recherche firmware et noyau en public."),
+    area("Systèmes et natif", "Un runtime de conteneurs en Rust, des applications de bureau Tauri, des runtimes Android ARM64, des extensions C doublées d'un jumeau Python testé."),
+  ].join(""),
+  closing: "Écrivez-moi",
+  "closing-note": "LinkedIn est le plus rapide. Je lis tous les messages qui ne sont pas du démarchage.",
   "h-work": "Projets choisis",
   w1: "Un atelier de code avec IA où vous choisissez les modèles. Explorateur, éditeur, terminaux, worktrees Git, agents et autocomplétion Tab dans une seule application de bureau, branchée sur n'importe quelle API compatible OpenAI ou sur un serveur en 127.0.0.1. Ni compte ni connexion.",
   w1m: dd("2026, préversion de développement", "Version portable Windows x64", "Electron, TypeScript, MCP"),

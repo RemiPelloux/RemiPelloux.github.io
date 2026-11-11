@@ -6,6 +6,8 @@ import { mountLedger } from "./ledger.js";
 import { mountModel } from "./model-ui.js";
 import { mountCv } from "./cv.js";
 import { startRouter } from "./router.js";
+import { mountReveal } from "./reveal.js";
+import "./cursor.js";
 import "./shiba.js";
 
 function mountAll() {
@@ -14,6 +16,7 @@ function mountAll() {
   mountLedger();
   mountModel();
   mountCv();
+  mountReveal();
 }
 
 ready.then(() => {

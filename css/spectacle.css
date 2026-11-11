@@ -1,0 +1,228 @@
+/* Intro, scroll reveals, stats, cursor, previews and the closing link.
+   All of it is skipped under prefers-reduced-motion: the .motion class is never set. */
+
+/* Name letters rise in one after the other */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(55%) rotate(7deg);
+  }
+}
+
+[data-name] span {
+  display: inline-block;
+  white-space: pre;
+  animation: rise 900ms cubic-bezier(0.2, 0.9, 0.2, 1) backwards;
+  animation-delay: calc(var(--i) * 45ms);
+}
+
+/* Skyline */
+
+.skyline {
+  display: block;
+  width: 100%;
+  cursor: crosshair;
+  touch-action: pan-y;
+}
+
+/* Scroll progress */
+
+.progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 8;
+  height: 3px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+/* Sections reveal: the rule draws, then the content rises */
+
+.motion [data-reveal] {
+  border-top-color: transparent;
+  position: relative;
+}
+
+.motion [data-reveal]::before {
+  content: "";
+  position: absolute;
+  inset: -1px 0 auto 0;
+  height: 1px;
+  background: var(--rule-strong);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1100ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.motion [data-reveal].in::before {
+  transform: scaleX(1);
+}
+
+.motion [data-reveal] > * {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 700ms ease-out, transform 900ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.motion [data-reveal] > :nth-child(2) {
+  transition-delay: 120ms;
+}
+
+.motion [data-reveal].in > * {
+  opacity: 1;
+  transform: none;
+}
+
+/* Stats */
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s6) var(--s5);
+  padding-block: var(--s6) var(--s8);
+  border-top: 1px solid var(--rule-strong);
+}
+
+.stats dt {
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 5.2vw, 5rem); /* unslop-ignore: display numerals */
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.stats dd {
+  margin-top: var(--s2);
+  color: var(--ink-2);
+}
+
+.stats .note {
+  grid-column: 1 / -1;
+}
+
+/* Practice: four columns of what I am hired for */
+
+.practice {
+  display: grid;
+  gap: var(--s5);
+}
+
+.practice h3 {
+  font-size: var(--t24);
+}
+
+.practice p {
+  margin-top: var(--s2);
+  color: var(--ink-2);
+}
+
+.practice li {
+  padding-top: var(--s3);
+  border-top: 1px solid var(--rule);
+}
+
+/* Closing link */
+
+.closing {
+  padding-block: var(--s8) var(--s7);
+  border-top: 1px solid var(--rule-strong);
+}
+
+.closing a {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: clamp(3rem, 12.6vw, 12rem); /* unslop-ignore: closing line, same register as the name */
+  font-weight: 600;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  text-decoration: none;
+}
+
+.closing a:hover {
+  color: var(--accent);
+}
+
+.closing p {
+  margin-top: var(--s5);
+}
+
+/* Cursor ring and project preview */
+
+.cursor-ring,
+.preview {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 9;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.cursor-ring {
+  width: 28px;
+  height: 28px;
+  margin: -14px 0 0 -14px;
+  border: 1px solid var(--accent);
+  border-radius: 50%; /* unslop-ignore: a pointer ring is a circle */
+  transition: opacity 200ms, width 260ms var(--spring), height 260ms var(--spring), margin 260ms var(--spring);
+}
+
+.cursor-ring.show {
+  opacity: 1;
+}
+
+.cursor-ring.over {
+  width: 64px;
+  height: 64px;
+  margin: -32px 0 0 -32px;
+}
+
+.preview {
+  width: min(520px, 40vw);
+  border: 1px solid var(--rule-strong);
+  background: var(--paper);
+  transition: opacity 180ms ease-out;
+}
+
+.preview.show {
+  opacity: 1;
+}
+
+.preview img {
+  display: block;
+  width: 100%;
+}
+
+/* Theme change grows out of the button */
+
+@keyframes theme-reveal {
+  from {
+    clip-path: circle(0 at var(--reveal-x) var(--reveal-y));
+  }
+
+  to {
+    clip-path: circle(150vmax at var(--reveal-x) var(--reveal-y));
+  }
+}
+
+::view-transition-old(root) {
+  animation: none;
+}
+
+::view-transition-new(root) {
+  animation: theme-reveal 700ms cubic-bezier(0.6, 0, 0.2, 1);
+}
+
+@media (min-width: 880px) {
+  .stats {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .practice {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--s6);
+  }
+}

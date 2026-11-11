@@ -13,7 +13,9 @@ The source of [remipelloux.github.io](https://remipelloux.github.io/). Static fi
 | `js/i18n.js`, `js/boot.js` | Language and theme state |
 | `js/chrome.js`, `js/wipe.js` | Top bar switches and the language transition |
 | `js/juice.js` | Screen shake, squash and stretch, tones, feedback tiers |
-| `js/ledger.js`, `js/name.js` | Contribution ledger and the reactive name |
+| `js/ledger.js`, `js/skyline.js` | Contribution year drawn as a 3D skyline on a canvas, read by pointer or arrow keys |
+| `js/name.js`, `js/reveal.js`, `js/cursor.js` | Reactive display type, scroll reveals and counters, pointer ring and project previews |
+| `assets/work/` | Project illustrations shown next to the pointer |
 | `js/model.js`, `js/model-ui.js` | Seeded Schelling model and its canvas |
 | `js/shiba.js` | The dog. Type `shiba` on any page |
 | `js/cv.js`, `css/cv.css` | CV export through the print dialog, one A4 page |

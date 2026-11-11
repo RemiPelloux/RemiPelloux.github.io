@@ -44,7 +44,7 @@
 /* Masthead. The name is set far above the 56px type scale on purpose. */
 
 .masthead {
-  padding-block: var(--s7) var(--s8);
+  padding-block: var(--s6) var(--s6);
 }
 
 .name {
@@ -55,12 +55,6 @@
   white-space: nowrap;
   margin-left: -0.04em;
   cursor: default;
-}
-
-.name span {
-  display: inline-block;
-  white-space: pre;
-  will-change: transform;
 }
 
 :root[data-theme="terminal"] .name {
@@ -128,45 +122,9 @@
   margin-bottom: var(--s4);
 }
 
-.ledger-grid {
-  display: grid;
-  grid-template-rows: repeat(7, 1fr);
-  grid-auto-flow: column;
-  grid-auto-columns: 1fr;
-  gap: 1px;
-  cursor: crosshair;
-  touch-action: pan-y;
-}
-
-.ledger-grid i {
-  aspect-ratio: 1;
-  background: var(--l0);
-  animation: cell-in 420ms var(--spring) backwards;
-  animation-delay: calc(var(--c) * 14ms);
-}
-
-.ledger-grid .l1 { background: var(--l1); }
-.ledger-grid .l2 { background: var(--l2); }
-.ledger-grid .l3 { background: var(--l3); }
-.ledger-grid .l4 { background: var(--l4); }
-.ledger-grid .peak { background: var(--accent); }
-
-.ledger-grid .on {
-  outline: 2px solid var(--accent);
-  outline-offset: 1px;
-  position: relative;
-  z-index: 1;
-}
-
 .ledger-read {
   min-height: 3em;
   margin-top: var(--s4);
-}
-
-@media (min-width: 880px) {
-  .ledger-grid {
-    gap: 3px;
-  }
 }
 
 /* Bands: a label column on the left, content on the right. */
