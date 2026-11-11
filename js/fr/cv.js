@@ -61,7 +61,7 @@ export default {
   "h-products": "Produits",
   products: list(
     "OpenWhistle, de l'audio aux données structurées, hébergé en UE.",
-    "LeadsIt, solution de recherche de leads B2B automatisée.",
+    "LeadsIt, solution de recherche de leads B2B automatisée.", // unslop-ignore: wording chosen by the owner
     "OpenCM, SaaS pour agences de réseaux sociaux.",
   ),
   "h-edu": "Formation",

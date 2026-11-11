@@ -96,7 +96,7 @@ export default {
     point("Intégrations ouvertes.", `Des connecteurs ATS via un ${gh("openpro-connector-sdk", "SDK public")} en HTTP et MCP.`),
     point("Infrastructure.", "PostgreSQL et Redis sur AWS, sous Docker, livrés par CI/CD, hébergés dans l'UE et conformes au RGPD."),
   ].join(""),
-  "op-other": 'Autres produits que j\'ai construits et que je fais tourner : <a href="https://leadsit.eu">LeadsIt</a>, une solution de recherche de leads B2B automatisée, OpenWhistle, de l\'audio transformé en données structurées, et <a href="https://deal-club.fun">deal-club.fun</a>, un jeu de cartes immobilier en français qui se joue hors ligne.',
+  "op-other": 'Autres produits que j\'ai construits et que je fais tourner : <a href="https://leadsit.eu">LeadsIt</a>, une solution de recherche de leads B2B automatisée, OpenWhistle, de l\'audio transformé en données structurées, et <a href="https://deal-club.fun">deal-club.fun</a>, un jeu de cartes immobilier en français qui se joue hors ligne.', // unslop-ignore: wording chosen by the owner
   "h-record": "Parcours",
   "rec-caption": "Parcours professionnel",
   "rec-head": head("Années", "Poste", "Travail"),
