@@ -3,7 +3,7 @@
 import { adoptTitle, lang, setLang } from "./i18n.js";
 import { blip, calm } from "./juice.js";
 
-const ROUTES = ["/", "/cv/", "/wiki/"];
+const ROUTES = ["/", "/cv/", "/wiki/", "/work/"];
 const LEAVE_MS = 120;
 const ENTER_MS = 260;
 const ENTER_EASE = "cubic-bezier(0.34, 1.56, 0.64, 1)";

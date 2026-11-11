@@ -92,3 +92,13 @@
     font-size: var(--t32);
   }
 }
+
+/* Archive page: the same title treatment, then a full-width table. */
+
+.archive {
+  padding-block: var(--s6) var(--s9);
+}
+
+.archive > * + * {
+  margin-top: var(--s6);
+}
