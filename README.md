@@ -22,6 +22,7 @@ The source of [remipelloux.github.io](https://remipelloux.github.io/). Static fi
 | `js/cv.js`, `css/cv.css` | CV export through the print dialog, one A4 page |
 | `css/` | Tokens and three themes in `base.css`, then one file per concern |
 | `css/toolbox.css` | Language bar chart and tool grid. The counts are written in `index.html` |
+| `js/words.js`, `css/motion.css` | Word-by-word reveals, the name sinking on scroll, sticky section labels, row and link hovers |
 | `js/stars.js` | Star and repository counts read live from the GitHub API, cached one hour, with the written numbers as fallback |
 | `js/intro.js`, `css/intro.css` | Opening sequence, once per browser session |
 | `scripts/stamp.py` | Versions the CSS and JavaScript links |

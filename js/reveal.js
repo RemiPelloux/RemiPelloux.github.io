@@ -57,6 +57,9 @@ function showProgress() {
   queued = false;
   const range = document.documentElement.scrollHeight - window.innerHeight;
   progress.style.transform = `scaleX(${range > 0 ? window.scrollY / range : 0})`;
+  // 0 at the top, 1 once the first screen has scrolled away. The hero reads it in CSS.
+  const hero = Math.min(1, window.scrollY / window.innerHeight);
+  document.documentElement.style.setProperty("--hero", hero.toFixed(3));
 }
 
 function onScroll() {
