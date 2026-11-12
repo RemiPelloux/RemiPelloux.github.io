@@ -30,7 +30,7 @@ export default {
   "pr-intro": "Je mène un produit du premier schéma d'architecture à la production, et je continue à le faire tourner ensuite.",
   "pr-list": [
     area("Architecture de plateforme", "Web, iOS, Android et intégrations partenaires sur un seul cœur chez OpenPro. PostgreSQL, Redis, AWS, CI/CD, hébergement en UE conforme au RGPD."),
-    area("IA appliquée", "Matching, recherche documentaire et assistants en production. Des agents aux outils approuvés, des serveurs MCP et des modèles que vous hébergez vous-même."),
+    area("IA appliquée", "Matching, recherche documentaire et l'assistante Mia en production chez OpenPro. Des agents aux outils approuvés, des serveurs MCP, des modèles que vous hébergez vous-même avec Ollama ou Mistral, et des plugins Claude Code."),
     area("Ingénierie de la sécurité", "Audits et simulation d'attaques pour des clients de la défense et de l'industrie. Une CVE dans Symfony, de la recherche firmware et noyau en public."),
     area("Systèmes et natif", "Un runtime de conteneurs en Rust, des applications de bureau Tauri, des runtimes Android ARM64, des extensions C doublées d'un jumeau Python testé."),
   ].join(""),
