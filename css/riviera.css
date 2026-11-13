@@ -125,18 +125,65 @@
   display: none;
 }
 
+.coast-legend {
+  counter-reset: place;
+}
+
 .coast-legend li {
   display: flex;
   flex-wrap: wrap;
   gap: 0 var(--s3);
-  justify-content: space-between;
   padding-block: var(--s2);
   border-top: 1px solid var(--rule);
+  counter-increment: place;
+}
+
+/* The number in front of each place is the one drawn next to its dot on small screens. */
+
+.coast-legend li::before {
+  content: counter(place);
+  min-width: 2ch;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.coast-legend li.home::before {
+  content: "●";
+  color: var(--ink);
+}
+
+.coast-legend li > span:last-child:not(:first-child) {
+  margin-left: auto;
+}
+
+.coast .num {
+  display: none;
+  fill: var(--accent);
+  font-size: 20px;
+  font-weight: 500;
+  text-anchor: middle;
+  dominant-baseline: central;
 }
 
 @media (max-width: 720px) {
   .coast .place text {
     display: none;
+  }
+
+  .coast .place .num {
+    display: block;
+  }
+
+  .coast .place circle {
+    r: 6px;
+  }
+
+  .coast .home circle {
+    r: 10px;
+  }
+
+  .coast .route {
+    stroke-width: 1.5;
   }
 
   .coast .sea-name {
@@ -162,6 +209,12 @@
 
 .coast.france {
   max-width: 850px; /* wide enough to reach Berlin */
+}
+
+/* The wider map is drawn smaller, so its city names are set larger. */
+
+.coast.france text:not(.num) {
+  font-size: 12px;
 }
 
 .coast .mission circle {
