@@ -81,7 +81,20 @@ function onKey(event) {
   select(Math.min(LEDGER_COUNTS.length - 1, Math.max(0, from + step)));
 }
 
+// The dated sentences and the contribution total follow the data file, which a daily job refreshes.
+function fillFromData() {
+  const lastDay = new Date(Date.parse(LEDGER_START) + (LEDGER_COUNTS.length - 1) * MS_PER_DAY);
+  const date = new Intl.DateTimeFormat(locale(), { dateStyle: "long", timeZone: "UTC" }).format(lastDay);
+  const total = LEDGER_COUNTS.reduce((sum, count) => sum + count, 0);
+  for (const element of document.querySelectorAll("[data-ledger-date]")) element.textContent = date;
+  for (const element of document.querySelectorAll("[data-ledger-total]")) {
+    element.dataset.count = total;
+    element.textContent = format(total);
+  }
+}
+
 export function mountLedger() {
+  fillFromData();
   canvas = document.querySelector("[data-ledger]");
   readout = document.querySelector("[data-ledger-read]");
   if (!canvas || !readout) return;
@@ -107,7 +120,10 @@ function onScroll() {
 }
 
 window.addEventListener("scroll", onScroll, { passive: true });
-document.addEventListener("langchange", () => live() && (readout.textContent = describe()));
+document.addEventListener("langchange", () => {
+  fillFromData();
+  if (live()) readout.textContent = describe();
+});
 document.addEventListener("themechange", () => live() && skyline.retheme());
 document.addEventListener("introdone", () => live() && skyline.replay(calm()));
 window.addEventListener("resize", () => live() && skyline.draw());

@@ -1,0 +1,41 @@
+# Refreshes the contribution skyline every day: regenerates js/ledger-data.js,
+# opens a pull request, merges it and asks Pages for a build.
+name: Refresh contribution ledger
+
+on:
+  schedule:
+    - cron: "17 4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  pages: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Regenerate the data file
+        run: |
+          bash scripts/refresh-ledger.sh
+          python3 scripts/stamp.py
+      - name: Open and merge a pull request when the data changed
+        run: |
+          if git diff --quiet -- js/ledger-data.js; then
+            echo "No change."
+            exit 0
+          fi
+          branch="chore/ledger-$(date -u +%Y%m%d)"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$branch"
+          git add js/ledger-data.js index.html 404.html cv/index.html wiki/index.html work lab toolbox security
+          git commit -m "chore(ledger): refresh the contribution calendar"
+          git push --force origin "$branch"
+          gh pr create --title "chore(ledger): refresh the contribution calendar" --body "Daily refresh of js/ledger-data.js from the GitHub contribution calendar."
+          gh pr merge "$branch" --squash --delete-branch
+          gh api -X POST "repos/${{ github.repository }}/pages/builds"

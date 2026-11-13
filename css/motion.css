@@ -41,6 +41,12 @@ a .w > span {
   z-index: 1;
 }
 
+/* The photograph drifts closer as the first screen scrolls away. */
+
+.motion .hero-photo {
+  transform: scale(calc(1.02 + var(--hero, 0) * 0.1));
+}
+
 /* Work rows: a line draws across the top when the row is pointed at */
 
 @media (hover: hover) {

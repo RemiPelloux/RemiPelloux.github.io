@@ -192,9 +192,15 @@
   }
 }
 
-/* Nine places on the France map: a shorter stagger so the last one is not a long wait. */
+/* Ten places on the France map, timed with the legs below. */
 
 .motion [data-reveal].in .france .place,
 .motion [data-reveal].in .france .place circle {
-  transition-delay: calc(1700ms + var(--i) * 220ms);
+  transition-delay: calc(2000ms + var(--i) * 380ms);
+}
+
+/* The journey: each leg leaves the coast in career order and its city appears as it lands. */
+
+.motion [data-reveal].in .france .leg {
+  transition: stroke-dashoffset 380ms cubic-bezier(0.6, 0, 0.2, 1) calc(1700ms + var(--i) * 380ms);
 }
