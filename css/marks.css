@@ -109,9 +109,17 @@
   }
 }
 
+/* The sea runs edge to edge of the screen, past the page margins. */
+
+.waves,
+.waves + .footer {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  box-sizing: border-box;
+}
+
 .waves {
   display: block;
-  width: 100%;
   height: 96px;
   margin-bottom: -1px;
   fill: var(--sea);
@@ -143,7 +151,7 @@
 }
 
 .waves + .footer {
-  padding-inline: var(--s4);
+  padding-inline: calc(50vw - 50%);
   border-top: 0;
   background: var(--sea);
   color: var(--sea-ink);
@@ -157,10 +165,6 @@
 @media (min-width: 880px) {
   .waves {
     height: 120px;
-  }
-
-  .waves + .footer {
-    padding-inline: var(--s6);
   }
 }
 

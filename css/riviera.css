@@ -161,7 +161,7 @@
 }
 
 .coast.france {
-  max-width: 640px;
+  max-width: 850px; /* wide enough to reach Berlin */
 }
 
 .coast .mission circle {
