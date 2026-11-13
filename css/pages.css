@@ -98,46 +98,53 @@
   }
 }
 
-/* Lab: an index of the experiments, then one band each. */
+/* Lab: one card per public repository. */
 
-.bench {
+.shelf-tools {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0 var(--s6);
+  margin-top: var(--s6);
+}
+
+.shelf {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 0 var(--s6);
-  margin-block: var(--s6) var(--s7);
+  margin-block: var(--s3) var(--s4);
 }
 
-@media (min-width: 900px) {
-  .bench {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-.bench a {
+.shelf li {
   display: grid;
+  grid-template-rows: auto auto 1fr auto;
   gap: var(--s1);
-  height: 100%;
   padding-block: var(--s3) var(--s5);
   border-top: 1px solid var(--rule-strong);
-  text-decoration: none;
 }
 
-.bench .mono {
+.shelf li > .mono:first-child {
   color: var(--accent);
 }
 
-.bench strong {
+.shelf a {
   font-family: var(--font-serif);
   font-size: var(--t24);
-  font-weight: 400;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+  text-decoration: none;
 }
 
-.bench a span:last-child {
+.shelf a:hover {
+  text-decoration: underline;
+}
+
+.shelf p {
   color: var(--ink-2);
 }
 
-.bench a:hover strong {
-  text-decoration: underline;
+.shelf + .mono {
+  margin-bottom: var(--s7);
 }
 
 .seg {
@@ -162,67 +169,6 @@
 
 .rhythm .bars li > span:first-child {
   text-transform: capitalize;
-}
-
-.tide canvas {
-  display: block;
-  width: 100%;
-  height: auto;
-  border: 1px solid var(--rule-strong);
-  background: var(--paper-2);
-}
-
-.tide input[type="range"] {
-  display: block;
-  width: 220px;
-  max-width: 100%;
-  accent-color: var(--accent);
-}
-
-.keys {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s2);
-  margin-top: var(--s4);
-}
-
-.octave .button {
-  min-width: 56px;
-  padding-block: var(--s5) var(--s3);
-}
-
-.swatches {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-  gap: var(--s4);
-  margin-top: var(--s4);
-}
-
-.swatches button {
-  display: grid;
-  gap: var(--s1);
-  width: 100%;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: inherit;
-  text-align: left;
-  cursor: pointer;
-}
-
-.swatches .chip {
-  height: var(--s8);
-  border: 1px solid var(--rule-strong);
-  border-radius: var(--radius);
-  background: var(--swatch);
-}
-
-kbd {
-  padding: 0 var(--s1);
-  border: 1px solid var(--rule-strong);
-  border-radius: var(--radius);
-  font-family: var(--font-mono);
-  font-size: 0.85em;
 }
 
 .filter {
@@ -260,4 +206,8 @@ kbd {
 
 .pager a:hover span:last-child {
   color: var(--accent);
+}
+
+.seg .button[aria-pressed="true"] .faint {
+  color: inherit;
 }
