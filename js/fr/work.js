@@ -37,4 +37,5 @@ export default {
   ].join(""),
   bare: `Publics sans description : ${BARE.map(gh).join(", ")}.`,
   foot: "Relevé sur GitHub le 11 novembre 2026. Les forks ne sont pas listés.",
+  "pager": "<a href=\"/\"><span class=\"mono\">Précédent</span><span>Portfolio</span></a><a href=\"/security/\"><span class=\"mono\">Suivant</span><span>Sécurité</span></a>",
 };

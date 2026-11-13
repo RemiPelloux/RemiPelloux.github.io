@@ -11,6 +11,8 @@ import { startRouter } from "./router.js";
 import { playIntro } from "./intro.js";
 import { mountReveal } from "./reveal.js";
 import { mountMarquee } from "./marquee.js";
+import { mountLab } from "./lab.js";
+import { mountArchive } from "./archive.js";
 import "./cursor.js";
 import "./shiba.js";
 
@@ -24,6 +26,8 @@ function mountAll() {
   mountReveal();
   mountStars();
   mountMarquee();
+  mountLab();
+  mountArchive();
 }
 
 ready.then(() => {

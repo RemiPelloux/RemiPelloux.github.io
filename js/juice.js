@@ -36,7 +36,11 @@ export function soundOn() {
 }
 
 export function blip(hz, ms, type = "square") {
-  if (!soundOn()) return;
+  if (soundOn()) tone(hz, ms, type);
+}
+
+// Plays whatever the sound setting says: for keys the visitor presses on purpose.
+export function tone(hz, ms, type = "square") {
   audio ??= new AudioContext();
   const now = audio.currentTime;
   const oscillator = audio.createOscillator();
