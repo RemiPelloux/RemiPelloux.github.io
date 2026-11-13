@@ -119,16 +119,6 @@
   transition: transform 500ms var(--spring) calc(1700ms + var(--i) * 500ms);
 }
 
-@keyframes drift {
-  to {
-    transform: translateX(-12px);
-  }
-}
-
-.motion .coast .sea-name {
-  animation: drift 4s ease-in-out infinite alternate;
-}
-
 /* Small screens: the labels inside the map are too small to read, so a list carries them. */
 
 .coast-legend {
