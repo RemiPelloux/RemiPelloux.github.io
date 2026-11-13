@@ -51,48 +51,6 @@
   color-scheme: light;
 }
 
-:root[data-theme="dark"] {
-  --paper: #141412;
-  --paper-2: #1E1D1A;
-  --paper-3: #2A2925;
-  --ink: #ECE9E1;
-  --ink-2: #B5B1A7;
-  --ink-3: #8F8B81;
-  --rule: #34322E;
-  --rule-strong: #ECE9E1;
-  --accent: #6FB8F5;
-  --accent-ink: #141412;
-  --focus: #ECE9E1;
-  --l0: #1E1D1A;
-  --l1: #3A3833;
-  --l2: #6F6C64;
-  --l3: #B5B1A7;
-  --l4: #ECE9E1;
-  color-scheme: dark;
-}
-
-:root[data-theme="terminal"] {
-  --paper: #0B0F0B;
-  --paper-2: #121912;
-  --paper-3: #1B251B;
-  --ink: #B9F2A1;
-  --ink-2: #8CC078;
-  --ink-3: #6C9A5C;
-  --rule: #24331F;
-  --rule-strong: #B9F2A1;
-  --accent: #5CC8FF;
-  --accent-ink: #0B0F0B;
-  --focus: #5CC8FF;
-  --l0: #121912;
-  --l1: #24401F;
-  --l2: #3F7A33;
-  --l3: #7CC463;
-  --l4: #B9F2A1;
-  --font-sans: "IBM Plex Mono", ui-monospace, Menlo, monospace;
-  --font-serif: "IBM Plex Mono", ui-monospace, Menlo, monospace;
-  color-scheme: dark;
-}
-
 /* Azur: the sea off Antibes, sand for ink, the sun for accent. */
 :root[data-theme="azur"] {
   --paper: #06324F;
@@ -198,7 +156,7 @@ input {
   font-family: var(--font-mono);
   font-size: var(--t14);
   cursor: pointer;
-  transition: background-color var(--fast) ease-out, color var(--fast) ease-out, transform 180ms var(--spring), translate 320ms var(--spring);
+  transition: background-color var(--fast) ease-out, color var(--fast) ease-out, transform 180ms var(--spring);
 }
 
 .button:active {

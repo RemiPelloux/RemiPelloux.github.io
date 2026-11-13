@@ -1,7 +1,7 @@
 // Contribution ledger: state, readout and input for the skyline canvas.
 import { LEDGER_START, LEDGER_COUNTS } from "./ledger-data.js";
 import { locale, t } from "./i18n.js";
-import { blip, calm, shake } from "./juice.js";
+import { blip, calm } from "./juice.js";
 import { releaseShiba } from "./shiba.js";
 import { Skyline } from "./skyline.js";
 
@@ -12,7 +12,6 @@ const MS_PER_DAY = 86_400_000;
 const NOTE_BASE_HZ = 220;
 const NOTE_STEP_HZ = 110;
 const NOTE_MS = 50;
-const PRESS_TRAUMA = 0.25;
 const KEY_STEPS = {
   ArrowLeft: -DAYS_PER_WEEK,
   ArrowRight: DAYS_PER_WEEK,
@@ -62,7 +61,6 @@ function select(index) {
 function press(index) {
   if (index < 0) return;
   blip(NOTE_BASE_HZ + level(LEDGER_COUNTS[index]) * NOTE_STEP_HZ, NOTE_MS, "triangle");
-  shake(PRESS_TRAUMA);
   if (index === peakIndex) releaseShiba();
 }
 

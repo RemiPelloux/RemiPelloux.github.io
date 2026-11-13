@@ -1,10 +1,6 @@
 /* Motion and game feel. Deliberate break of the UNSLOP motion budget, asked for by the owner.
    Every animation here is switched off under prefers-reduced-motion (see base.css). */
 
-[data-shake] {
-  will-change: transform;
-}
-
 /* Language wipe: three swells, the last one carries the stamp */
 
 .wipe {

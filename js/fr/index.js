@@ -131,5 +131,5 @@ export default {
   "p-nice": "Nice, aujourd'hui",
   "p-sea": "Méditerranée",
   "g-sea": "43,60° N, 7,36° E",
-  colophon: "Fait sur la Côte d'Azur, sans framework ni traceur. Quatre thèmes, deux langues et un chien.",
+  colophon: "Fait sur la Côte d'Azur, sans framework ni traceur. Deux thèmes, deux langues et un chien.",
 };

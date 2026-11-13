@@ -1,6 +1,6 @@
 # Rémi Pelloux, portfolio
 
-The source of [remipelloux.github.io](https://remipelloux.github.io/). Static files served as they are by GitHub Pages. No build step, no framework, no tracker. French and English, four themes.
+The source of [remipelloux.github.io](https://remipelloux.github.io/). Static files served as they are by GitHub Pages. No build step, no framework, no tracker. French and English, two themes.
 
 ## Layout
 
@@ -12,15 +12,15 @@ The source of [remipelloux.github.io](https://remipelloux.github.io/). Static fi
 | `js/fr/*.js` | French copy for each page, keyed by `data-i18n` |
 | `js/i18n.js`, `js/boot.js` | Language and theme state |
 | `js/chrome.js`, `js/wipe.js` | Top bar switches and the language transition |
-| `js/juice.js` | Screen shake, squash and stretch, tones, feedback tiers |
+| `js/juice.js` | Squash and stretch, tones, feedback tiers |
 | `js/ledger.js`, `js/skyline.js` | Contribution year drawn as a 3D skyline on a canvas, read by pointer or arrow keys |
-| `js/name.js`, `js/reveal.js`, `js/cursor.js` | Reactive display type, scroll reveals and counters, pointer ring and project previews |
+| `js/name.js`, `js/reveal.js`, `js/cursor.js` | Reactive display type, scroll reveals and counters, project previews |
 | `js/marquee.js`, `css/riviera.css` | The place-name marquee and the France and coast maps |
 | `assets/work/` | Project illustrations shown next to the pointer |
 | `js/model.js`, `js/model-ui.js` | Seeded Schelling model and its canvas |
 | `js/shiba.js` | The dog. Type `shiba` on any page |
 | `js/cv.js`, `css/cv.css` | CV export through the print dialog, one A4 page |
-| `css/` | Tokens and three themes in `base.css`, then one file per concern |
+| `css/` | Tokens and two themes in `base.css`, then one file per concern |
 | `css/toolbox.css` | Language bar chart and tool grid. The counts are written in `index.html` |
 | `js/words.js`, `css/motion.css` | Word-by-word reveals, the name sinking on scroll, sticky section labels, row and link hovers |
 | `js/stars.js` | Star and repository counts read live from the GitHub API, cached one hour, with the written numbers as fallback |

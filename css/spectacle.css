@@ -149,9 +149,8 @@
   margin-top: var(--s5);
 }
 
-/* Cursor ring and project preview */
+/* Project preview */
 
-.cursor-ring,
 .preview {
   position: fixed;
   left: 0;
@@ -159,28 +158,6 @@
   z-index: 9;
   pointer-events: none;
   opacity: 0;
-}
-
-.cursor-ring {
-  width: 28px;
-  height: 28px;
-  margin: -14px 0 0 -14px;
-  border: 1px solid var(--accent);
-  border-radius: 50%; /* unslop-ignore: a pointer ring is a circle */
-  transition: opacity 200ms, width 260ms var(--spring), height 260ms var(--spring), margin 260ms var(--spring);
-}
-
-.cursor-ring.show {
-  opacity: 1;
-}
-
-.cursor-ring.over {
-  width: 64px;
-  height: 64px;
-  margin: -32px 0 0 -32px;
-}
-
-.preview {
   width: min(520px, 40vw);
   border: 1px solid var(--rule-strong);
   background: var(--paper);

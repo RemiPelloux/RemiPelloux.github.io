@@ -78,11 +78,6 @@
   cursor: default;
 }
 
-:root[data-theme="terminal"] .name {
-  font-size: clamp(2.5rem, 11.4vw, 10.5rem); /* unslop-ignore: poster-size name */
-  letter-spacing: -0.05em;
-}
-
 .masthead-grid {
   display: grid;
   gap: var(--s6);

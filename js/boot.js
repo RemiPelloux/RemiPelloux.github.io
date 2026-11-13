@@ -8,7 +8,9 @@
   }
   var dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
   var french = (navigator.language || "").toLowerCase().indexOf("fr") === 0;
-  root.dataset.theme = read(localStorage, "theme") || (dark ? "dark" : "light");
+  var saved = read(localStorage, "theme");
+  var known = saved === "light" || saved === "azur";
+  root.dataset.theme = known ? saved : (dark ? "azur" : "light");
   root.dataset.lang = read(localStorage, "lang") || (french ? "fr" : "en");
 
   var still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;

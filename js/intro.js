@@ -3,7 +3,7 @@
 // boot.js decides whether it runs and hides the page until this module takes over.
 import { LEDGER_COUNTS } from "./ledger-data.js";
 import { locale, t } from "./i18n.js";
-import { blip, pause, shake } from "./juice.js";
+import { blip, pause } from "./juice.js";
 
 const STRIPS = 8;
 const COUNT_MS = 1100;
@@ -11,7 +11,6 @@ const HOLD_MS = 220;
 const STRIP_MS = 520;
 const STAGGER_MS = 45;
 const LIFT_EASE = "cubic-bezier(0.7, 0, 0.2, 1)";
-const END_TRAUMA = 0.45;
 const END_HZ = 140;
 const END_SOUND_MS = 180;
 const root = document.documentElement;
@@ -67,7 +66,6 @@ export async function playIntro() {
   root.classList.remove("intro-running", "intro-covered");
   document.dispatchEvent(new Event("introdone"));
   blip(END_HZ, END_SOUND_MS, "sawtooth");
-  shake(END_TRAUMA);
   await lift(overlay);
   overlay.remove();
 }
