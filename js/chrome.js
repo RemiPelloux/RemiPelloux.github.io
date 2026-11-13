@@ -31,16 +31,23 @@ function setText(name, text) {
 }
 
 export function mountChrome() {
-  setText("lang-switch", t("Français", "English"));
+  const group = find("lang-group");
+  group?.setAttribute("aria-label", t("Language", "Langue"));
+  for (const button of group?.querySelectorAll("[data-lang-set]") ?? []) {
+    button.setAttribute("aria-pressed", String(button.dataset.langSet === lang()));
+  }
   setText("theme-switch", t("Theme: ", "Thème : ") + t(...THEME_NAMES[root.dataset.theme]));
   setText("sound-switch", t("Sound: ", "Son : ") + (soundOn() ? "on" : "off"));
   setText("clock", clockText());
 }
 
-async function switchLang() {
-  if (busy) return;
+// The thumb slides at once, then the page follows behind the wipe.
+async function switchLang(button) {
+  const next = button.dataset.langSet;
+  if (busy || next === lang()) return;
   busy = true;
-  const next = lang() === "fr" ? "en" : "fr";
+  root.dataset.lang = next;
+  feedback("small", button);
   await wipe(next.toUpperCase(), () => setLang(next));
   busy = false;
 }
@@ -72,7 +79,7 @@ function switchSound(button) {
 function onClick(event) {
   const button = event.target.closest("button");
   if (!button) return;
-  if ("langSwitch" in button.dataset) switchLang();
+  if ("langSet" in button.dataset) switchLang(button);
   if ("themeSwitch" in button.dataset) switchTheme(button);
   if ("soundSwitch" in button.dataset) switchSound(button);
 }
