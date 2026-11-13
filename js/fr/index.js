@@ -26,7 +26,6 @@ export default {
   st4: "ans à livrer du logiciel",
   st5: "CVE signalée, dans Symfony",
   "st-note": "Contributions comptées le <span data-ledger-date>11 novembre 2026</span>, dépôts privés inclus, et rafraîchies chaque jour. Étoiles et dépôts sont lus en direct sur GitHub.",
-  credit: 'Photo du cap d\'Antibes : <a href="https://commons.wikimedia.org/wiki/File:Antibes_Baie_des_Milliardaires_01.jpg">Spike, Wikimedia Commons</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>, recadrée.',
   "h-practice": "Pratique",
   "pr-intro": "Je mène un produit du premier schéma d'architecture à la production, et je continue à le faire tourner ensuite.",
   "pr-list": [
