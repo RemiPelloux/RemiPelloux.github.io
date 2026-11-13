@@ -21,6 +21,7 @@ The source of [remipelloux.github.io](https://remipelloux.github.io/). Static fi
 | `js/shiba.js` | The dog. Type `shiba` on any page |
 | `js/cv.js`, `css/cv.css` | CV export through the print dialog, one A4 page |
 | `lab/`, `toolbox/`, `security/`, `work/<project>/` | Lab, toolbox, security write-up and case studies, each a plain page |
+| `.github/workflows/refresh-ledger.yml` | Daily job that regenerates `js/ledger-data.js` through a pull request |
 | `css/` | Tokens and two themes in `base.css`, then one file per concern |
 | `css/toolbox.css` | Language bar chart and tool grid. The counts are written in `index.html` |
 | `js/words.js`, `css/motion.css` | Word-by-word reveals, the name sinking on scroll, sticky section labels, row and link hovers |
