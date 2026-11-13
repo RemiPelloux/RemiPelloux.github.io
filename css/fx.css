@@ -5,24 +5,41 @@
   will-change: transform;
 }
 
-/* Language wipe */
+/* Language wipe: three swells, the last one carries the stamp */
 
 .wipe {
   position: fixed;
   inset: 0;
   z-index: 10;
-  display: grid;
-  grid-template-columns: repeat(8, 1fr);
+  overflow: hidden;
   pointer-events: none;
 }
 
 .wipe i {
-  background: var(--ink);
-  transform: scaleY(0);
+  position: absolute;
+  inset: 0;
+  background: currentColor;
+  color: var(--sea, var(--accent));
+  opacity: 0.45;
+  transform: translateY(calc(100% + 96px));
 }
 
-.wipe i:nth-child(3n + 2) {
-  background: var(--accent);
+.wipe i:nth-child(2) {
+  color: var(--ink);
+  opacity: 1;
+}
+
+.wipe i:nth-child(3) {
+  opacity: 1;
+}
+
+.wipe svg {
+  position: absolute;
+  left: 0;
+  bottom: calc(100% - 1px);
+  width: max(200%, 1800px); /* keeps the swell long on a phone */
+  height: 80px;
+  fill: currentColor;
 }
 
 .wipe b {
@@ -30,7 +47,7 @@
   inset: 0;
   display: grid;
   place-items: center;
-  color: var(--paper);
+  color: var(--sea-ink, var(--accent-ink));
   font-family: var(--font-serif);
   font-size: min(46vw, 80vh); /* unslop-ignore: stamp letters, shown for under a second */
   font-weight: 700;
