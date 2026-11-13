@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Containust, a case study by Rémi Pelloux</title>
+  <meta name="description" content="How Containust runs containers in Rust with no background daemon, a plan step before every change and an offline mode for air-gapped machines.">
+  <link rel="canonical" href="https://remipelloux.github.io/work/containust/">
+  <meta name="theme-color" content="#F7F5F0">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Containust, a case study by Rémi Pelloux">
+  <meta property="og:description" content="How Containust runs containers in Rust with no background daemon, a plan step before every change and an offline mode for air-gapped machines.">
+  <meta property="og:url" content="https://remipelloux.github.io/work/containust/">
+  <meta property="og:image" content="https://remipelloux.github.io/assets/og.png">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:locale:alternate" content="fr_FR">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%231A1A18'/%3E%3Crect x='4' y='4' width='8' height='8' fill='%230B5CAD'/%3E%3C/svg%3E">
+  <script src="/js/boot.js?v=807af7e5"></script>
+  <!-- stamp -->
+  <script type="importmap">{"imports":{"/js/app.js":"/js/app.js?v=807af7e5","/js/boot.js":"/js/boot.js?v=807af7e5","/js/chrome.js":"/js/chrome.js?v=807af7e5","/js/cursor.js":"/js/cursor.js?v=807af7e5","/js/cv.js":"/js/cv.js?v=807af7e5","/js/fr/case-containust.js":"/js/fr/case-containust.js?v=807af7e5","/js/fr/case-modelly.js":"/js/fr/case-modelly.js?v=807af7e5","/js/fr/case-openplod.js":"/js/fr/case-openplod.js?v=807af7e5","/js/fr/cv.js":"/js/fr/cv.js?v=807af7e5","/js/fr/index.js":"/js/fr/index.js?v=807af7e5","/js/fr/lab.js":"/js/fr/lab.js?v=807af7e5","/js/fr/security.js":"/js/fr/security.js?v=807af7e5","/js/fr/toolbox.js":"/js/fr/toolbox.js?v=807af7e5","/js/fr/wiki.js":"/js/fr/wiki.js?v=807af7e5","/js/fr/work.js":"/js/fr/work.js?v=807af7e5","/js/i18n.js":"/js/i18n.js?v=807af7e5","/js/intro.js":"/js/intro.js?v=807af7e5","/js/juice.js":"/js/juice.js?v=807af7e5","/js/ledger-data.js":"/js/ledger-data.js?v=807af7e5","/js/ledger.js":"/js/ledger.js?v=807af7e5","/js/marquee.js":"/js/marquee.js?v=807af7e5","/js/model-ui.js":"/js/model-ui.js?v=807af7e5","/js/model.js":"/js/model.js?v=807af7e5","/js/name.js":"/js/name.js?v=807af7e5","/js/reveal.js":"/js/reveal.js?v=807af7e5","/js/router.js":"/js/router.js?v=807af7e5","/js/shiba.js":"/js/shiba.js?v=807af7e5","/js/skyline.js":"/js/skyline.js?v=807af7e5","/js/stars.js":"/js/stars.js?v=807af7e5","/js/wipe.js":"/js/wipe.js?v=807af7e5","/js/words.js":"/js/words.js?v=807af7e5"}}</script>
+  <!-- /stamp -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap">
+  <link rel="stylesheet" href="/css/base.css?v=807af7e5">
+  <link rel="stylesheet" href="/css/page.css?v=807af7e5">
+  <link rel="stylesheet" href="/css/components.css?v=807af7e5">
+  <link rel="stylesheet" href="/css/fx.css?v=807af7e5">
+  <link rel="stylesheet" href="/css/spectacle.css?v=807af7e5">
+  <link rel="stylesheet" href="/css/riviera.css?v=807af7e5">
+  <link rel="stylesheet" href="/css/intro.css?v=807af7e5">
+  <link rel="stylesheet" href="/css/toolbox.css?v=807af7e5">
+  <link rel="stylesheet" href="/css/motion.css?v=807af7e5">
+  <link rel="stylesheet" href="/css/marks.css?v=807af7e5">
+  <link rel="stylesheet" href="/css/pages.css?v=807af7e5">
+  <link rel="stylesheet" href="/css/cv.css?v=807af7e5">
+  <link rel="stylesheet" href="/css/wiki.css?v=807af7e5">
+</head>
+<body data-page="case-containust">
+<a class="skip" href="#main" data-i18n="skip">Skip to content</a>
+<div class="wrap">
+  <header class="topbar mono">
+    <span><a href="/">Rémi Pelloux</a> / <span data-i18n="crumb">case study / Containust</span></span>
+    <nav aria-label="Site">
+      <ul>
+        <li><a href="/" data-i18n="nav-home">Portfolio</a></li>
+        <li><a href="/cv/">CV</a></li>
+        <li><a href="/wiki/">Wiki</a></li>
+        <li><div class="lang" role="group" aria-label="Language" data-lang-group><button type="button" data-lang-set="en" aria-pressed="true">EN</button><button type="button" data-lang-set="fr" aria-pressed="false">FR</button></div></li>
+        <li><button class="button" type="button" data-theme-switch>Theme</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="docs-body archive case" id="main">
+    <p class="mono faint" data-i18n="kicker">Case study</p>
+    <h1>Containust</h1>
+    <p class="lede" data-i18n="lede">A container runtime in Rust with no background daemon, built for machines where a daemon, a registry or hidden state is a liability.</p>
+    <figure class="shot"><img src="/assets/work/containust.svg" alt="Containust banner with a terminal running ctst pull" width="1400" height="875" loading="lazy"><figcaption class="mono faint" data-i18n="cap">The project banner: no daemon, declarative stacks, ready for air-gapped machines.</figcaption></figure>
+    <dl class="facts mono" data-i18n="facts"><div><dt>Role</dt><dd>Author and maintainer</dd></div><div><dt>Stack</dt><dd>Rust, nom, petgraph, Linux namespaces, cgroups v2, QEMU</dd></div><div><dt>Hosts</dt><dd>Linux x86_64 and aarch64, macOS, Windows</dd></div><div><dt>Source</dt><dd><a href="https://github.com/RemiPelloux/Containust">github.com/RemiPelloux/Containust</a></dd></div></dl>
+    <section data-i18n="problem"><h2>Problem</h2><p>Docker needs a root daemon that has to stay alive, and it expects a registry to be reachable. On an air-gapped or security-critical machine both are a problem. Containust removes the daemon and makes offline the enforced case.</p></section>
+    <section data-i18n="built"><h2>What I built</h2><ul class="built"><li>A command, <code>ctst plan</code>, that shows what would be created, replaced, started, kept or removed before anything runs.</li><li>A small typed language for stacks, <code>.ctst</code>, validated before execution.</li><li>An <code>--offline</code> flag that refuses the network before any connection opens, with images pinned by digest.</li><li>Secure defaults: user and PID namespaces, every capability dropped, <code>no_new_privs</code>, a read-only root filesystem.</li><li>A Rust SDK that exposes the parser, the dependency graph, the planner and the runtime.</li></ul></section>
+    <section data-i18n="how"><h2>How it works</h2><p>A <code>nom</code> grammar parses the stack file and <code>petgraph</code> sorts the services so upstreams start first. The planner diffs the wanted state against the running containers. On Linux, the runtime forks into user, PID, mount, network, IPC and UTS namespaces, applies cgroups v2 limits and pivots into the root filesystem. On macOS and Windows the same requests go over JSON RPC to an agent inside a pinned Alpine QEMU virtual machine.</p></section>
+    <section data-i18n="limits"><h2>Limits</h2><p>It does not build from a Dockerfile: it imports a root filesystem, a tar archive or an OCI image. It pulls from Docker Hub and GHCR only, and it has no orchestration. Linux needs kernel 5.10 or later, the other hosts need QEMU 7.</p></section>
+    <p class="case-nav mono" data-i18n="nav"><a href="/#work">All selected work</a> <a href="/work/modelly/">Next: Modelly</a></p>
+  </main>
+
+  <footer class="footer mono">
+    <span><a href="/">remipelloux.github.io</a></span>
+    <span data-i18n="foot-nav"><a href="/work/">Archive</a>, <a href="/security/">Security</a>, <a href="/toolbox/">Toolbox</a>, <a href="/lab/">Lab</a></span>
+  </footer>
+</div>
+<script type="module" src="/js/app.js?v=807af7e5"></script>
+</body>
+</html>
