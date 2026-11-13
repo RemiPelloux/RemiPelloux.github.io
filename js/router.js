@@ -4,7 +4,7 @@ import { adoptTitle, lang, setLang } from "./i18n.js";
 import { blip } from "./juice.js";
 import { tideOver } from "./wipe.js";
 
-const ROUTES = ["/", "/cv/", "/wiki/", "/work/"];
+const ROUTES = ["/", "/cv/", "/wiki/", "/work/", "/lab/", "/toolbox/", "/security/", "/work/openplod/", "/work/containust/", "/work/modelly/"];
 const NAV_HZ = 520;
 const NAV_SOUND_MS = 40;
 const wrap = document.querySelector(".wrap");

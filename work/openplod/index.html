@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenPlod, a case study by Rémi Pelloux</title>
+  <meta name="description" content="How OpenPlod pulls recordings off a Plaud Note Pro over Bluetooth, keeps them in a local vault and turns them into Markdown documents.">
+  <link rel="canonical" href="https://remipelloux.github.io/work/openplod/">
+  <meta name="theme-color" content="#F7F5F0">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="OpenPlod, a case study by Rémi Pelloux">
+  <meta property="og:description" content="How OpenPlod pulls recordings off a Plaud Note Pro over Bluetooth, keeps them in a local vault and turns them into Markdown documents.">
+  <meta property="og:url" content="https://remipelloux.github.io/work/openplod/">
+  <meta property="og:image" content="https://remipelloux.github.io/assets/og.png">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:locale:alternate" content="fr_FR">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%231A1A18'/%3E%3Crect x='4' y='4' width='8' height='8' fill='%230B5CAD'/%3E%3C/svg%3E">
+  <script src="/js/boot.js?v=807af7e5"></script>
+  <!-- stamp -->
+  <script type="importmap">{"imports":{"/js/app.js":"/js/app.js?v=807af7e5","/js/boot.js":"/js/boot.js?v=807af7e5","/js/chrome.js":"/js/chrome.js?v=807af7e5","/js/cursor.js":"/js/cursor.js?v=807af7e5","/js/cv.js":"/js/cv.js?v=807af7e5","/js/fr/case-containust.js":"/js/fr/case-containust.js?v=807af7e5","/js/fr/case-modelly.js":"/js/fr/case-modelly.js?v=807af7e5","/js/fr/case-openplod.js":"/js/fr/case-openplod.js?v=807af7e5","/js/fr/cv.js":"/js/fr/cv.js?v=807af7e5","/js/fr/index.js":"/js/fr/index.js?v=807af7e5","/js/fr/lab.js":"/js/fr/lab.js?v=807af7e5","/js/fr/security.js":"/js/fr/security.js?v=807af7e5","/js/fr/toolbox.js":"/js/fr/toolbox.js?v=807af7e5","/js/fr/wiki.js":"/js/fr/wiki.js?v=807af7e5","/js/fr/work.js":"/js/fr/work.js?v=807af7e5","/js/i18n.js":"/js/i18n.js?v=807af7e5","/js/intro.js":"/js/intro.js?v=807af7e5","/js/juice.js":"/js/juice.js?v=807af7e5","/js/ledger-data.js":"/js/ledger-data.js?v=807af7e5","/js/ledger.js":"/js/ledger.js?v=807af7e5","/js/marquee.js":"/js/marquee.js?v=807af7e5","/js/model-ui.js":"/js/model-ui.js?v=807af7e5","/js/model.js":"/js/model.js?v=807af7e5","/js/name.js":"/js/name.js?v=807af7e5","/js/reveal.js":"/js/reveal.js?v=807af7e5","/js/router.js":"/js/router.js?v=807af7e5","/js/shiba.js":"/js/shiba.js?v=807af7e5","/js/skyline.js":"/js/skyline.js?v=807af7e5","/js/stars.js":"/js/stars.js?v=807af7e5","/js/wipe.js":"/js/wipe.js?v=807af7e5","/js/words.js":"/js/words.js?v=807af7e5"}}</script>
+  <!-- /stamp -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap">
+  <link rel="stylesheet" href="/css/base.css?v=807af7e5">
+  <link rel="stylesheet" href="/css/page.css?v=807af7e5">
+  <link rel="stylesheet" href="/css/components.css?v=807af7e5">
+  <link rel="stylesheet" href="/css/fx.css?v=807af7e5">
+  <link rel="stylesheet" href="/css/spectacle.css?v=807af7e5">
+  <link rel="stylesheet" href="/css/riviera.css?v=807af7e5">
+  <link rel="stylesheet" href="/css/intro.css?v=807af7e5">
+  <link rel="stylesheet" href="/css/toolbox.css?v=807af7e5">
+  <link rel="stylesheet" href="/css/motion.css?v=807af7e5">
+  <link rel="stylesheet" href="/css/marks.css?v=807af7e5">
+  <link rel="stylesheet" href="/css/pages.css?v=807af7e5">
+  <link rel="stylesheet" href="/css/cv.css?v=807af7e5">
+  <link rel="stylesheet" href="/css/wiki.css?v=807af7e5">
+</head>
+<body data-page="case-openplod">
+<a class="skip" href="#main" data-i18n="skip">Skip to content</a>
+<div class="wrap">
+  <header class="topbar mono">
+    <span><a href="/">Rémi Pelloux</a> / <span data-i18n="crumb">case study / OpenPlod</span></span>
+    <nav aria-label="Site">
+      <ul>
+        <li><a href="/" data-i18n="nav-home">Portfolio</a></li>
+        <li><a href="/cv/">CV</a></li>
+        <li><a href="/wiki/">Wiki</a></li>
+        <li><div class="lang" role="group" aria-label="Language" data-lang-group><button type="button" data-lang-set="en" aria-pressed="true">EN</button><button type="button" data-lang-set="fr" aria-pressed="false">FR</button></div></li>
+        <li><button class="button" type="button" data-theme-switch>Theme</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="docs-body archive case" id="main">
+    <p class="mono faint" data-i18n="kicker">Case study</p>
+    <h1>OpenPlod</h1>
+    <p class="lede" data-i18n="lede">A desktop app that pulls recordings off a Plaud Note Pro over Bluetooth, keeps them in a vault on your computer, and turns them into transcripts and Markdown documents.</p>
+    <figure class="shot"><img src="/assets/shots/openplod-library.webp" alt="OpenPlod recording library in dark mode with a waveform player and export options" width="1400" height="875" loading="lazy"><figcaption class="mono faint" data-i18n="cap">The recording library, from the real app. Private titles are masked.</figcaption></figure>
+    <dl class="facts mono" data-i18n="facts"><div><dt>Role</dt><dd>Author and maintainer</dd></div><div><dt>Stack</dt><dd>Tauri, React, TypeScript, SQLite</dd></div><div><dt>Release</dt><dd>1.0.0, <span data-stars="OpenPlod">39 stars</span></dd></div><div><dt>Platforms</dt><dd>macOS, Linux, Windows, Android companion</dd></div><div><dt>Source</dt><dd><a href="https://github.com/RemiPelloux/OpenPlod">github.com/RemiPelloux/OpenPlod</a></dd></div></dl>
+    <section data-i18n="problem"><h2>Problem</h2><p>A voice recorder is only useful if you can get the audio out and work with it. OpenPlod keeps the recording, the transcript and the document on your own machine, and lets you pick who transcribes them.</p></section>
+    <section data-i18n="built"><h2>What I built</h2><ul class="built"><li>Direct Bluetooth import from the recorder, with the session left intact on the device.</li><li>Transcription with Mistral, local whisper.cpp, Deepgram, OpenAI or AssemblyAI. A failed job never deletes the recording.</li><li>Documents generated from a transcript as structured notes, meeting minutes or a project brief, in Markdown, with version history.</li><li>A versioned REST API and an MCP server that is read-only unless you switch writing on.</li><li>An Android companion that pairs by QR code and keeps its copy until the desktop confirms storage.</li></ul></section>
+    <section data-i18n="how"><h2>How it works</h2><p>The desktop app owns the vault: a SQLite database and the audio files. Every client, including the phone and the MCP server, goes through the backend API and never opens the database itself. Audio, transcript and document are three separate resources, so editing a document cannot rewrite its source.</p></section>
+    <section data-i18n="limits"><h2>Limits</h2><p>Bluetooth extraction is verified on one authorised Note Pro. The Windows bridge builds but is not verified on hardware. iOS cannot talk to the device. The Mac build is ad-hoc signed and not notarized, and the app does not encrypt the vault itself.</p></section>
+    <p class="case-nav mono" data-i18n="nav"><a href="/#work">All selected work</a> <a href="/work/containust/">Next: Containust</a></p>
+  </main>
+
+  <footer class="footer mono">
+    <span><a href="/">remipelloux.github.io</a></span>
+    <span data-i18n="foot-nav"><a href="/work/">Archive</a>, <a href="/security/">Security</a>, <a href="/toolbox/">Toolbox</a>, <a href="/lab/">Lab</a></span>
+  </footer>
+</div>
+<script type="module" src="/js/app.js?v=807af7e5"></script>
+</body>
+</html>
