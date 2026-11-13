@@ -1,0 +1,171 @@
+/* Language switch, company logos and the sea above the footer. */
+
+:root {
+  --sea: var(--accent);
+  --sea-ink: var(--accent-ink);
+}
+
+:root[data-theme="azur"] {
+  --sea: var(--l1);
+  --sea-ink: var(--ink);
+}
+
+/* Language switch: two segments, the thumb sits under the current language. */
+
+.lang {
+  position: relative;
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 44px;
+  overflow: hidden;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+}
+
+.lang::before {
+  content: "";
+  position: absolute;
+  inset: 0 50% 0 0;
+  background: var(--accent);
+  transition: transform 320ms var(--spring);
+}
+
+:root[data-lang="fr"] .lang::before {
+  transform: translateX(100%);
+}
+
+.lang button {
+  position: relative;
+  min-width: 48px;
+  padding: 0 var(--s3);
+  border: 0;
+  background: none;
+  font-family: var(--font-mono);
+  font-size: var(--t14);
+  cursor: pointer;
+  transition: color var(--fast) ease-out;
+}
+
+.lang button:focus-visible {
+  outline-offset: -4px;
+}
+
+.lang [data-lang-set="en"],
+:root[data-lang="fr"] .lang [data-lang-set="fr"] {
+  color: var(--accent-ink);
+  font-weight: 500;
+}
+
+:root[data-lang="fr"] .lang [data-lang-set="en"] {
+  color: inherit;
+  font-weight: 400;
+}
+
+/* Logos keep their own colours, so each sits on a white plate in every theme. */
+
+.logos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+  gap: var(--s3);
+}
+
+.map-title + .logos {
+  margin-top: var(--s3);
+}
+
+.logos li {
+  display: flex;
+  gap: var(--s2);
+  align-items: center;
+  justify-content: center;
+  height: 88px;
+  padding: var(--s4);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: #FFFFFF; /* unslop-ignore: plate for third-party logos drawn for a white ground */
+  color: #1A1A18; /* unslop-ignore: wordmark on the white plate */
+  font-weight: 600;
+  transition: transform 180ms var(--spring), border-color var(--fast) ease-out;
+}
+
+.logos li:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+}
+
+.logos img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 36px;
+  object-fit: contain;
+}
+
+/* The sea: three swells drift at different speeds and the footer floats on the last. */
+
+@keyframes drift {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.waves {
+  display: block;
+  width: 100%;
+  height: 96px;
+  margin-bottom: -1px;
+  fill: var(--sea);
+}
+
+.waves path {
+  transform-box: fill-box;
+}
+
+.waves path:nth-child(1) {
+  opacity: 0.22;
+}
+
+.waves path:nth-child(2) {
+  opacity: 0.5;
+}
+
+.motion .waves path {
+  animation: drift 22s linear infinite;
+}
+
+.motion .waves path:nth-child(2) {
+  animation-duration: 15s;
+  animation-direction: reverse;
+}
+
+.motion .waves path:nth-child(3) {
+  animation-duration: 10s;
+}
+
+.waves + .footer {
+  padding-inline: var(--s4);
+  border-top: 0;
+  background: var(--sea);
+  color: var(--sea-ink);
+}
+
+.waves + .footer a:hover {
+  color: inherit;
+  text-decoration-thickness: 2px;
+}
+
+@media (min-width: 880px) {
+  .waves {
+    height: 120px;
+  }
+
+  .waves + .footer {
+    padding-inline: var(--s6);
+  }
+}
+
+@media print {
+  .waves {
+    display: none;
+  }
+}

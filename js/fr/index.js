@@ -98,6 +98,8 @@ export default {
   ].join(""),
   "op-other": 'Autres produits que j\'ai construits et que je fais tourner : <a href="https://leadsit.eu">LeadsIt</a>, une solution de recherche de leads B2B automatisée, OpenWhistle, de l\'audio transformé en données structurées, et <a href="https://deal-club.fun">deal-club.fun</a>, un jeu de cartes immobilier en français qui se joue hors ligne.', // unslop-ignore: wording chosen by the owner
   "h-record": "Parcours",
+  "logos-title": "Employeurs et organismes de formation",
+  "clients-title": "Clients servis avec MOABI",
   "rec-caption": "Parcours professionnel",
   "rec-head": head("Années", "Poste", "Travail"),
   "rec-body": [
