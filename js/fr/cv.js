@@ -33,14 +33,14 @@ export default {
   ].join(""),
   "h-ai": "Travaux en IA",
   ai: list(
-    "OpenVision, un atelier de code avec IA, agents et autocomplétion Tab, sur n'importe quelle API compatible OpenAI ou un modèle local.",
-    "OpenAgents, une plateforme d'agents auto-hébergée pour plusieurs fournisseurs de modèles, avec MCP.",
-    "OpenPlod, de l'audio aux transcriptions et aux conversations qui citent leurs sources, avec un serveur MCP. <span data-stars='OpenPlod'>39 étoiles</span>.",
-    "BurpHunterTK, une extension Burp Suite qui utilise des LLM pour repérer les vulnérabilités critiques.",
+    "LeadsIt IA, un agent qui appelle 18 outils sur les leads, note chaque lead d'après le site du client et bascule entre modèles. Serveur MCP hébergé.",
+    "Céos, le chatbot RAG en ligne sur apdp.mc pour l'autorité monégasque de protection des données, en français et en anglais, avec déclaration de violation et analyse d'impact intégrées.",
+    "Les Pelloux Guidelines, une norme de code pour agents IA appliquée dans 38 dépôts et vérifiée à chaque commit, et 24 skills Claude Code.",
+    "Un flux multi-agents : graphe de tâches, agents en parallèle dans des worktrees git, sur mes serveurs MCP (OpenPro avec 57 outils, Obsidian, Android).",
   ),
   "h-skills": "Compétences",
   skills: pairs(
-    ["IA et LLM", "Agents LLM, RAG, serveurs MCP, assistants en production, Ollama, Mistral, API compatibles OpenAI, plugins Claude Code"],
+    ["IA et LLM", "Agents LLM, appels d'outils, RAG, serveurs MCP, flux multi-agents, bascule entre modèles, Ollama, Mistral, bases vectorielles, skills Claude Code"],
     ["Langages", "TypeScript, Python, PHP, Rust, C, C++, Swift, Kotlin, Go, SQL, Shell"],
     ["Web et applications", "React, Next.js, Vue, Symfony, Node.js, Tauri, Electron, Flutter, iOS, Android"],
     ["Données et infrastructure", "PostgreSQL, Redis, AWS, Docker, Terraform, GitHub Actions, hébergement UE et RGPD"],
@@ -55,9 +55,10 @@ export default {
   ),
   "h-oss": "Open source",
   oss: list(
-    "Modelly, modélisation multi-agents reproductible en Python.",
+    "OpenVision, atelier de code avec IA.",
+    "OpenPlod, audio et chats sourcés. <span data-stars='OpenPlod'>39 étoiles</span>.",
+    "Modelly, modélisation multi-agents en Python.",
     "Containust, un runtime de conteneurs en Rust, sans démon.",
-    "SmarttyTest, analyse d'impact des tests.",
   ),
   "h-products": "Produits",
   products: list(
