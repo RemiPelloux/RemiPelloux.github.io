@@ -1,12 +1,10 @@
 // Client-side routing over real pages. Every route is also a plain HTML file,
 // so a direct visit, a shared link and a browser without JavaScript all work.
 import { adoptTitle, lang, setLang } from "./i18n.js";
-import { blip, calm } from "./juice.js";
+import { blip } from "./juice.js";
+import { tideOver } from "./wipe.js";
 
 const ROUTES = ["/", "/cv/", "/wiki/", "/work/"];
-const LEAVE_MS = 120;
-const ENTER_MS = 260;
-const ENTER_EASE = "cubic-bezier(0.34, 1.56, 0.64, 1)";
 const NAV_HZ = 520;
 const NAV_SOUND_MS = 40;
 const wrap = document.querySelector(".wrap");
@@ -25,13 +23,7 @@ async function fetchPage(route) {
   return new DOMParser().parseFromString(await response.text(), "text/html");
 }
 
-function slide(frames, duration, easing = "ease-out") {
-  if (calm()) return Promise.resolve();
-  return wrap.animate(frames, { duration, easing }).finished;
-}
-
 async function swap(page) {
-  await slide([{ opacity: 1 }, { opacity: 0, transform: "translateY(12px)" }], LEAVE_MS);
   wrap.innerHTML = page.querySelector(".wrap").innerHTML;
   document.body.dataset.page = page.body.dataset.page;
   adoptTitle(page.title);
@@ -44,7 +36,6 @@ function settle(hash) {
   if (target) target.scrollIntoView();
   else window.scrollTo(0, 0);
   blip(NAV_HZ, NAV_SOUND_MS, "triangle");
-  slide([{ opacity: 0, transform: "translateY(-16px)" }, { opacity: 1, transform: "none" }], ENTER_MS, ENTER_EASE);
 }
 
 async function show(url, push) {
@@ -57,8 +48,10 @@ async function show(url, push) {
   }
   if (push) window.history.pushState({}, "", url.href);
   current = routeOf(url);
-  await swap(page);
-  settle(url.hash);
+  await tideOver(async () => {
+    await swap(page);
+    settle(url.hash);
+  });
 }
 
 function onClick(event) {

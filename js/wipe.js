@@ -1,14 +1,15 @@
 // Language transition: three swells rise over the page like a tide, the new language
-// is stamped on the last one with a hit-stop and a shake, then the tide goes back out.
-import { calm, pause, shake, blip } from "./juice.js";
+// is stamped on the last one with a hit-stop, then the tide goes back out.
+// Route changes use the same tide, faster and without the stamp.
+import { calm, pause, blip } from "./juice.js";
 
 const SWELLS = 3;
 const SWELL_MS = 520;
 const STAGGER_MS = 90;
+const ROUTE_SPEED = 1.6; // route changes run this much faster than the language wipe
 const DRIFT_MS = 1400;
 const STAMP_MS = 260;
 const HIT_STOP_MS = 140;
-const STAMP_TRAUMA = 0.75;
 const STAMP_HZ = 110;
 const STAMP_SOUND_MS = 200;
 const EASE_IN_OUT = "cubic-bezier(0.7, 0, 0.2, 1)";
@@ -58,11 +59,11 @@ function drift(swells) {
 }
 
 // The tide comes in back to front and goes out front to back.
-function tide(swells, from, to) {
+function tide(swells, from, to, speed = 1) {
   const order = to === BELOW ? [...swells].reverse() : swells;
   const runs = order.map((swell, index) => {
     const frames = [{ transform: from }, { transform: to }];
-    return swell.animate(frames, { duration: SWELL_MS, delay: index * STAGGER_MS, easing: EASE_IN_OUT, fill: "both" }).finished;
+    return swell.animate(frames, { duration: SWELL_MS / speed, delay: (index * STAGGER_MS) / speed, easing: EASE_IN_OUT, fill: "both" }).finished;
   });
   return Promise.all(runs);
 }
@@ -82,10 +83,19 @@ export async function wipe(label, swap) {
   await tide(swells, BELOW, "none");
   await swap();
   await stampIn(stamp);
-  shake(STAMP_TRAUMA);
   blip(STAMP_HZ, STAMP_SOUND_MS, "sawtooth");
   await pause(HIT_STOP_MS);
   stamp.animate([{ opacity: 1 }, { opacity: 0 }], { duration: SWELL_MS / 2, fill: "both" });
   await tide(swells, "none", BELOW);
+  overlay.remove();
+}
+
+export async function tideOver(swap) {
+  if (calm()) return swap();
+  const { overlay, swells } = build("");
+  drift(swells);
+  await tide(swells, BELOW, "none", ROUTE_SPEED);
+  await swap();
+  await tide(swells, "none", BELOW, ROUTE_SPEED);
   overlay.remove();
 }

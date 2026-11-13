@@ -4,12 +4,10 @@ import { lang, locale, setLang, store, t } from "./i18n.js";
 import { calm, feedback, soundOn } from "./juice.js";
 import { wipe } from "./wipe.js";
 
-const THEMES = ["light", "dark", "azur", "terminal"];
+const THEMES = ["light", "azur"];
 const THEME_NAMES = {
   light: ["Paper", "Papier"],
-  dark: ["Ink", "Encre"],
   azur: ["Azur", "Azur"],
-  terminal: ["Terminal", "Terminal"],
 };
 const CLOCK_INTERVAL_MS = 30_000;
 const root = document.documentElement;
@@ -67,7 +65,7 @@ function switchTheme(button) {
   root.style.setProperty("--reveal-y", `${box.top + box.height / 2}px`);
   if (document.startViewTransition && !calm()) document.startViewTransition(applyNextTheme);
   else applyNextTheme();
-  feedback("medium", button);
+  feedback("small", button);
 }
 
 function switchSound(button) {
