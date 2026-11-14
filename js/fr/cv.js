@@ -62,7 +62,7 @@ export default {
   oss: list(
     '<a href="https://github.com/RemiPelloux/pelloux-guidelines">Pelloux Guidelines</a>, règles et audit pour agents de code IA.',
     "OpenPlod, coffre audio local avec MCP. <span data-stars='OpenPlod'>40 étoiles</span>.",
-    "kill-my-idea, un plugin Claude Code aux verdicts sourcés sur les idées de startup.",
+    '<a href="https://github.com/RemiPelloux/SmarttyTest">SmartTest</a>, ne lance que les tests touchés par un changement, sans échec manqué.',
     "Modelly, modélisation multi-agents en Python. Containust, un runtime de conteneurs en Rust.",
   ),
   "h-edu": "Formation",
