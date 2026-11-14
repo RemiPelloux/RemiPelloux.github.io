@@ -9,7 +9,6 @@ export default {
   title: "Rémi Pelloux, CV",
   back: "Retour au portfolio",
   export: "Exporter en PDF",
-  hint: "L'export ouvre la fenêtre d'impression : choisissez « Enregistrer au format PDF ». Changez d'abord de langue pour obtenir l'autre version. Pour imprimer des coordonnées privées, ajoutez ?email=vous@exemple.fr&amp;tel=0600000000 à l'adresse. Elles restent dans votre navigateur.",
   role: "CTO et cofondateur. Ingénieur IA : agents LLM, MCP et systèmes multi-agents.",
   city: "Nice, France",
   "h-profile": "Profil",
