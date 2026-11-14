@@ -86,7 +86,7 @@ export default {
   "op-intro": '<a href="https://openpro.ai">OpenPro</a> est un réseau professionnel français pour les personnes, les offres et les entreprises, avec CV vidéo, matching par IA, messagerie et une assistante nommée Mia, sur le web, iOS et Android.',
   "op-2": "Le code est privé. Je suis CTO depuis février 2023 et voici l'ingénierie dont je réponds.",
   "op-points": [
-    point("Un cœur PHP et Symfony, TypeScript et React sur le web, des applications iOS et Android, livrés sur une seule feuille de route."),
+    point("Un cœur Laravel, TypeScript et React sur le web, des applications Flutter pour iOS et Android, livrés sur une seule feuille de route."),
     point("Le matching, la recherche documentaire et l'assistante Mia, écrits en Python et reliés par MCP."),
     point(`Des connecteurs ATS via un ${gh("openpro-connector-sdk", "SDK public")} en HTTP et MCP.`),
     point("PostgreSQL et Redis sur AWS, sous Docker, livrés par CI/CD, hébergés dans l'UE et conformes au RGPD."),
