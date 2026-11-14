@@ -1,10 +1,5 @@
 /* CV sheet: an A4 page on screen, one page on paper. */
 
-.cv-hint {
-  max-width: none;
-  padding-block: var(--s4);
-}
-
 .sheet {
   max-width: 210mm;
   margin: var(--s4) auto var(--s9);
@@ -151,8 +146,4 @@
   a {
     text-decoration: none;
   }
-}
-
-.cv-hint {
-  overflow-wrap: anywhere;
 }
