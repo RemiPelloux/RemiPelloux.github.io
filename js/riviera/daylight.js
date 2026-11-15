@@ -4,6 +4,7 @@
 // switching back, the sun sets and the moon comes up again. Light and the path on the water follow them.
 import * as THREE from "/vendor/three/three.module.min.js";
 import { BLUE, MOON } from "./palette.js";
+import { t } from "./lang.js";
 
 const CYCLE_SECONDS = 2.6;
 const KEY = "riviera-sky";
@@ -122,30 +123,39 @@ function apply(world, t) {
   world.renderer.toneMappingExposure = blend("exposure", t);
 }
 
-// Returns { update(delta), toggle(), sky() }. The switch buttons carry data-sky-button="night|day".
-export function makeDaylight(built, renderer, post, calm) {
-  const world = targets(built, renderer, post);
-  let wanted = stored() === "day" ? 1 : 0;
-  let shown = wanted;
-  let applied = -1;
-  const buttons = [...document.querySelectorAll("[data-sky-button]")];
+// The sky toggle in the bar (data-sky-toggle) shows a sun at night and a moon by day: it names
+// what you switch to. The N key does the same.
+function mountToggle(state) {
+  const toggle = document.querySelector("[data-sky-toggle]");
   const mark = () => {
-    const name = wanted ? "day" : "night";
+    const name = state.wanted ? "day" : "night";
     document.documentElement.dataset.sky = name;
-    for (const button of buttons) button.setAttribute("aria-pressed", String(button.dataset.skyButton === name));
+    toggle?.setAttribute("aria-label", state.wanted ? t("Switch to night", "Passer à la nuit") : t("Switch to day", "Passer au jour"));
   };
-  const set = (name) => {
-    wanted = name === "day" ? 1 : 0;
-    remember(name);
+  const flip = () => {
+    state.wanted = state.wanted ? 0 : 1;
+    remember(state.wanted ? "day" : "night");
     mark();
   };
-  for (const button of buttons) button.addEventListener("click", () => set(button.dataset.skyButton));
+  toggle?.addEventListener("click", flip);
   window.addEventListener("keydown", (event) => {
-    if (event.key.toLowerCase() === "n" && !event.target.closest("input, textarea")) set(wanted ? "night" : "day");
+    if (event.key.toLowerCase() === "n" && !event.target.closest("input, textarea")) flip();
   });
+  document.addEventListener("riviera:lang", mark);
+  return mark;
+}
+
+// Returns { update(delta) }: eases the world toward the sky the visitor picked.
+export function makeDaylight(built, renderer, post, calm) {
+  const world = targets(built, renderer, post);
+  const state = { wanted: stored() === "day" ? 1 : 0 };
+  let shown = state.wanted;
+  let applied = -1;
+  const mark = mountToggle(state);
   mark();
   return {
     update(delta) {
+      const wanted = state.wanted;
       if (calm) shown = wanted;
       else shown += Math.sign(wanted - shown) * Math.min(Math.abs(wanted - shown), delta / CYCLE_SECONDS);
       if (shown === applied) return;

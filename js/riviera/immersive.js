@@ -22,6 +22,7 @@ import { loadTextures } from "./textures.js";
 import { makePost } from "./post.js";
 import { makeDaylight } from "./daylight.js";
 import { makeQuality } from "./quality.js";
+import { makePins } from "./pins.js";
 import { mountCompanion } from "./companion.js";
 
 const FOG = { near: 3500, far: 21000 };
@@ -136,7 +137,9 @@ function frame(view, seconds, delta) {
   built.sea.material.uniforms.time.value = seconds;
   built.universe.time.value = seconds;
   built.beacons.userData.turn(seconds);
-  view.placeLabels(camera, size, view.page.cards.map((card) => card.getBoundingClientRect()));
+  const blocks = view.page.cards.map((card) => card.getBoundingClientRect());
+  view.placeLabels(camera, size, blocks);
+  view.placePins(camera, size, blocks, rise);
   post.render();
   view.drawShiba(seconds);
 }
@@ -151,7 +154,7 @@ export async function startImmersive(page) {
   const facts = { buildings: world.buildings.length.toLocaleString("en-GB"), calm: page.calm, onSecret: () => giantShiba(built.scene, world) };
   const post = makePost(renderer, built.scene, camera);
   await warmUp(renderer, built, camera, painted);
-  const view = { page, built, rig, renderer, camera, post, measure: makeQuality(renderer, post), daylight: makeDaylight(built, renderer, post, rig.calm), size: new THREE.Vector2(), placeLabels: makeLabels(page.labels, world.heightAt, districtPlaces(built.universe)), drawShiba: mountCompanion(page.companion, facts) };
+  const view = { page, built, rig, renderer, camera, post, measure: makeQuality(renderer, post), placePins: makePins(page.pins, built.universe), daylight: makeDaylight(built, renderer, post, rig.calm), size: new THREE.Vector2(), placeLabels: makeLabels(page.labels, world.heightAt, districtPlaces(built.universe)), drawShiba: mountCompanion(page.companion, facts) };
   listen(built, rig);
   watchTowers(page.canvas, built.universe, camera);
   if (rig.calm) rig.jump();

@@ -1,0 +1,162 @@
+/* Riviera interface: the top bar, the hero, the chapter rail, the repositories panel and the cards
+   pinned over the towers. Glass panels in Antibes blue over the 3D scene. */
+
+:root {
+  --glass: rgb(6 36 74 / 0.55);
+  --glass-strong: rgb(4 21 48 / 0.82);
+  --glass-edge: rgb(169 205 242 / 0.28);
+  --round: 12px;
+}
+
+/* Top bar */
+
+.brand { display: inline-flex; align-items: center; gap: 12px; }
+.brand .glyph { color: var(--glow); font: 600 1.25rem/1 var(--mono); letter-spacing: -0.04em; }
+.brand b { display: block; font: 600 1.0625rem/1.1 var(--sans); letter-spacing: 0; }
+.brand small { display: block; margin-top: 3px; color: var(--soft); font: 500 0.625rem/1 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; }
+
+.controls { align-items: center; }
+.icon-link {
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--white);
+  cursor: pointer;
+}
+.icon-link:hover { background: var(--glass); }
+.icon { width: 18px; height: 18px; }
+.sky-toggle .moon, [data-sky="day"] .sky-toggle .sun { display: none; }
+[data-sky="day"] .sky-toggle .moon { display: block; }
+
+.switch.pill { border-color: var(--glass-edge); border-radius: 999px; overflow: hidden; background: var(--glass); }
+.switch.pill button { padding: 8px 16px; font-size: 0.6875rem; letter-spacing: 0.08em; text-transform: uppercase; }
+.switch.pill button[aria-pressed="true"] { border-radius: 999px; background: var(--glow); color: var(--night); }
+
+/* Hero */
+
+.version { display: flex; align-items: center; gap: 10px; letter-spacing: 0.24em; }
+.version span { color: var(--soft); letter-spacing: 0.1em; }
+.version::after { content: ""; width: 40px; height: 1px; background: var(--glow); }
+
+.headline {
+  font: 600 clamp(2.6rem, 6.4vw, 6rem)/0.95 var(--sans); /* unslop-ignore: the poster line of the page */
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  max-width: 14ch;
+}
+.headline em {
+  font-style: normal;
+  background: linear-gradient(90deg, #7DB6EE, var(--glow) 55%, var(--white)); /* unslop-ignore: one gradient word, in Antibes blue */
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+[data-mode="immersive"] .hero .headline em { text-shadow: none; }
+.tags { margin: 22px 0 0; color: var(--white); font: 400 clamp(1rem, 1.3vw, 1.25rem)/1.4 var(--sans); }
+.hero .lede { margin-top: 14px; color: var(--soft); font: 400 clamp(1rem, 1.1vw, 1.125rem)/1.55 var(--sans); max-width: 34rem; }
+.hero .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.hero .cta { display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; padding: 0 22px; }
+.hero .cta.ghost { background: var(--glass); border-color: var(--glass-edge); }
+
+/* Repositories panel beside the name */
+
+.shelf { display: none; }
+@media (min-width: 1200px) {
+  [data-mode="immersive"] .shelf:not([hidden]) {
+    display: block;
+    position: absolute;
+    top: 108px;
+    right: clamp(16px, 3vw, 48px);
+    width: 270px;
+    padding: 18px;
+    border: 1px solid var(--glass-edge);
+    border-radius: var(--round);
+    background: var(--glass-strong);
+    backdrop-filter: blur(12px);
+  }
+}
+.shelf header { display: flex; gap: 12px; align-items: center; margin-bottom: 12px; }
+.shelf header svg { width: 26px; height: 26px; }
+.shelf h2 { margin: 0; font: 600 1rem/1.2 var(--sans); letter-spacing: 0; }
+.shelf header p { margin: 2px 0 0; color: var(--soft); font: 400 0.75rem/1.2 var(--sans); }
+.shelf ol { margin: 0; padding: 0; list-style: none; }
+.shelf li a { display: grid; grid-template-columns: 16px 1fr auto; gap: 10px; align-items: center; padding: 7px 4px; border-radius: 6px; color: var(--white); text-decoration: none; font: 400 0.8125rem/1.2 var(--sans); }
+.shelf li a:hover { background: var(--glass); }
+.shelf li svg { width: 15px; height: 15px; color: var(--glow); }
+.shelf li small { color: var(--soft); font: 500 0.75rem/1 var(--mono); }
+.shelf .others { margin: 8px 4px 14px; color: var(--soft); font: 400 0.75rem/1 var(--sans); }
+.shelf .explore { display: flex; justify-content: center; gap: 6px; padding: 10px; border: 1px solid var(--glass-edge); border-radius: 999px; color: var(--white); text-decoration: none; font: 500 0.8125rem/1 var(--sans); }
+.shelf .explore:hover { border-color: var(--glow); }
+
+/* Chapter rail on the left; the Chapters menu stays for smaller screens */
+
+.rail { display: none; }
+@media (min-width: 1100px) {
+  .chapter-menu { display: none; }
+  .rail {
+    display: block;
+    position: fixed;
+    z-index: 15;
+    left: clamp(20px, 2.4vw, 40px);
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .stop { padding-left: clamp(190px, 15vw, 260px); }
+}
+.rail ol { position: relative; display: grid; gap: 26px; margin: 0; padding: 0; list-style: none; }
+.rail-line { position: absolute; left: 6px; top: 8px; bottom: 8px; width: 1px; background: var(--glass-edge); }
+.rail-fill { position: absolute; inset: 0; background: var(--glow); transform-origin: top; transform: scaleY(0); transition: transform 0.5s ease; }
+.rail a { text-shadow: 0 1px 6px var(--night); display: grid; grid-template-columns: 13px auto; column-gap: 14px; color: var(--soft); text-decoration: none; font: 500 0.6875rem/1.25 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; }
+.rail .dot { grid-row: 1 / span 2; align-self: center; width: 13px; height: 13px; border: 1px solid var(--soft); border-radius: 50%; background: var(--night); transition: background 0.3s, border-color 0.3s, box-shadow 0.3s; }
+.rail b { font-weight: 500; color: var(--white); }
+.rail a:hover { color: var(--white); }
+.rail a[aria-current] { color: var(--white); }
+.rail a[aria-current] .dot { border-color: var(--white); background: var(--glow); box-shadow: 0 0 0 4px rgb(169 205 242 / 0.22), 0 0 14px var(--glow); }
+@media (prefers-reduced-motion: reduce) { .rail-fill, .rail .dot { transition: none; } }
+
+/* Cards pinned over the towers */
+
+.pins { display: none; }
+[data-mode="immersive"] .pins { display: block; position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+.pin {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 200px;
+  padding: 10px 14px;
+  translate: -50% calc(-100% - 18px);
+  border: 1px solid var(--glass-edge);
+  border-radius: 10px;
+  background: var(--glass);
+  backdrop-filter: blur(8px);
+  color: var(--white);
+  text-decoration: none;
+  opacity: 0;
+  pointer-events: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+.pin::after { content: ""; position: absolute; left: 50%; top: 100%; width: 1px; height: 18px; background: linear-gradient(var(--glow), transparent); }
+.pin svg { flex: none; width: 22px; height: 22px; }
+.pin span { display: grid; gap: 2px; min-width: 0; }
+.pin b { overflow: hidden; font: 600 0.9375rem/1.2 var(--sans); text-overflow: ellipsis; white-space: nowrap; }
+.pin small { color: var(--soft); font: 400 0.6875rem/1.2 var(--sans); }
+.pin:hover, .pin:focus-visible { border-color: var(--glow); background: var(--glass-strong); }
+
+@media (max-width: 720px) {
+  .brand small { display: none; }
+  .controls a.icon-link { display: none; } /* GitHub and LinkedIn are in the hero; the bar stays two rows */
+  .menu-button [data-i18n="menu"] { display: none; } /* the button names the chapter; it fits beside the name */
+  .menu-button { gap: 6px; padding: 0 10px; }
+  .controls { gap: 6px; }
+  .switch.pill button { padding: 8px 11px; }
+  .pin { width: 160px; padding: 8px 10px; }
+  .headline { max-width: none; }
+}
