@@ -160,3 +160,6 @@
   .pin { width: 160px; padding: 8px 10px; }
   .headline { max-width: none; }
 }
+
+/* By day the bar's backing lightens, so it does not hang a band of night over a bright sky. */
+[data-sky="day"] .bar { background: linear-gradient(rgb(3 11 26 / 0.5), transparent); } /* unslop-ignore: keeps the bar readable over the moving 3D scene */
