@@ -11,14 +11,14 @@ const KEY = "riviera-sky";
 
 // Each entry: [night, day]. Colours are lerped, numbers are lerped.
 const LOOK = {
-  zenith: ["#081C3D", "#2F77C1"],
-  middle: ["#0E3366", "#6E9FD5"],
-  horizon: [BLUE.horizon, "#C9DCF0"],
+  zenith: ["#081C3D", "#1A5FB4"],
+  middle: ["#0E3366", "#3F86D4"],
+  horizon: [BLUE.horizon, "#9CC2EA"],
   afterglow: [BLUE.glow, "#FFFFFF"],
   seaDeep: [BLUE.abyss, BLUE.sea],
   seaMid: [BLUE.sea, BLUE.antibes],
   seaShallow: [BLUE.shallow, "#3FB5D8"],
-  seaSky: [BLUE.horizon, "#B7CFEA"],
+  seaSky: [BLUE.horizon, "#8DB8E6"],
   hemiSky: [BLUE.glow, "#FFFFFF"],
   hemiGround: [BLUE.deep, BLUE.sea],
   hemi: [1.55, 2.1],
@@ -32,6 +32,8 @@ const LOOK = {
   bloom: [0.75, 0.22],
   threshold: [0.62, 0.92],
   exposure: [1.28, 1.08],
+  fogNear: [3500, 7000], // a clear day sees much further than blue hour
+  fogFar: [21000, 45000],
 };
 
 const smooth = (x) => x * x * (3 - 2 * x);
@@ -105,6 +107,8 @@ function apply(world, t) {
   for (const key of ["zenith", "middle", "afterglow"]) sky[key].value.copy(blend(key, t));
   sky.horizon.value.copy(blend("horizon", t));
   world.fog.color.copy(sky.horizon.value); // the sea reads this same colour object for its fog
+  world.fog.near = world.sea.uniforms.fogNear.value = blend("fogNear", t);
+  world.fog.far = world.sea.uniforms.fogFar.value = blend("fogFar", t);
   sky.night.value = 1 - t;
   const sea = world.sea.uniforms;
   sea.deep.value.copy(blend("seaDeep", t));

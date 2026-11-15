@@ -63,7 +63,8 @@ function buildWorld(world, repos, { images, textures }) {
   scene.fog = new THREE.Fog(HORIZON, FOG.near, FOG.far);
   const parts = { sea: makeSea(world, shoreMask(world), scene.fog), beacons: makeBeacons(world), universe: new Universe(repos), voyage: makeVoyage() };
   parts.turnSculptures = placeSculptures(parts.universe, ALTITUDE);
-  const still = [makeSky(textures.sky), parts.sea, makeTerrain(world, images), makeBuildings(world, textures), makeFort(world, textures), makePort(world, textures), makePines(world)];
+  parts.sky = makeSky(textures.sky);
+  const still = [parts.sky, parts.sea, makeTerrain(world, images), makeBuildings(world, textures), makeFort(world, textures), makePort(world, textures), makePines(world)];
   scene.add(makeLights(), ...still, parts.beacons, parts.universe.group, parts.voyage.boat);
   freeze(still);
   return { scene, ...parts };
@@ -136,6 +137,7 @@ function frame(view, seconds, delta) {
   built.voyage.place(seconds);
   built.sea.material.uniforms.time.value = seconds;
   built.universe.time.value = seconds;
+  built.sky.material.uniforms.time.value = seconds;
   built.beacons.userData.turn(seconds);
   const blocks = view.page.cards.map((card) => card.getBoundingClientRect());
   view.placeLabels(camera, size, blocks);
