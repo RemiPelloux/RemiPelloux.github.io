@@ -83,17 +83,3 @@
   font-family: var(--font-mono);
   font-size: var(--t14);
 }
-
-/* Work rows: the number grows when the row is pointed at */
-
-@media (hover: hover) {
-  .work .n {
-    display: inline-block;
-    transform-origin: left center;
-    transition: transform 220ms var(--spring);
-  }
-
-  .work > li:hover .n {
-    transform: scale(1.35);
-  }
-}
