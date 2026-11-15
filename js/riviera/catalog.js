@@ -16,8 +16,14 @@ export const DISTRICTS = [
 export const TOP = 10;
 export const GITHUB_REPOS = "https://github.com/RemiPelloux?tab=repositories";
 
-// Flagships first, then the most stars, then the most recently pushed.
-const rank = (a, b) => Number(b.featured) - Number(a.featured) || b.stars - a.stars || b.pushed.localeCompare(a.pushed);
+// Never shown in the world, the list or the panel.
+const HIDDEN = new Set(["agent-mangaka-forge"]);
+// Hard engineering promoted right after the flagships, whatever its stars.
+const PICKED = ["GalaxyCrash"];
+
+const picked = (repo) => (PICKED.includes(repo.name) ? 1 : 0);
+// Flagships first, then the picks, then the most stars, then the most recently pushed.
+const rank = (a, b) => Number(b.featured) - Number(a.featured) || picked(b) - picked(a) || b.stars - a.stars || b.pushed.localeCompare(a.pushed);
 
 let cached = null;
 
@@ -26,8 +32,9 @@ export async function loadCatalog() {
   cached ??= fetch("/assets/riviera/repos.json")
     .then((response) => response.json())
     .then((data) => {
-      const own = data.repos.filter((repo) => !repo.fork);
-      return { ...data, all: data.repos, total: own.length, repos: [...own].sort(rank).slice(0, TOP) };
+      const all = data.repos.filter((repo) => !HIDDEN.has(repo.name));
+      const own = all.filter((repo) => !repo.fork);
+      return { ...data, all, total: own.length, repos: [...own].sort(rank).slice(0, TOP) };
     });
   return cached;
 }
