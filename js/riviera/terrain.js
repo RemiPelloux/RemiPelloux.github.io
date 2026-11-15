@@ -138,5 +138,6 @@ export function makeTerrain(world, images) {
   });
   material.map.colorSpace = THREE.SRGBColorSpace;
   material.map.anisotropy = 4;
+  material.userData.daylight = "ground"; // brighter land and quieter road lights by day
   return new THREE.Mesh(geometry, material);
 }

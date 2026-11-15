@@ -151,9 +151,11 @@ export function universeStops(universe) {
   const stops = {
     domains: [c.x + 1250, 820, -(c.y - 1050), c.x, ALTITUDE - 40, -c.y],
     universe: [c.x + 640, 560, -(c.y - 600), c.x, ALTITUDE + 40, -c.y],
-    flagships: [c.x - 380, 470, -(c.y + 760), c.x, ALTITUDE + 70, -c.y],
+    flagships: [c.x - 760, 700, -(c.y + 1350), c.x, ALTITUDE + 60, -c.y], // far enough back to frame the whole ring
     engineering: [c.x + 1000, 1250, -(c.y - 1450), c.x, ALTITUDE, -c.y],
   };
-  for (const tower of universe.entries.filter((t) => t.repo.featured)) stops[`feature-${tower.repo.name}`] = towerView(tower);
+  // Every flagship section shares the one overview, so the camera stays put through chapter 04
+  // and the flagship on screen lights up instead.
+  for (const tower of universe.entries.filter((t) => t.repo.featured)) stops[`feature-${tower.repo.name}`] = stops.flagships;
   return stops;
 }

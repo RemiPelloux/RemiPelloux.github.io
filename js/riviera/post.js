@@ -38,6 +38,7 @@ export function makePost(renderer, scene, camera) {
   composer.addPass(new OutputPass());
   return {
     resize: (width, height) => composer.setSize(width, height),
+    setBloom: (strength, threshold) => Object.assign(bloom, { strength, threshold }),
     render: (seconds) => {
       cinema.uniforms.time.value = seconds % 100;
       composer.render();
