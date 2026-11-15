@@ -27,6 +27,7 @@ The source of [remipelloux.github.io](https://remipelloux.github.io/). Static fi
 | `js/words.js`, `css/motion.css` | Word-by-word reveals, the name sinking on scroll, sticky section labels, row and link hovers |
 | `js/stars.js` | Star and repository counts read live from the GitHub API, cached one hour, with the written numbers as fallback |
 | `js/intro.js`, `css/intro.css` | Opening sequence, once per browser session |
+| `js/welcome.js`, `css/welcome.css`, `assets/welcome/` | Welcome screen on `/`, once per browser session: Immersive goes to `/riviera/`, Lite stays on the classic site. `/?lite` skips it |
 | `scripts/stamp.py` | Versions the CSS and JavaScript links |
 | `scripts/refresh-ledger.sh` | Regenerates `js/ledger-data.js` from GitHub |
 
