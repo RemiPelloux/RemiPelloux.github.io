@@ -13,6 +13,7 @@ import { mountReveal } from "./reveal.js";
 import { mountMarquee } from "./marquee.js";
 import { mountLab } from "./lab.js";
 import { mountArchive } from "./archive.js";
+import { mountMobile } from "./mobile.js";
 import "./cursor.js";
 import "./shiba.js";
 
@@ -28,6 +29,7 @@ function mountAll() {
   mountMarquee();
   mountLab();
   mountArchive();
+  mountMobile();
 }
 
 ready.then(() => {

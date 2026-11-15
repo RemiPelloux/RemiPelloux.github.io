@@ -64,8 +64,7 @@
 }
 
 .about {
-  padding-block: var(--s6) var(--s8);
-  border-top: 1px solid var(--rule-strong);
+  padding-block: var(--s5) var(--s7);
 }
 
 .name {
@@ -125,7 +124,8 @@
 /* Contribution ledger */
 
 .ledger {
-  padding-block: 0 var(--s6);
+  padding-block: var(--s5) var(--s6);
+  border-top: 1px solid var(--rule-strong);
 }
 
 .ledger-head {
@@ -183,23 +183,66 @@
   }
 }
 
-/* Work list */
+/* Work: one plate per project, picture first. */
+
+.band.gallery {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.work {
+  display: grid;
+  gap: var(--s7) var(--s6);
+}
 
 .work > li {
   position: relative;
   display: grid;
-  gap: var(--s2) var(--s6);
-  padding: var(--s5) var(--s2);
-  border-top: 1px solid var(--rule);
+  gap: var(--s4);
+  align-content: start;
 }
 
-.work > li:first-child {
-  border-top: 0;
-  padding-top: 0;
-}
-
-.work > li:hover {
+.plate-art {
+  display: block;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
   background: var(--paper-2);
+}
+
+.plate-art img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top left;
+}
+
+.plate-art.draw img {
+  box-sizing: border-box;
+  padding: var(--s5);
+  object-fit: contain;
+  object-position: center;
+}
+
+/* A project without a screen to show gets its name as the picture. */
+
+.plate-art.word {
+  display: grid;
+  align-items: end;
+  padding: var(--s5);
+  background: var(--ink);
+  color: var(--paper);
+  text-decoration: none;
+}
+
+.plate-art.word span {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4.6vw, 4.5rem); /* unslop-ignore: the name stands in for a screenshot */
+  font-weight: 600;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  overflow-wrap: anywhere;
 }
 
 .work h3 {
@@ -221,27 +264,241 @@
   text-decoration: underline;
 }
 
-.work .n {
-  color: var(--accent);
+.work h3 + p {
+  margin-top: var(--s2);
+  max-width: 62ch;
 }
 
 .work dl {
-  display: grid;
-  gap: var(--s1);
-  align-content: start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s1) var(--s4);
+  margin-top: var(--s3);
   color: var(--ink-2);
+  font-size: var(--t14);
+}
+
+.swipe {
+  display: none;
+}
+
+@media (hover: hover) {
+  .motion .plate-art img,
+  .motion .plate-art span {
+    transition: transform 500ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .motion .work > li:hover .plate-art.shot img {
+    transform: scale(1.03);
+  }
+}
+
+@media (min-width: 721px) {
+  .work {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .work > li:first-child {
+    grid-column: 1 / -1;
+  }
 }
 
 @media (min-width: 880px) {
+  .work > li:first-child {
+    grid-column: 1 / -1;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    gap: var(--s6);
+    align-items: center;
+  }
+
+  .work > li:first-child .plate-art {
+    grid-row: span 2;
+    aspect-ratio: 20 / 9;
+  }
+
+  .work > li:first-child > div {
+    align-self: end;
+  }
+
+  .work > li:first-child > dl {
+    align-self: start;
+    margin-top: 0;
+  }
+
+  .work > li:first-child h3 {
+    font-size: var(--t56);
+  }
+}
+
+/* Phones: the projects become a row to swipe through. */
+
+@media (max-width: 720px) {
+  .work {
+    display: flex;
+    gap: var(--s4);
+    margin-inline: calc(-1 * var(--s4));
+    padding-inline: var(--s4);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--s4);
+    scrollbar-width: none;
+  }
+
+  .work::-webkit-scrollbar {
+    display: none;
+  }
+
   .work > li {
-    grid-template-columns: 48px minmax(0, 1fr) 260px;
+    flex: 0 0 84%;
+    scroll-snap-align: start;
   }
 
-  .work h3 {
-    font-size: var(--t40);
+  .swipe {
+    display: block;
+  }
+}
+
+/* Phone version. mobile.js adds the tab bar and folds the long sections;
+   without JavaScript the page stays open and the top links stay in place. */
+
+.tabbar {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .name {
+    font-size: 29.5vw; /* unslop-ignore: the name fills the phone screen on two lines */
+    line-height: 0.86;
+    white-space: normal;
   }
 
-  .work h3 + p {
-    margin-top: var(--s3);
+  /* name.js sets one span per letter: the fifth is the space, turned into the line break. */
+
+  .name span:nth-child(5) {
+    display: block;
+    height: 0;
+  }
+
+  .has-tabbar .topbar > span {
+    display: none;
+  }
+
+  .has-tabbar .topbar {
+    justify-content: flex-end;
+  }
+
+  .has-tabbar .topbar nav ul {
+    flex-wrap: nowrap;
+  }
+
+  .has-tabbar .topbar .button {
+    padding-inline: var(--s2);
+  }
+
+  .contact-links {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .contact-links .primary {
+    grid-column: 1 / -1;
+  }
+
+  .about {
+    padding-block: var(--s4) var(--s6);
+  }
+
+  .lede {
+    font-size: var(--t21);
+  }
+
+  .contact-links .button {
+    justify-content: center;
+    width: 100%;
+    min-height: 48px;
+  }
+
+  .stats {
+    gap: var(--s5) var(--s4);
+    padding-block: var(--s5) var(--s6);
+  }
+
+  .band {
+    padding-block: var(--s5) var(--s7);
+  }
+
+  .tabbar {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 20;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    padding-bottom: env(safe-area-inset-bottom);
+    border-top: 1px solid var(--rule-strong);
+    background: var(--paper);
+  }
+
+  .tabbar a {
+    display: grid;
+    place-items: center;
+    min-height: 56px;
+    font-size: var(--t14);
+    text-decoration: none;
+  }
+
+  .tabbar a[aria-current="page"] {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .has-tabbar body {
+    padding-bottom: calc(56px + env(safe-area-inset-bottom));
+  }
+
+  .has-tabbar .topbar nav li:has(> a) {
+    display: none;
+  }
+
+  .has-tabbar .topbar nav,
+  .has-tabbar .topbar nav ul {
+    width: auto;
+  }
+
+  /* Folded sections: the heading is the switch. */
+
+  .band > h2[role="button"] {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    margin-block: calc(-1 * var(--s3));
+    font-size: var(--t16);
+    cursor: pointer;
+  }
+
+  .band > h2[role="button"]::after {
+    content: "+";
+    margin-left: auto;
+    color: var(--accent);
+    font-size: var(--t24);
+    font-weight: 400;
+  }
+
+  .band > h2[aria-expanded="true"]::after {
+    content: "−";
+  }
+
+  .band.folded {
+    padding-block: var(--s4);
+  }
+
+  .band.folded > .band-body {
+    display: none;
+  }
+}
+
+@media print {
+  .tabbar {
+    display: none;
   }
 }

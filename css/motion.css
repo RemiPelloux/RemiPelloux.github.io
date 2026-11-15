@@ -41,33 +41,7 @@ a .w > span {
   z-index: 1;
 }
 
-/* Work rows: a line draws across the top when the row is pointed at */
-
 @media (hover: hover) {
-  .work > li::before {
-    content: "";
-    position: absolute;
-    inset: -1px 0 auto 0;
-    height: 2px;
-    background: var(--accent);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 500ms cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
-
-  .work > li:hover::before {
-    transform: scaleX(1);
-  }
-
-  .work h3 a {
-    display: inline-block;
-    transition: transform 400ms var(--spring);
-  }
-
-  .work > li:hover h3 a {
-    transform: translateX(var(--s3));
-  }
-
   /* Text links: the underline thickens and drops */
 
   p a,
