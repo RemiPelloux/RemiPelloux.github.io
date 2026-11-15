@@ -1,4 +1,4 @@
-// Pointing at a tower names its repository; clicking it opens the repository's card.
+// Pointing at a tower names its repository; clicking it opens the repository on GitHub in a new tab.
 import * as THREE from "/vendor/three/three.module.min.js";
 
 export function watchTowers(canvas, universe, camera) {
@@ -23,6 +23,8 @@ export function watchTowers(canvas, universe, camera) {
   });
   window.addEventListener("click", (event) => {
     const tower = pick(event);
-    if (tower) document.dispatchEvent(new CustomEvent("riviera:pick", { detail: { name: tower.repo.name } }));
+    if (!tower) return;
+    window.open(tower.repo.url, "_blank", "noopener");
+    document.dispatchEvent(new CustomEvent("riviera:pick", { detail: { name: tower.repo.name } }));
   });
 }

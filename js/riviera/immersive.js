@@ -18,6 +18,8 @@ import { makeVoyage } from "./voyage.js";
 import { watchTowers } from "./pointer.js";
 import { Rig, STOPS } from "./rig.js";
 import { runBoot } from "./boot.js";
+import { loadTextures } from "./textures.js";
+import { makePost } from "./post.js";
 import { mountCompanion } from "./companion.js";
 
 const FOG = { near: 3500, far: 21000 };
@@ -31,12 +33,12 @@ function makeRenderer(canvas) {
   return renderer;
 }
 
-function buildWorld(world, repos) {
+function buildWorld(world, repos, { images, textures }) {
   const scene = new THREE.Scene();
   scene.fog = new THREE.Fog(HORIZON, FOG.near, FOG.far);
   const parts = { sea: makeSea(world, shoreMask(world), scene.fog), beacons: makeBeacons(world), universe: new Universe(repos), voyage: makeVoyage() };
   parts.turnSculptures = placeSculptures(parts.universe, ALTITUDE);
-  scene.add(makeSky(), makeLights(), parts.sea, makeTerrain(world), makeBuildings(world), makeFort(world), makePort(world), makePines(world));
+  scene.add(makeSky(textures.sky), makeLights(), parts.sea, makeTerrain(world, images), makeBuildings(world, textures), makeFort(world, textures), makePort(world, textures), makePines(world));
   scene.add(parts.beacons, parts.universe.group, parts.voyage.boat);
   return { scene, ...parts };
 }
@@ -54,11 +56,12 @@ function districtPlaces(universe) {
   return universe.districts.map((d) => ({ name: { en: d.en, fr: d.fr }, x: d.x, y: d.y - d.radius * 0.6, height: ALTITUDE + 18, district: true }));
 }
 
-function resize(renderer, camera, size) {
+function resize(renderer, camera, size, post) {
   const [width, height] = [window.innerWidth, window.innerHeight];
   if (size.x === width && size.y === height) return;
   size.set(width, height);
   renderer.setSize(width, height, false);
+  post.resize(width, height);
   camera.aspect = width / height;
   camera.updateProjectionMatrix();
 }
@@ -86,29 +89,30 @@ function riseFor(rig) {
 }
 
 function frame(view, seconds, delta) {
-  const { built, rig, renderer, camera, size } = view;
-  resize(renderer, camera, size);
-  rig.update(seconds, delta);
+  const { built, rig, renderer, camera, size, post } = view;
+  resize(renderer, camera, size, post);
+  rig.update(delta);
   const rise = rig.calm ? Math.round(riseFor(rig)) : riseFor(rig);
   built.universe.setRise(rise);
   built.turnSculptures(seconds, rise);
   built.voyage.place(seconds);
   built.sea.material.uniforms.time.value = seconds;
+  built.universe.time.value = seconds;
   built.beacons.userData.turn(seconds);
   view.placeLabels(camera, size, view.page.cards.map((card) => card.getBoundingClientRect()));
-  renderer.render(built.scene, camera);
+  post.render(seconds);
   view.drawShiba(seconds);
 }
 
 export async function startImmersive(page) {
-  const [world, catalog] = await Promise.all([loadWorld("/assets/riviera/"), loadCatalog()]);
   const renderer = makeRenderer(page.canvas);
-  const built = buildWorld(world, catalog.repos);
+  const [world, catalog, painted] = await Promise.all([loadWorld("/assets/riviera/"), loadCatalog(), loadTextures(renderer)]);
+  const built = buildWorld(world, catalog.repos, painted);
   const camera = new THREE.PerspectiveCamera(42, 1, 2, 320000);
-  const rig = new Rig(camera, page.sections, { ...STOPS, ...universeStops(built.universe) });
+  const rig = new Rig(camera, page.sections, { ...STOPS, ...universeStops(built.universe) }, world.heightAt);
   rig.calm = page.calm || page.still;
   const facts = { buildings: world.buildings.length.toLocaleString("en-GB"), calm: page.calm, onSecret: () => giantShiba(built.scene, world) };
-  const view = { page, built, rig, renderer, camera, size: new THREE.Vector2(), placeLabels: makeLabels(page.labels, world.heightAt, districtPlaces(built.universe)), drawShiba: mountCompanion(page.companion, facts) };
+  const view = { page, built, rig, renderer, camera, post: makePost(renderer, built.scene, camera), size: new THREE.Vector2(), placeLabels: makeLabels(page.labels, world.heightAt, districtPlaces(built.universe)), drawShiba: mountCompanion(page.companion, facts) };
   listen(built, rig);
   watchTowers(page.canvas, built.universe, camera);
   if (rig.calm) rig.jump();

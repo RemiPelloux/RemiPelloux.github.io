@@ -58,7 +58,7 @@ function build(canFly) {
   const immersive = option(
     "immersive",
     t("Immersive", "Immersif"),
-    t("Fly along the coast of a 3D Antibes. Every public repository stands over the town as a tower.", "Survolez la côte d'un Antibes en 3D. Chaque dépôt public se dresse sur la ville comme une tour."),
+    t("Fly along the coast of a 3D Antibes. My top ten repositories stand over the town as towers.", "Survolez la côte d'un Antibes en 3D. Mes dix meilleurs dépôts se dressent sur la ville comme des tours."),
     canFly ? t("3D, about 2 MB, best on a computer", "3D, environ 2 Mo, idéal sur ordinateur") : t("Needs WebGL 2, not available in this browser", "Demande WebGL 2, absent de ce navigateur"),
     "/assets/riviera/stills/arrival.webp",
     t("Antibes at blue hour, seen from the sea", "Antibes à l'heure bleue, vue depuis la mer"),

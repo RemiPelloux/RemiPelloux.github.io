@@ -7,14 +7,14 @@ const PIER_TOP = 1.6;
 const BOAT_SPACING = 5.5;
 const MAX_BOATS = 1600;
 
-function piersMesh(world) {
+function piersMesh(world, stone) {
   const mesher = new Mesher();
   const color = new THREE.Color(LAND.stone);
   for (const flat of world.piers) {
     const ring = toVec2(flat);
     if (ring.length >= 3) extrude(mesher, [ring], { base: -2, top: PIER_TOP, color, wallColor: color });
   }
-  return new THREE.Mesh(mesher.build(), new THREE.MeshLambertMaterial({ vertexColors: true, side: THREE.DoubleSide }));
+  return new THREE.Mesh(mesher.build(), new THREE.MeshLambertMaterial({ map: stone, vertexColors: true, side: THREE.DoubleSide }));
 }
 
 // The longest edge gives the pontoon's direction; boats moor on both sides of it.
@@ -70,8 +70,8 @@ function boatsMesh(world) {
   return boats;
 }
 
-export function makePort(world) {
+export function makePort(world, textures) {
   const group = new THREE.Group();
-  group.add(piersMesh(world), boatsMesh(world));
+  group.add(piersMesh(world, textures.stone), boatsMesh(world));
   return group;
 }

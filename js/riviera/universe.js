@@ -65,9 +65,22 @@ function links(districts) {
   return new THREE.LineSegments(geometry, material);
 }
 
-function towers(entries) {
+// Towers glow brighter toward the top, carry slow scan lines and a rim of light: bloom does the rest.
+const HOLOGRAM_VERTEX = "#include <project_vertex>\nvHeight = position.y;\nvWorldY = (modelMatrix * instanceMatrix * vec4(position, 1.0)).y;\nvRim = 1.0 - abs(dot(normalize(normalMatrix * mat3(instanceMatrix) * objectNormal), vec3(0.0, 0.0, 1.0)));";
+const HOLOGRAM_FRAGMENT = "#include <emissivemap_fragment>\nfloat scan = smoothstep(0.82, 1.0, fract(vWorldY * 0.06 - time * 0.25));\ntotalEmissiveRadiance += vColor * (0.18 + 0.9 * vHeight * vHeight + scan * 0.35 + pow(vRim, 3.0) * 0.6);";
+
+function hologram(material, time) {
+  material.onBeforeCompile = (shader) => {
+    shader.uniforms.time = time;
+    shader.vertexShader = shader.vertexShader.replace("#include <common>", "#include <common>\nvarying float vHeight;\nvarying float vWorldY;\nvarying float vRim;").replace("#include <project_vertex>", HOLOGRAM_VERTEX);
+    shader.fragmentShader = shader.fragmentShader.replace("#include <common>", "#include <common>\nuniform float time;\nvarying float vHeight;\nvarying float vWorldY;\nvarying float vRim;").replace("#include <emissivemap_fragment>", HOLOGRAM_FRAGMENT);
+  };
+  return material;
+}
+
+function towers(entries, time) {
   const geometry = new THREE.BoxGeometry(TOWER_WIDTH, 1, TOWER_WIDTH).translate(0, 0.5, 0);
-  const material = new THREE.MeshLambertMaterial({ color: 0xffffff, emissive: BLUE.antibes, emissiveIntensity: 0.55 });
+  const material = hologram(new THREE.MeshLambertMaterial({ color: 0x4a6f9c, transparent: true, opacity: 0.92 }), time);
   const mesh = new THREE.InstancedMesh(geometry, material, entries.length);
   entries.forEach((t, i) => mesh.setColorAt(i, baseColour(t)));
   return mesh;
@@ -85,7 +98,8 @@ export class Universe {
     this.districts = layout(repos);
     this.entries = this.districts.flatMap((d) => d.repos);
     this.group = new THREE.Group();
-    this.towers = towers(this.entries);
+    this.time = { value: 0 };
+    this.towers = towers(this.entries, this.time);
     this.links = links(this.districts);
     this.group.add(platforms(this.districts), this.links, this.towers);
     this.matrix = new THREE.Matrix4();
@@ -137,6 +151,7 @@ export function universeStops(universe) {
   const stops = {
     domains: [c.x + 1250, 820, -(c.y - 1050), c.x, ALTITUDE - 40, -c.y],
     universe: [c.x + 640, 560, -(c.y - 600), c.x, ALTITUDE + 40, -c.y],
+    flagships: [c.x - 380, 470, -(c.y + 760), c.x, ALTITUDE + 70, -c.y],
     engineering: [c.x + 1000, 1250, -(c.y - 1450), c.x, ALTITUDE, -c.y],
   };
   for (const tower of universe.entries.filter((t) => t.repo.featured)) stops[`feature-${tower.repo.name}`] = towerView(tower);

@@ -1,7 +1,7 @@
 // French for the Riviera page, keyed by data-i18n. English lives in the HTML.
 export const FR = {
   title: "Riviera, Rémi Pelloux",
-  description: "Rémi Pelloux, ingénieur logiciel et fondateur, né à Antibes. Une Antibes en 3D construite depuis OpenStreetMap, avec chaque dépôt public dressé au-dessus de la ville.",
+  description: "Rémi Pelloux, ingénieur logiciel et fondateur, né à Antibes. Une Antibes en 3D construite depuis OpenStreetMap, avec mes dix meilleurs dépôts dressés au-dessus de la ville.",
   skip: "Aller au contenu",
   n0: "Arrivée", n1: "Origine", n2: "Domaines", n3: "Dépôts", n4: "Projets phares", n5: "Ingénierie", n6: "Au-delà", n7: "Horizon",
   "boot-skip": "Appuyez sur une touche pour passer",
@@ -35,9 +35,8 @@ export const FR = {
   "d-web": "Web", "d-web-t": "Là où tout a commencé : PHP, JavaScript et des sites clients.",
   "d-exp": "Expériences", "d-exp-t": "De la simulation, de la modélisation et tout ce qui demandait à être essayé.",
   k3: "Chapitre 03, mon GitHub",
-  "u-h": "Chaque dépôt public",
-  "u-intro": "Chaque tour est un dépôt public de mon GitHub. Plus haute, plus d'étoiles ; plus claire, poussée plus récemment ; blanche, un projet phare. Pointez une tour pour la lire, ou cherchez dans la liste.",
-  "ex-search": "Chercher", "ex-sort": "Trier", "ex-pushed": "Poussés récemment", "ex-stars": "Plus d'étoiles", "ex-name": "Nom", "ex-forks": "Afficher les forks",
+  "u-h": "Mes dix meilleurs dépôts",
+  "u-intro": "Chaque tour est l'un de mes dix meilleurs dépôts publics : les projets phares, puis les plus étoilés. Plus haute, plus d'étoiles ; plus claire, poussée plus récemment. Cliquez une tour ou un nom pour l'ouvrir sur GitHub dans un nouvel onglet.",
   "u-source": "Lu depuis l'API GitHub chaque jour. Les dépôts privés ne sont jamais listés.",
   k4: "Chapitre 04, projets phares",
   f1: "Un IDE qui tourne sur votre machine, avec les modèles que vous choisissez. Il réunit un éditeur, des terminaux, des worktrees Git, un agent et l'autocomplétion Tab, et se branche sur n'importe quelle API compatible OpenAI ou sur un modèle local. Il ne demande aucun compte et n'envoie aucune télémétrie.",

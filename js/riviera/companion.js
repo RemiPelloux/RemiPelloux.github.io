@@ -14,7 +14,7 @@ const HINTS = [
 // One line the first time each chapter comes on screen.
 const CHAPTER_LINES = {
   "02": ["Inland, every field Rémi works in gets its own platform.", "Dans les terres, chaque domaine de Rémi a sa plateforme."],
-  "03": ["Each tower is a public repository. Point at one, or search below.", "Chaque tour est un dépôt public. Pointez-en une, ou cherchez plus bas."],
+  "03": ["Ten towers, my ten best repositories. Click one to open it on GitHub.", "Dix tours, mes dix meilleurs dépôts. Cliquez-en une pour l'ouvrir sur GitHub."],
   "04": ["The flagships. Each one has its own object on top.", "Les projets phares. Chacun a son objet au sommet."],
   "05": ["Hover a language and its towers light up.", "Survolez un langage et ses tours s'allument."],
   "06": ["That is us on the boat. He steers, I keep watch.", "C'est nous, sur le bateau. Il tient la barre, je fais le guet."],

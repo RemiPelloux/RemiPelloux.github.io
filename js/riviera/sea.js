@@ -30,6 +30,18 @@ float shoreAt(vec3 p) {
   return texture2D(shore, uv).r;
 }
 
+// Smooth value noise and its sum over three octaves: the height of the swell.
+float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+float noise(vec2 p) {
+  vec2 i = floor(p), f = fract(p);
+  vec2 u = f * f * (3.0 - 2.0 * f);
+  return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), u.x), mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x), u.y);
+}
+float swell(vec2 p) {
+  float t = time * 0.18;
+  return noise(p + vec2(t, t * 0.6)) * 0.55 + noise(p * 2.3 - vec2(t * 1.3, -t)) * 0.3 + noise(p * 5.1 + vec2(-t * 1.7, t * 1.2)) * 0.15;
+}
+
 void main() {
   #include <logdepthbuf_fragment>
   float s = shoreAt(vWorld);
@@ -38,18 +50,19 @@ void main() {
   water = mix(water, lagoon, smoothstep(0.9, 1.0, s) * 0.15);
   vec3 toEye = cameraPosition - vWorld;
   float distanceToEye = length(toEye);
-  float grazing = pow(1.0 - clamp(toEye.y / distanceToEye, 0.0, 1.0), 4.0);
-  vec2 p = vWorld.xz * 0.035;
-  float ripple = sin(p.x * 3.1 + time * 0.5) * sin(p.y * 2.3 - time * 0.4) + 0.5 * sin((p.x - p.y) * 5.7 + time * 0.9);
-  float glint = smoothstep(1.25, 1.45, ripple) * grazing;
-  vec3 color = mix(water, sky, grazing * 0.5) + glint * 0.25 * sky;
-  // The moon's path on the water: the view reflected off a slightly rippled surface.
-  vec2 q = vWorld.xz * 0.11;
-  float nx = sin(q.x * 1.7 + q.y * 0.6 + time * 0.7) + 0.6 * sin(q.x * 4.3 - q.y * 2.9 - time * 1.1) + 0.35 * sin(q.y * 9.1 + q.x * 3.3 + time * 1.7);
-  float nz = sin(q.y * 1.9 - q.x * 0.8 - time * 0.6) + 0.6 * sin(q.y * 4.7 + q.x * 2.1 + time * 0.9) + 0.35 * sin(q.x * 8.7 - q.y * 3.7 - time * 1.5);
-  vec3 normal = normalize(vec3(nx * 0.045, 1.0, nz * 0.045));
-  float path = pow(max(dot(reflect(-toEye / distanceToEye, normal), normalize(moonDir)), 0.0), 380.0);
-  color += vec3(0.85, 0.92, 1.0) * path * 0.9 * smoothstep(250.0, 1800.0, distanceToEye);
+  vec3 view = toEye / distanceToEye;
+  // Waves fade out with distance, so far water stays calm instead of shimmering.
+  float detail = 1.0 - smoothstep(600.0, 7000.0, distanceToEye);
+  vec2 p = vWorld.xz * 0.028;
+  float e = 0.15;
+  vec2 slope = vec2(swell(p + vec2(e, 0.0)) - swell(p - vec2(e, 0.0)), swell(p + vec2(0.0, e)) - swell(p - vec2(0.0, e))) / (2.0 * e);
+  vec3 normal = normalize(vec3(-slope.x * 0.22 * detail, 1.0, -slope.y * 0.22 * detail));
+  float fresnel = 0.02 + 0.98 * pow(1.0 - max(dot(normal, view), 0.0), 5.0);
+  vec3 reflected = reflect(-view, normal);
+  vec3 skyColour = mix(sky, mid * 0.6, smoothstep(0.0, 0.5, reflected.y));
+  vec3 color = mix(water, skyColour, clamp(fresnel, 0.0, 0.85));
+  float path = pow(max(dot(reflected, normalize(moonDir)), 0.0), 600.0);
+  color += vec3(0.85, 0.92, 1.0) * path * 2.2;
   float fog = smoothstep(fogNear, fogFar, distanceToEye);
   gl_FragColor = vec4(mix(color, fogColor, fog), 1.0);
   #include <colorspace_fragment>

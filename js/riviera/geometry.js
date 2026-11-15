@@ -8,61 +8,68 @@ export const toVec2 = (flat) => {
   return points;
 };
 
-// Collects non-indexed triangles; each triangle gets flat normals once the geometry is built.
+// Collects non-indexed triangles with texture coordinates; each triangle gets flat normals once built.
+// style: { color, uvs (one [u, v] per corner), extra }.
 export class Mesher {
   constructor() {
     this.positions = [];
     this.colors = [];
-    this.extra = [];
+    this.uvs = [];
   }
 
-  vertex(point, color, extra = 0) {
-    this.positions.push(point[0], point[1], point[2]);
-    this.colors.push(color.r, color.g, color.b);
-    this.extra.push(extra);
+  triangle(corners, style) {
+    corners.forEach((corner, i) => {
+      this.positions.push(corner[0], corner[1], corner[2]);
+      this.colors.push(style.color.r, style.color.g, style.color.b);
+      this.uvs.push(...(style.uvs?.[i] ?? [0, 0]));
+    });
   }
 
-  triangle(corners, color, extra) {
-    for (const corner of corners) this.vertex(corner, color, extra);
-  }
-
-  build(extraName) {
+  build() {
     const geometry = new THREE.BufferGeometry();
     geometry.setAttribute("position", new THREE.Float32BufferAttribute(this.positions, 3));
     geometry.setAttribute("color", new THREE.Float32BufferAttribute(this.colors, 3));
-    if (extraName) geometry.setAttribute(extraName, new THREE.Float32BufferAttribute(this.extra, 1));
+    geometry.setAttribute("uv", new THREE.Float32BufferAttribute(this.uvs, 2));
     geometry.computeVertexNormals();
     return geometry;
   }
 }
 
 const lift = (point, height) => [point.x, height, -point.y];
+export const ROOF_TILE = 40; // metres of roof per texture repeat
+export const WALL_TILE = 16; // metres of facade per texture repeat
 
 function roof(mesher, rings, part) {
   const [outer, ...holes] = rings;
   const all = outer.concat(...holes);
   for (const face of THREE.ShapeUtils.triangulateShape(outer, holes)) {
-    mesher.triangle(face.map((i) => lift(all[i], part.top)), part.color, part.extra);
+    const corners = face.map((i) => all[i]);
+    mesher.triangle(corners.map((p) => lift(p, part.top)), { color: part.color, uvs: corners.map((p) => [p.x / ROOF_TILE, p.y / ROOF_TILE]) });
   }
 }
 
 function walls(mesher, ring, part) {
+  let along = 0;
+  const v = (height) => (height - part.base) / WALL_TILE;
   for (let i = 0; i < ring.length; i += 1) {
-    const a = ring[i];
-    const b = ring[(i + 1) % ring.length];
+    const [a, b] = [ring[i], ring[(i + 1) % ring.length]];
+    const [u0, u1] = [along / WALL_TILE, (along + a.distanceTo(b)) / WALL_TILE];
+    along += a.distanceTo(b);
     const quad = [lift(a, part.base), lift(b, part.base), lift(b, part.top), lift(a, part.top)];
-    mesher.triangle([quad[0], quad[1], quad[2]], part.wallColor, part.extra);
-    mesher.triangle([quad[0], quad[2], quad[3]], part.wallColor, part.extra);
+    const uv = [[u0, 0], [u1, 0], [u1, v(part.top)], [u0, v(part.top)]];
+    mesher.triangle([quad[0], quad[1], quad[2]], { color: part.wallColor, uvs: [uv[0], uv[1], uv[2]] });
+    mesher.triangle([quad[0], quad[2], quad[3]], { color: part.wallColor, uvs: [uv[0], uv[2], uv[3]] });
   }
 }
 
-// part: { base, top, color, wallColor, extra }. rings[0] is the outline, the rest are holes.
-export function extrude(mesher, rings, part) {
+// part: { base, top, color, wallColor }. rings[0] is the outline, the rest are holes.
+// target is one Mesher, or { roofs, walls } to keep roofs and walls apart for their own textures.
+export function extrude(target, rings, part) {
   const [outer, ...holes] = rings;
   if (THREE.ShapeUtils.isClockWise(outer)) outer.reverse();
   for (const hole of holes) if (!THREE.ShapeUtils.isClockWise(hole)) hole.reverse();
-  roof(mesher, rings, part);
-  for (const ring of rings) walls(mesher, ring, part);
+  roof(target.roofs ?? target, rings, part);
+  for (const ring of rings) walls(target.walls ?? target, ring, part);
 }
 
 export function lowestGround(points, heightAt) {

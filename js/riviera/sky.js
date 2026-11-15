@@ -16,9 +16,9 @@ void main() {
 
 const fragmentShader = `
 uniform vec3 zenith, middle, horizon, afterglow, moonDir;
+uniform sampler2D stars;
 varying vec3 vDirection;
 #include <logdepthbuf_pars_fragment>
-float hash(vec3 p) { return fract(sin(dot(p, vec3(12.9898, 78.233, 37.719))) * 43758.5453); }
 void main() {
   #include <logdepthbuf_fragment>
   vec3 direction = normalize(vDirection); // per pixel, so the moon stays round on the large sphere triangles
@@ -27,9 +27,10 @@ void main() {
   color = mix(color, zenith, smoothstep(0.18, 0.75, up));
   float west = pow(max(0.0, -direction.x * 0.8 + direction.z * 0.2), 3.0);
   color += afterglow * west * (1.0 - smoothstep(0.0, 0.25, up)) * 0.9;
-  vec3 cell = floor(direction * 420.0);
-  float star = step(0.9975, hash(cell)) * smoothstep(0.25, 0.6, up);
-  color += vec3(star * 0.7);
+  // The painted night sky, mirrored four times around the horizon so it has no seam.
+  vec2 uv = vec2(atan(direction.x, -direction.z) / 6.2831853 * 4.0, clamp(up * 1.25, 0.0, 1.0));
+  vec3 painted = texture2D(stars, uv).rgb;
+  color = mix(color, max(color, painted * 1.1), smoothstep(0.04, 0.4, up));
   float moon = dot(direction, normalize(moonDir));
   color += vec3(0.95, 0.97, 1.0) * smoothstep(0.99955, 0.9997, moon) + afterglow * pow(max(moon, 0.0), 900.0) * 0.5;
   gl_FragColor = vec4(color, 1.0);
@@ -38,7 +39,8 @@ void main() {
 
 export const HORIZON = new THREE.Color(BLUE.horizon);
 
-export function makeSky() {
+export function makeSky(stars) {
+  stars.wrapS = THREE.MirroredRepeatWrapping;
   const material = new THREE.ShaderMaterial({
     vertexShader,
     fragmentShader,
@@ -50,6 +52,7 @@ export function makeSky() {
       horizon: { value: HORIZON },
       afterglow: { value: new THREE.Color(BLUE.glow) },
       moonDir: { value: new THREE.Vector3(...MOON) },
+      stars: { value: stars },
     },
   });
   const sky = new THREE.Mesh(new THREE.SphereGeometry(RADIUS, 48, 24), material);

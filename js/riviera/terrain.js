@@ -2,7 +2,7 @@
 import * as THREE from "/vendor/three/three.module.min.js";
 import { LAND } from "./palette.js";
 
-const TEXTURE_WIDTH = 2048;
+const TEXTURE_WIDTH = 2900; // keeps the taller side under 4096 px, the limit on many phones
 const SEA_FLOOR = -8;
 const ROAD_WIDTH = [0, 1.1, 1.7, 2.6]; // by road class, in texture pixels
 
@@ -47,18 +47,29 @@ function fadeEdges(context, bounds, color) {
   }
 }
 
-function paintLand(world) {
+const GROUND_TILE = 240; // metres of painted ground per repeat
+
+function groundPattern(context, image) {
+  const pattern = context.createPattern(image, "repeat");
+  pattern.setTransform(new DOMMatrix().scale(GROUND_TILE / image.width));
+  return pattern;
+}
+
+function paintLand(world, ground) {
   const paint = canvasFor(world);
   const { context } = paint;
-  context.fillStyle = LAND.ground;
+  context.fillStyle = groundPattern(context, ground);
   for (const land of world.land) {
     context.beginPath();
     trace(context, land.o);
     land.h.forEach((hole) => trace(context, hole));
     context.fill("evenodd");
   }
+  context.globalAlpha = 0.45;
   fill(context, world.woods, LAND.wood);
+  context.globalAlpha = 0.8;
   fill(context, world.beaches, LAND.beach);
+  context.globalAlpha = 1;
   fadeEdges(context, world.bounds, "rgb(3 11 26)");
   return paint.canvas;
 }
@@ -107,7 +118,7 @@ function shapeGround(geometry, world) {
   return columns;
 }
 
-export function makeTerrain(world) {
+export function makeTerrain(world, images) {
   const [minX, minY, maxX, maxY] = world.bounds;
   const [columns, rows] = world.grid;
   const geometry = new THREE.PlaneGeometry(maxX - minX, maxY - minY, columns - 1, rows - 1);
@@ -115,7 +126,7 @@ export function makeTerrain(world) {
   geometry.translate((minX + maxX) / 2, 0, -(minY + maxY) / 2);
   shapeGround(geometry, world);
   const material = new THREE.MeshLambertMaterial({
-    map: new THREE.CanvasTexture(paintLand(world)),
+    map: new THREE.CanvasTexture(paintLand(world, images.ground)),
     emissiveMap: new THREE.CanvasTexture(paintRoads(world)),
     emissive: 0xffffff,
     emissiveIntensity: 0.85,
