@@ -7,16 +7,12 @@ import * as THREE from "/vendor/three/three.module.min.js";
 export const STOPS = {
   approach: [7400, 5200, 8200, 200, 0, -300],
   arrival: [3300, 1250, 2900, -1600, 0, 1200], // aimed west of the Cap: land on the right, open sea behind the name
-  garoupe: [2350, 360, 950, 912, 110, 486],
-  oldtown: [1450, 210, -1100, 430, 30, -1400],
-  port: [1250, 190, -1650, 280, 0, -1960],
-  fort: [780, 115, -2240, 382, 40, -2420],
+  coast: [1650, 230, -2750, 330, 25, -1850], // from the sea, north-east: Fort Carré, Port Vauban, the old town
   beyond: [-1530, 55, 1080, -1790, 8, 820],
   horizon: [1300, 38, 3300, 5200, 90, 8200],
 };
 
-const EASE_PER_SECOND = 2.4;
-const DRIFT_METRES = 14;
+const EASE_PER_SECOND = 1.6; // slow enough to glide between stops, quick enough to follow the scroll
 const RELEASE_SCROLL_PX = 90;
 
 function curves(stops) {
@@ -55,7 +51,7 @@ export class Rig {
     this.focus = { scroll: window.scrollY };
   }
 
-  update(seconds, delta) {
+  update(delta) {
     this.readScroll();
     const step = this.calm ? 1 : Math.min(1, delta * EASE_PER_SECOND);
     this.shown += (this.wanted - this.shown) * step;
@@ -63,7 +59,6 @@ export class Rig {
     const u = Math.min(1, this.shown / this.path.last);
     this.camera.position.copy(this.path.position.getPoint(u)).lerp(this.aside.position, this.pull);
     this.path.target.getPoint(u, this.target).lerp(this.aside.target, this.pull);
-    if (!this.calm) this.camera.position.x += Math.sin(seconds * 0.11) * DRIFT_METRES;
     this.camera.lookAt(this.target);
   }
 

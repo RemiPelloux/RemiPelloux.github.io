@@ -35,6 +35,8 @@ def version(files):
 def import_map(files, stamp):
     modules = ["/" + file.relative_to(ROOT).as_posix() for file in files if file.suffix == ".js"]
     imports = {module: f"{module}?v={stamp}" for module in modules}
+    # The vendored three.js add-ons import the bare name "three"; it is the same file the site imports by path.
+    imports["three"] = "/vendor/three/three.module.min.js"
     return f'<script type="importmap">{json.dumps({"imports": imports}, separators=(",", ":"))}</script>'
 
 
