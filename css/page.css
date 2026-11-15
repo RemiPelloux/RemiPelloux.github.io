@@ -67,6 +67,41 @@
   padding-block: var(--s5) var(--s6);
 }
 
+/* Home hero: the top bar, the name and the intro sit on Antibes blue, edge to edge.
+   Tokens are swapped locally so links, buttons and focus rings follow. */
+
+[data-page="index"] .topbar,
+.masthead,
+.about {
+  --paper: #0B5CAD;
+  --paper-2: #0A5299;
+  --ink: #FFFFFF;
+  --ink-2: #DDE9F6;
+  --ink-3: #C4D7EC;
+  --rule: #3D7DC0;
+  --rule-strong: #FFFFFF;
+  --accent: #FFD23F;
+  --accent-ink: #0B2A4A;
+  --focus: #FFD23F;
+  position: relative;
+  isolation: isolate;
+  color: var(--ink);
+}
+
+[data-page="index"] .topbar::before,
+.masthead::before,
+.about::before {
+  content: "";
+  position: absolute;
+  inset: 0 calc(50% - 50vw) -1px; /* -1px reaches under the top bar's bottom rule */
+  z-index: -1;
+  background: var(--paper);
+}
+
+[data-page="index"] .topbar {
+  border-bottom-color: var(--rule);
+}
+
 .name {
   font-size: clamp(3.5rem, 14.6vw, 13.5rem); /* unslop-ignore: poster-size name, the one break of the type scale */
   font-weight: 600;
@@ -216,33 +251,6 @@
   height: 100%;
   object-fit: cover;
   object-position: top left;
-}
-
-.plate-art.draw img {
-  box-sizing: border-box;
-  padding: var(--s5);
-  object-fit: contain;
-  object-position: center;
-}
-
-/* A project without a screen to show gets its name as the picture. */
-
-.plate-art.word {
-  display: grid;
-  align-items: end;
-  padding: var(--s5);
-  background: var(--ink);
-  color: var(--paper);
-  text-decoration: none;
-}
-
-.plate-art.word span {
-  font-family: var(--font-serif);
-  font-size: clamp(2rem, 4.6vw, 4.5rem); /* unslop-ignore: the name stands in for a screenshot */
-  font-weight: 600;
-  line-height: 0.95;
-  letter-spacing: -0.03em;
-  overflow-wrap: anywhere;
 }
 
 .work h3 {

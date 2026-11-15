@@ -1,25 +1,25 @@
 /* Tokens, reset and type. Palette and scales follow UNSLOP 1.6. */
 
 :root {
-  --paper: #F7F5F0;
-  --paper-2: #EFECE4;
-  --paper-3: #E5E1D6;
-  --ink: #1A1A18;
-  --ink-2: #4A4843;
-  --ink-3: #6F6C64;
-  --rule: #D9D5CB;
-  --rule-strong: #1A1A18;
+  --paper: #F4F6F8;
+  --paper-2: #E7ECF1;
+  --paper-3: #D8E0E8;
+  --ink: #0F1B27;
+  --ink-2: #3A4756;
+  --ink-3: #566373;
+  --rule: #D0D8E1;
+  --rule-strong: #0F1B27;
   --accent: #0B5CAD; /* unslop-ignore: Antibes blue, asked for by the owner, inside the banned hue band on purpose */
   --accent-ink: #FFFFFF;
-  --focus: #1A1A18;
+  --focus: #0F1B27;
   --radius: 2px;
 
   /* Ledger steps, lightest to darkest. */
-  --l0: #EFECE4;
-  --l1: #CFCABD;
-  --l2: #8F8B81;
-  --l3: #4A4843;
-  --l4: #1A1A18;
+  --l0: #E7ECF1;
+  --l1: #C2CDD8;
+  --l2: #7D8C9C;
+  --l3: #3A4756;
+  --l4: #0F1B27;
 
   --s1: 4px;
   --s2: 8px;

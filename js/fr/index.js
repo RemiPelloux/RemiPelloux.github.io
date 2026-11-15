@@ -44,7 +44,7 @@ export default {
   w3: "Un framework de modélisation multi-agents en Python. Les scénarios sont typés et chaque exécution a une graine, donc une configuration partagée redonne les mêmes chiffres. Les agents reposent sur numpy, sur grilles, réseaux et espace continu, avec collecte des données en pandas.",
   w3m: dd("2026, Apache-2.0", "Documentation publiée sur GitHub Pages", "Python, numpy, pandas, C"),
   w4: "Je fais la rétro-ingénierie du Google Home Mini pour remplacer Google Assistant par un LLM local et un bot vocal MCP. Le dépôt couvre la recherche d'un exploit noyau YAFFS2, le protocole de configuration BLE et l'extraction du firmware.",
-  w4m: dd("2026, recherche en sécurité", "<span data-stars='HackoogleMini'>21 étoiles</span> sur GitHub", "Python"),
+  w4m: dd("2026, recherche en sécurité", "<span data-stars='HackoogleMini'>21 étoiles</span> sur GitHub", "Python", "Photo : <a href='https://commons.wikimedia.org/wiki/File:Google_Home_Mini_(26718059977).jpg'>Mack Male, CC BY-SA 2.0</a>"),
   w5: "Un runtime de conteneurs en Rust, sans démon en arrière-plan. Chaque commande ctst parle directement au backend. Les stacks se décrivent dans un petit langage déclaratif, les images sont tirées par empreinte fixée, et une option hors ligne coupe le réseau pour les machines isolées.",
   w5m: dd("2026, source disponible", "Namespaces Linux, cgroups v2, OCI", "Rust"),
   w6: "Dix règles pour que le code écrit par des agents IA reste assez petit pour être relu, avec des limites fermes : 400 lignes par fichier, 25 par fonction, trois paramètres. Un audit sans dépendance les vérifie dans la boucle de l'agent, avant chaque commit et en CI. Elles tournent dans plus de trente dépôts, dont ce site.",
