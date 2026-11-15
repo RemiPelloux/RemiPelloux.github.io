@@ -10,7 +10,7 @@ import { OutputPass } from "/vendor/three/addons/postprocessing/OutputPass.js";
 const BLOOM = { strength: 0.75, radius: 0.55, threshold: 0.62 };
 
 const CinemaShader = {
-  uniforms: { tDiffuse: { value: null }, time: { value: 0 }, grain: { value: 0.035 } },
+  uniforms: { tDiffuse: { value: null }, time: { value: 0 }, grain: { value: 0.022 } },
   vertexShader: "varying vec2 vUv; void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }",
   fragmentShader: `
     uniform sampler2D tDiffuse;
@@ -22,22 +22,43 @@ const CinemaShader = {
       float edge = dot(centred, centred);
       vec2 shift = centred * edge * 0.012;
       vec3 colour = vec3(texture2D(tDiffuse, vUv + shift).r, texture2D(tDiffuse, vUv).g, texture2D(tDiffuse, vUv - shift).b);
-      colour *= 1.0 - smoothstep(0.18, 0.75, edge) * 0.55;
+      colour *= 1.0 - smoothstep(0.22, 0.8, edge) * 0.3; // a soft vignette, not a dark frame
       colour += (hash(vUv * 900.0 + time) - 0.5) * grain;
+      if (any(isnan(colour)) || any(isinf(colour))) colour = vec3(0.0); // never let a bad pixel reach the screen
       gl_FragColor = vec4(colour, 1.0);
     }`,
 };
 
+// The bloom's bright-pass drops any NaN or infinite pixel: one bad pixel would otherwise be blurred
+// through every bloom level into a black square that flickers in and out.
+function sanitiseBloom(bloom) {
+  const material = bloom.materialHighPassFilter;
+  material.fragmentShader = material.fragmentShader.replace(
+    "vec4 texel = texture2D( tDiffuse, vUv );",
+    "vec4 texel = texture2D( tDiffuse, vUv );\n\t\t\tif ( any( isnan( texel ) ) || any( isinf( texel ) ) ) texel = vec4( 0.0 );\n\t\t\ttexel = min( texel, vec4( 32.0 ) );",
+  );
+  material.needsUpdate = true;
+}
+
+// The scene renders into a multisampled half-float target: anti-aliasing happens there, once,
+// instead of on the screen buffer that the passes overwrite anyway.
+function sceneTarget(renderer) {
+  const size = renderer.getDrawingBufferSize(new THREE.Vector2());
+  return new THREE.WebGLRenderTarget(Math.max(1, size.x), Math.max(1, size.y), { type: THREE.HalfFloatType, samples: 4 });
+}
+
 export function makePost(renderer, scene, camera) {
-  const composer = new EffectComposer(renderer);
+  const composer = new EffectComposer(renderer, sceneTarget(renderer));
   composer.addPass(new RenderPass(scene, camera));
   const bloom = new UnrealBloomPass(new THREE.Vector2(256, 256), BLOOM.strength, BLOOM.radius, BLOOM.threshold);
+  sanitiseBloom(bloom);
   const cinema = new ShaderPass(CinemaShader);
   composer.addPass(bloom);
   composer.addPass(cinema);
   composer.addPass(new OutputPass());
   return {
     resize: (width, height) => composer.setSize(width, height),
+    setPixelRatio: (ratio) => composer.setPixelRatio(ratio),
     setBloom: (strength, threshold) => Object.assign(bloom, { strength, threshold }),
     render: (seconds) => {
       cinema.uniforms.time.value = seconds % 100;

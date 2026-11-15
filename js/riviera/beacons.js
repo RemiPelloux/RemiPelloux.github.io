@@ -19,7 +19,7 @@ function tower(height) {
 
 const beamShader = {
   vertexShader: "#include <common>\n#include <logdepthbuf_pars_vertex>\nvarying float vAlong;\nvoid main() { vAlong = uv.y; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\n#include <logdepthbuf_vertex>\n}",
-  fragmentShader: "#include <logdepthbuf_pars_fragment>\nuniform vec3 color; varying float vAlong;\nvoid main() {\n#include <logdepthbuf_fragment>\ngl_FragColor = vec4(color, 0.16 * pow(vAlong, 2.2)); }",
+  fragmentShader: "#include <logdepthbuf_pars_fragment>\nuniform vec3 color; varying float vAlong;\nvoid main() {\n#include <logdepthbuf_fragment>\ngl_FragColor = vec4(color, 0.16 * pow(clamp(vAlong, 0.0, 1.0), 2.2)); }",
 };
 
 function beam() {

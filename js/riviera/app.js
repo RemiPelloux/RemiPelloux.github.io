@@ -64,6 +64,15 @@ for (const button of document.querySelectorAll('[data-mode-button="lite"]')) but
 window.addEventListener("keydown", (event) => {
   if (event.key.toLowerCase() === "l" && !event.target.closest("input, textarea")) toLite();
 });
+// Screenshots that are not loaded yet fade in when they arrive, instead of popping in.
+for (const image of document.querySelectorAll(".shot img")) {
+  if (image.complete) continue;
+  image.decoding = "async";
+  image.classList.add("fading");
+  const show = () => image.classList.add("in");
+  image.addEventListener("load", show, { once: true });
+  image.addEventListener("error", show, { once: true });
+}
 mountLanguage().then(() => {
   mountExplorer();
   mountPanel();

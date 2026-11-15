@@ -25,7 +25,7 @@ export const FR = {
   o3: "J'aime le logiciel qui tourne sur votre machine, y garde vos données et peut être relu par la personne suivante. Mes règles pour les agents de code IA tiennent sur une page : des fichiers sous 400 lignes, des fonctions sous 25.",
   "o4-k": "L'autre versant",
   "o4-h": "Je démonte aussi le logiciel",
-  o4: "En 2026, j'ai signalé une XSS dans Symfony, devenue CVE-2026-45753, et j'étudie le firmware des appareils que je possède. Le Fort Carré veille sur ce port depuis 1550.",
+  o4: "En 2026, j'ai signalé une XSS dans Symfony, devenue CVE-2026-45753, et j'étudie le firmware des appareils que je possède.",
   k2: "Chapitre 02, le monde que je construis",
   "d-h": "Huit domaines, une ville",
   "d-intro": "Dans les terres, une plateforme s'élève pour chaque domaine où je travaille. Elles forment un seul anneau parce que le travail passe de l'une à l'autre : les agents ont besoin de l'infrastructure, les outils de la sécurité.",

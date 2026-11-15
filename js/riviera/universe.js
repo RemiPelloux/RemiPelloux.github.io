@@ -67,7 +67,7 @@ function links(districts) {
 
 // Towers glow brighter toward the top, carry slow scan lines and a rim of light: bloom does the rest.
 const HOLOGRAM_VERTEX = "#include <project_vertex>\nvHeight = position.y;\nvWorldY = (modelMatrix * instanceMatrix * vec4(position, 1.0)).y;\nvRim = 1.0 - abs(dot(normalize(normalMatrix * mat3(instanceMatrix) * objectNormal), vec3(0.0, 0.0, 1.0)));";
-const HOLOGRAM_FRAGMENT = "#include <emissivemap_fragment>\nfloat scan = smoothstep(0.82, 1.0, fract(vWorldY * 0.06 - time * 0.25));\ntotalEmissiveRadiance += vColor * (0.18 + 0.9 * vHeight * vHeight + scan * 0.35 + pow(vRim, 3.0) * 0.6);";
+const HOLOGRAM_FRAGMENT = "#include <emissivemap_fragment>\nfloat scan = smoothstep(0.82, 1.0, fract(vWorldY * 0.06 - time * 0.25));\ntotalEmissiveRadiance += vColor * (0.18 + 0.9 * vHeight * vHeight + scan * 0.35 + pow(clamp(vRim, 0.0, 1.0), 3.0) * 0.6);";
 
 function hologram(material, time) {
   material.onBeforeCompile = (shader) => {

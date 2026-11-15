@@ -15,7 +15,7 @@ void main() {
 }`;
 
 const fragmentShader = `
-uniform vec3 zenith, middle, horizon, afterglow, moonDir;
+uniform vec3 zenith, middle, horizon, afterglow, moonDir, sunDir;
 uniform sampler2D stars;
 uniform float night; // 1 at night, 0 by day: the stars fade with it
 varying vec3 vDirection;
@@ -32,8 +32,15 @@ void main() {
   vec2 uv = vec2(atan(direction.x, -direction.z) / 6.2831853 * 4.0, clamp(up * 1.25, 0.0, 1.0));
   vec3 painted = texture2D(stars, uv).rgb;
   color = mix(color, max(color, painted * 1.1), smoothstep(0.04, 0.4, up) * night);
-  float moon = dot(direction, normalize(moonDir));
+  // The moon and the sun each fade out as they sink below the sea horizon.
+  vec3 moonAt = normalize(moonDir);
+  float moon = dot(direction, moonAt) * smoothstep(-0.03, 0.02, moonAt.y);
   color += vec3(0.95, 0.97, 1.0) * smoothstep(0.99955, 0.9997, moon) + afterglow * pow(max(moon, 0.0), 900.0) * 0.5;
+  vec3 sunAt = normalize(sunDir);
+  float sunUp = smoothstep(-0.04, 0.03, sunAt.y);
+  float sun = max(dot(direction, sunAt), 0.0);
+  color += vec3(1.0, 0.98, 0.93) * smoothstep(0.99925, 0.9995, sun) * 1.6 * sunUp;
+  color += vec3(1.0, 0.97, 0.9) * (pow(sun, 260.0) * 0.45 + pow(sun, 18.0) * 0.12) * sunUp;
   gl_FragColor = vec4(color, 1.0);
   #include <colorspace_fragment>
 }`;
@@ -53,6 +60,7 @@ export function makeSky(stars) {
       horizon: { value: HORIZON },
       afterglow: { value: new THREE.Color(BLUE.glow) },
       moonDir: { value: new THREE.Vector3(...MOON) },
+      sunDir: { value: new THREE.Vector3(0, -1, 0) }, // below the sea until the day comes
       stars: { value: stars },
       night: { value: 1 },
     },
