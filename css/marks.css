@@ -174,47 +174,81 @@
   }
 }
 
-/* A shiba sails on the footer sea, in both themes. */
+/* Me at the helm and the shiba at the bow, sailing across the footer sea. */
 
 .footer {
   position: relative;
 }
 
-.boat {
-  --accent-boat: #E8473C; /* unslop-ignore: the boat's pennant, red on the blue sea */
+.voyage {
   position: absolute;
-  right: 14%;
-  bottom: calc(100% + 26px);
-  width: 112px;
-  height: auto;
+  right: 12%;
+  bottom: calc(100% + 18px);
+  width: 150px;
   pointer-events: none;
 }
 
-.motion .boat {
-  animation: bob 4.2s ease-in-out infinite;
-  transform-origin: 50% 100%;
+.boat {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.motion .voyage {
+  right: auto;
+  left: 0;
+  animation: voyage 34s linear infinite;
+}
+
+.motion .swell {
+  animation: bob 3.6s ease-in-out infinite;
+  transform-origin: 50% 90%;
+}
+
+@keyframes voyage {
+  from {
+    transform: translateX(-160px);
+  }
+
+  to {
+    transform: translateX(100vw);
+  }
 }
 
 @keyframes bob {
   0%,
   100% {
-    transform: translateY(0) rotate(-2deg);
+    transform: translateY(0) rotate(-2.5deg);
   }
 
   50% {
-    transform: translateY(6px) rotate(2deg);
+    transform: translateY(5px) rotate(2deg);
   }
 }
 
 @media (min-width: 880px) {
-  .boat {
-    bottom: calc(100% + 36px);
-    width: 140px;
+  .voyage {
+    bottom: calc(100% + 26px);
+    width: 200px;
+  }
+
+  .motion .voyage {
+    animation-duration: 60s;
+  }
+
+  @keyframes voyage {
+    from {
+      transform: translateX(-210px);
+    }
+
+    to {
+      transform: translateX(100vw);
+    }
   }
 }
 
 @media print {
-  .boat {
+  .voyage {
     display: none;
   }
 }
