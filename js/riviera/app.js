@@ -5,6 +5,7 @@ import { mountLanguage } from "./lang.js";
 import { mountExplorer } from "./explorer.js";
 import { mountPanel } from "./panel.js";
 import { mountChapters, mountLanguages } from "./chapters.js";
+import { mountShelf } from "./shelf.js";
 
 const still = window.matchMedia("(prefers-reduced-motion: reduce)");
 
@@ -39,6 +40,7 @@ async function immerse() {
     canvas: document.querySelector("[data-world]"),
     sections: [...document.querySelectorAll("[data-stop]")],
     labels: document.querySelector("[data-labels]"),
+    pins: document.querySelector("[data-pins]"),
     cards: [...document.querySelectorAll(".card")],
     companion: document.querySelector("[data-companion]"),
     boot: document.querySelector("[data-boot]"),
@@ -77,6 +79,7 @@ mountLanguage().then(() => {
   mountExplorer();
   mountPanel();
   mountChapters();
+  mountShelf();
   mountLanguages(document.querySelector("[data-languages]"));
 });
 if (flies) immerse();

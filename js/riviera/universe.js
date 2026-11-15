@@ -65,6 +65,22 @@ function links(districts) {
   return new THREE.LineSegments(geometry, material);
 }
 
+// Two thin rings of light circle the towers at different heights, slightly tilted, like orbits.
+const ORBITS = [{ radius: RING + 140, lift: 170, tilt: 0.05 }, { radius: RING - 120, lift: 300, tilt: -0.07 }];
+
+function orbits() {
+  const group = new THREE.Group();
+  for (const orbit of ORBITS) {
+    const points = new THREE.EllipseCurve(0, 0, orbit.radius, orbit.radius * 0.92).getPoints(160).map((p) => new THREE.Vector3(p.x, 0, p.y));
+    const material = new THREE.LineBasicMaterial({ color: BLUE.glow, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false });
+    const line = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(points), material);
+    line.position.set(CENTRE.x, ALTITUDE + orbit.lift, -CENTRE.y);
+    line.rotation.set(orbit.tilt, 0, orbit.tilt * 0.6);
+    group.add(line);
+  }
+  return group;
+}
+
 // Towers glow brighter toward the top, carry slow scan lines and a rim of light: bloom does the rest.
 const HOLOGRAM_VERTEX = "#include <project_vertex>\nvHeight = position.y;\nvWorldY = (modelMatrix * instanceMatrix * vec4(position, 1.0)).y;\nvRim = 1.0 - abs(dot(normalize(normalMatrix * mat3(instanceMatrix) * objectNormal), vec3(0.0, 0.0, 1.0)));";
 const HOLOGRAM_FRAGMENT = "#include <emissivemap_fragment>\nfloat scan = smoothstep(0.82, 1.0, fract(vWorldY * 0.06 - time * 0.25));\ntotalEmissiveRadiance += vColor * (0.18 + 0.9 * vHeight * vHeight + scan * 0.35 + pow(clamp(vRim, 0.0, 1.0), 3.0) * 0.6);";
@@ -101,7 +117,8 @@ export class Universe {
     this.time = { value: 0 };
     this.towers = towers(this.entries, this.time);
     this.links = links(this.districts);
-    this.group.add(platforms(this.districts), this.links, this.towers);
+    this.orbits = orbits();
+    this.group.add(platforms(this.districts), this.links, this.towers, this.orbits);
     this.matrix = new THREE.Matrix4();
     this.rise = -1;
   }
@@ -118,6 +135,7 @@ export class Universe {
     this.towers.instanceMatrix.needsUpdate = true;
     this.towers.boundingSphere = null; // so picking sees the new heights
     this.links.material.opacity = 0.35 * rise;
+    for (const line of this.orbits.children) line.material.opacity = 0.55 * rise;
     this.group.visible = rise > 0.001;
   }
 
