@@ -156,7 +156,7 @@
   font-weight: 500;
 }
 
-.band > h2 span:first-child {
+.band > h2 .num {
   color: var(--accent);
   margin-right: var(--s3);
 }

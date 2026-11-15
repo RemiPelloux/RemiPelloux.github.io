@@ -10,7 +10,6 @@ import { mountWords } from "./words.js";
 import { startRouter } from "./router.js";
 import { playIntro } from "./intro.js";
 import { mountReveal } from "./reveal.js";
-import { mountMarquee } from "./marquee.js";
 import { mountLab } from "./lab.js";
 import { mountArchive } from "./archive.js";
 import { mountMobile } from "./mobile.js";
@@ -26,7 +25,6 @@ function mountAll() {
   mountWords();
   mountReveal();
   mountStars();
-  mountMarquee();
   mountLab();
   mountArchive();
   mountMobile();

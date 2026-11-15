@@ -1,38 +1,4 @@
-/* Riviera pieces: the place-name marquee, the coast map. */
-
-.marquee {
-  overflow: hidden;
-  padding-block: var(--s5);
-  border-top: 1px solid var(--rule-strong);
-}
-
-.marquee p {
-  max-width: none;
-  font-family: var(--font-serif);
-  font-size: clamp(2.25rem, 10vw, 9rem); /* unslop-ignore: display line, same register as the name */
-  font-weight: 600;
-  line-height: 1.05;
-  letter-spacing: -0.03em;
-}
-
-.marquee i {
-  color: var(--accent);
-  font-weight: 300;
-}
-
-/* Rolling state, set by marquee.js. Without it the names wrap and nothing is cut off. */
-
-.marquee-track.rolling {
-  display: flex;
-  width: max-content;
-  will-change: transform;
-}
-
-.marquee-track.rolling p {
-  padding-right: 0.3em;
-  line-height: 1;
-  white-space: nowrap;
-}
+/* Riviera pieces: the coast maps. */
 
 .coast {
   display: block;
