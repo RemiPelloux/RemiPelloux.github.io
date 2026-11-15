@@ -1,13 +1,13 @@
 // The things on the desk: the lava lamp, the books, the boot floppies, the coffee, the ivy, the
 // Raspberry Pi in its clear case and the motorcycle on the tower. Clickable ones sit in a Hoverable.
-import { RoundedBox } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 import * as THREE from "three";
-import type { Theme } from "../state/store";
+import type { Theme } from "@/state/store";
 import { Hoverable } from "./Hoverable";
 import { calm, usePulse } from "./focus";
 import { DESK_Y, SPOT } from "./layout";
+import { Motorcycle, RaspberryPi } from "./Gadgets";
 import { label, spine, FONT } from "./textures";
 
 const BOOKS: Array<[string, string, string]> = [
@@ -19,19 +19,30 @@ const BOOKS: Array<[string, string, string]> = [
 ];
 
 // The violet lamp: blobs rise and fall slowly inside the glass; still when motion is reduced.
-function LavaLamp({ theme }: { theme: Theme }) {
-  const [x, , z] = SPOT.lava;
+function useBlobs() {
   const blobs = useRef<THREE.Group>(null);
   useFrame(({ clock }) => {
     if (calm || !blobs.current) return;
     blobs.current.children.forEach((blob, i) => (blob.position.y = 0.1 + 0.07 * Math.sin(clock.elapsedTime * 0.35 + i * 2.1)));
   });
+  return blobs;
+}
+
+function LampMetal({ y, args }: { y: number; args: [number, number, number, number] }) {
+  return (
+    <mesh position={[0, y, 0]} castShadow>
+      <cylinderGeometry args={args} />
+      <meshStandardMaterial color="#1d1a22" metalness={0.6} roughness={0.3} />
+    </mesh>
+  );
+}
+
+function LavaLamp({ theme }: { theme: Theme }) {
+  const [x, , z] = SPOT.lava;
+  const blobs = useBlobs();
   return (
     <group position={[x, DESK_Y, z]}>
-      <mesh position={[0, 0.03, 0]} castShadow>
-        <cylinderGeometry args={[0.045, 0.06, 0.06, 20]} />
-        <meshStandardMaterial color="#1d1a22" metalness={0.6} roughness={0.3} />
-      </mesh>
+      <LampMetal y={0.03} args={[0.045, 0.06, 0.06, 20]} />
       <mesh position={[0, 0.14, 0]}>
         <cylinderGeometry args={[0.028, 0.045, 0.16, 20]} />
         <meshStandardMaterial color="#b05cff" emissive="#8f3cff" emissiveIntensity={theme === "night" ? 1.4 : 0.5} transparent opacity={0.55} />
@@ -44,10 +55,7 @@ function LavaLamp({ theme }: { theme: Theme }) {
           </mesh>
         ))}
       </group>
-      <mesh position={[0, 0.235, 0]}>
-        <cylinderGeometry args={[0.012, 0.028, 0.03, 16]} />
-        <meshStandardMaterial color="#1d1a22" metalness={0.6} roughness={0.3} />
-      </mesh>
+      <LampMetal y={0.235} args={[0.012, 0.028, 0.03, 16]} />
       {theme === "night" && <pointLight position={[0, 0.16, 0.05]} intensity={1.6} distance={1.1} color="#a855ff" />}
     </group>
   );
@@ -73,7 +81,7 @@ function Books() {
 }
 
 const floppyLabel = () =>
-  label("floppy", 256, 160, (ctx, w, h) => {
+  label({ key: "floppy", w: 256, h: 160 }, (ctx, w, h) => {
     ctx.fillStyle = "#f4efe2";
     ctx.fillRect(0, 0, w, h);
     ctx.fillStyle = "#2a2140";
@@ -108,7 +116,7 @@ function Floppies() {
 }
 
 const mugFace = () =>
-  label("mug-face", 256, 128, (ctx, w, h) => {
+  label({ key: "mug-face", w: 256, h: 128 }, (ctx, w, h) => {
     ctx.fillStyle = "#f4efe4";
     ctx.fillRect(0, 0, w, h);
     ctx.fillStyle = "#d9822b";
@@ -124,22 +132,28 @@ const mugFace = () =>
   });
 
 // The coffee: a click sends up a few puffs of steam (and, at night, opens coffee.exe).
-function Coffee() {
-  const [x, , z] = SPOT.mug;
+const STEAM_FADE = 0.45; // per second
+const STEAM_RISE = 0.12; // metres
+
+function useSteam() {
   const steam = useRef<THREE.Group>(null);
   const puff = useRef(0);
   usePulse("coffee", () => (puff.current = 1));
   useFrame((_, dt) => {
     if (!steam.current) return;
-    puff.current = Math.max(0, puff.current - dt * 0.45);
+    puff.current = Math.max(0, puff.current - dt * STEAM_FADE);
     steam.current.children.forEach((s, i) => {
       const t = (1 - puff.current + i * 0.25) % 1;
-      s.position.y = 0.1 + t * 0.12;
+      s.position.y = 0.1 + t * STEAM_RISE;
       (s as THREE.Mesh<THREE.SphereGeometry, THREE.MeshBasicMaterial>).material.opacity = puff.current > 0 ? 0.35 * (1 - t) : 0;
     });
   });
+  return steam;
+}
+
+function Mug() {
   return (
-    <Hoverable id="coffee" position={[x, DESK_Y, z]}>
+    <>
       <mesh position={[0, 0.004, 0]} receiveShadow>
         <cylinderGeometry args={[0.055, 0.055, 0.008, 28]} />
         <meshStandardMaterial color="#b98a5a" roughness={0.95} />
@@ -156,6 +170,16 @@ function Coffee() {
         <circleGeometry args={[0.031, 24]} />
         <meshStandardMaterial color="#3b2416" roughness={0.2} />
       </mesh>
+    </>
+  );
+}
+
+function Coffee() {
+  const [x, , z] = SPOT.mug;
+  const steam = useSteam();
+  return (
+    <Hoverable id="coffee" position={[x, DESK_Y, z]}>
+      <Mug />
       <group ref={steam}>
         {[0, 1, 2].map((i) => (
           <mesh key={i} position={[(i - 1) * 0.01, 0.1, 0]}>
@@ -190,80 +214,6 @@ function Ivy() {
         </mesh>
       ))}
     </group>
-  );
-}
-
-// The Raspberry Pi in a clear case, with a tiny screen; its light blinks when clicked.
-function RaspberryPi({ theme }: { theme: Theme }) {
-  const [x, , z] = SPOT.pi;
-  const led = useRef<THREE.MeshBasicMaterial>(null);
-  const blink = useRef(0);
-  usePulse("pi", () => (blink.current = 1.2));
-  useFrame(({ clock }, dt) => {
-    blink.current = Math.max(0, blink.current - dt);
-    if (led.current) led.current.color.set(blink.current > 0 && Math.sin(clock.elapsedTime * 30) > 0 ? "#ffffff" : "#ff4d6d");
-  });
-  return (
-    <Hoverable id="pi" position={[x, DESK_Y, z]} rotation={[0, -0.4, 0]}>
-      <RoundedBox args={[0.1, 0.034, 0.07]} radius={0.006} position={[0, 0.017, 0]}>
-        <meshPhysicalMaterial color="#cfe8ff" transmission={0.6} roughness={0.15} thickness={0.01} transparent opacity={0.45} />
-      </RoundedBox>
-      <mesh position={[0, 0.012, 0]}>
-        <boxGeometry args={[0.085, 0.003, 0.056]} />
-        <meshStandardMaterial color="#2f8f4e" roughness={0.6} />
-      </mesh>
-      <mesh position={[-0.01, 0.017, 0]}>
-        <boxGeometry args={[0.02, 0.006, 0.02]} />
-        <meshStandardMaterial color="#1b1b1b" />
-      </mesh>
-      <mesh position={[0.018, 0.035, 0.03]} rotation={[-0.3, 0, 0]}>
-        <planeGeometry args={[0.04, 0.026]} />
-        <meshBasicMaterial color={theme === "night" ? "#5fd0ff" : "#3fa0d8"} toneMapped={false} />
-      </mesh>
-      <mesh position={[0.04, 0.02, 0.025]}>
-        <sphereGeometry args={[0.003, 8, 6]} />
-        <meshBasicMaterial ref={led} color="#ff4d6d" toneMapped={false} />
-      </mesh>
-    </Hoverable>
-  );
-}
-
-// The motorcycle model on the tower: a click spins the wheels, shakes it and puffs exhaust.
-function Motorcycle() {
-  const [x, y, z] = SPOT.motorcycle;
-  const body = useRef<THREE.Group>(null);
-  const wheels = useRef<THREE.Mesh[]>([]);
-  const rev = useRef(0);
-  usePulse("motorcycle", () => (rev.current = 1.4));
-  useFrame(({ clock }, dt) => {
-    rev.current = Math.max(0, rev.current - dt);
-    const r = calm ? 0 : rev.current;
-    wheels.current.forEach((w) => w && (w.rotation.z -= dt * 30 * r));
-    if (body.current) body.current.position.y = r > 0 ? Math.sin(clock.elapsedTime * 80) * 0.0015 * r : 0;
-  });
-  return (
-    <Hoverable id="motorcycle" position={[x, y, z]} rotation={[0, -0.5, 0]}>
-      <group ref={body}>
-        {[-0.045, 0.045].map((wx, i) => (
-          <mesh key={wx} ref={(m) => void (m && (wheels.current[i] = m))} position={[wx, 0.022, 0]} castShadow>
-            <torusGeometry args={[0.018, 0.007, 8, 18]} />
-            <meshStandardMaterial color="#141414" roughness={0.8} />
-          </mesh>
-        ))}
-        <mesh position={[0, 0.045, 0]} rotation={[0, 0, 0.12]} castShadow>
-          <boxGeometry args={[0.075, 0.022, 0.022]} />
-          <meshStandardMaterial color="#2b2f38" metalness={0.7} roughness={0.3} />
-        </mesh>
-        <mesh position={[0.012, 0.06, 0]} castShadow>
-          <boxGeometry args={[0.035, 0.012, 0.03]} />
-          <meshStandardMaterial color="#8f7bff" metalness={0.4} roughness={0.35} />
-        </mesh>
-        <mesh position={[0.048, 0.07, 0]} rotation={[Math.PI / 2, 0, 0]}>
-          <cylinderGeometry args={[0.002, 0.002, 0.05, 6]} />
-          <meshStandardMaterial color="#c9c9c9" metalness={0.9} />
-        </mesh>
-      </group>
-    </Hoverable>
   );
 }
 

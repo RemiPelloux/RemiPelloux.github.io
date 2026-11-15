@@ -1,8 +1,8 @@
 // What each prop does when clicked, or when its button in the accessible list is pressed. The 3D side
 // only animates (it watches useScene.pulses); the OS side opens windows and unlocks achievements.
-import { APPS } from "../apps/registry";
-import type { AppId } from "../apps/ids";
-import { useOs } from "../state/store";
+import { APPS } from "@/apps/registry";
+import type { AppId } from "@/apps/ids";
+import { useOs } from "@/state/store";
 import { useScene, type PropId } from "./focus";
 import { SPOT } from "./layout";
 

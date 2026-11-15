@@ -2,8 +2,8 @@
 // as pages of a lab notebook. Each entry is a real public repository; its description, language and
 // dates come from the GitHub snapshot. Only the "subject" line is ours, and it restates the description.
 import { useEffect } from "react";
-import { statusOf, STATUS_LABEL, type Repo } from "../data/repos";
-import { useOs } from "../state/store";
+import { statusOf, STATUS_LABEL, type Repo } from "@/data/repos";
+import { useOs } from "@/state/store";
 import { formatDate, openProject, StatusLed, useRepos } from "./projectKit";
 import type { AppProps } from "./registry";
 import "./projects.css";

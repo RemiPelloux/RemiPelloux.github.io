@@ -1,9 +1,9 @@
 // The everyday commands. Every app on the desktop has a command, and every command that shows
 // something also offers the window that shows it better. Easter eggs live in eggs.ts.
-import { useOs } from "../state/store";
-import { APPS } from "../apps/registry";
-import type { AppId } from "../apps/ids";
-import { CATEGORIES, GITHUB, loadRepos, STATUS_LABEL, statusOf } from "../data/repos";
+import { useOs } from "@/state/store";
+import { APPS } from "@/apps/registry";
+import type { AppId } from "@/apps/ids";
+import { CATEGORIES, GITHUB, loadRepos, STATUS_LABEL, statusOf } from "@/data/repos";
 import { commands, FILES, HOME, listing, pretty, register, resolve, type Line } from "./engine";
 
 const LINKEDIN = "https://www.linkedin.com/in/remipelloux/";

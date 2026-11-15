@@ -1,8 +1,8 @@
 // Small pieces shared by the Projects explorer, the project window and the lab bench. Kept apart so the
 // explorer does not pull the project window's lazy chunk in with it.
 import { useEffect, useState } from "react";
-import { loadRepos, statusOf, STATUS_LABEL, type Repo, type Status } from "../data/repos";
-import { useOs } from "../state/store";
+import { loadRepos, statusOf, STATUS_LABEL, type Repo, type Status } from "@/data/repos";
+import { useOs } from "@/state/store";
 import { APPS } from "./registry";
 
 export function openProject(name: string) {

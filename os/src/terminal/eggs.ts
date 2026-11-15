@@ -1,7 +1,7 @@
 // Hidden commands and Easter eggs. Left out of `help` on purpose: they are found by curiosity, or by
 // typing what a developer would type on any machine. The longer gags live in eggs-more.ts.
-import { useOs } from "../state/store";
-import { APPS } from "../apps/registry";
+import { useOs } from "@/state/store";
+import { APPS } from "@/apps/registry";
 import { register } from "./engine";
 import "./eggs-more";
 

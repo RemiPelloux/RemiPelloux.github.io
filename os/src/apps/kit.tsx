@@ -1,7 +1,7 @@
 // Small pieces shared by the About, Skills, Contact and Settings windows: opening another app, an
 // external link that always opens in a new tab, arrow-key navigation for tab lists, and copy buttons.
 import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
-import { useOs } from "../state/store";
+import { useOs } from "@/state/store";
 import { APPS } from "./registry";
 import type { AppId } from "./ids";
 
@@ -82,5 +82,26 @@ export function Badge({ className = "badge" }: { className?: string }) {
       <g fill="#7cf0b0">{letterPixels(LETTERS[0], 2)}</g>
       <g fill="#e9e6ff">{letterPixels(LETTERS[1], 8)}</g>
     </svg>
+  );
+}
+
+interface SideTabsProps {
+  label: string; // the tab list's accessible name
+  tabs: Array<{ key: string; label: string }>;
+  index: number;
+  setIndex: (index: number) => void;
+  idOf: (part: string) => string; // ids unique to the window
+}
+
+// A vertical tab list for the apps with a sidebar (About, Tech explorer). Arrows, Home and End move.
+export function SideTabs({ label, tabs, index, setIndex, idOf }: SideTabsProps) {
+  return (
+    <div role="tablist" aria-orientation="vertical" aria-label={label} className="side-tabs" onKeyDown={tabKeys(tabs.length, index, setIndex)}>
+      {tabs.map((tab, i) => (
+        <button key={tab.key} type="button" role="tab" id={idOf(`tab-${i}`)} aria-selected={i === index} aria-controls={idOf("panel")} tabIndex={i === index ? 0 : -1} onClick={() => setIndex(i)}>
+          {tab.label}
+        </button>
+      ))}
+    </div>
   );
 }

@@ -2,8 +2,8 @@
 // repositories that show them. The last tab counts languages from the live repository catalog.
 import { useEffect, useState } from "react";
 import type { AppProps } from "./registry";
-import { loadRepos, type Repo } from "../data/repos";
-import { openProject, tabKeys } from "./kit";
+import { loadRepos, type Repo } from "@/data/repos";
+import { openProject, SideTabs } from "./kit";
 import "./apps.css";
 
 interface Domain {
@@ -116,8 +116,7 @@ function LanguagesPanel({ repos, loaded }: { repos: Repo[]; loaded: boolean }) {
   );
 }
 
-export default function Skills({ win }: AppProps) {
-  const [index, setIndex] = useState(0);
+function useCatalog() {
   const [repos, setRepos] = useState<Repo[]>([]);
   const [loaded, setLoaded] = useState(false);
   useEffect(() => {
@@ -125,18 +124,19 @@ export default function Skills({ win }: AppProps) {
     loadRepos().then((list) => live && (setRepos(list), setLoaded(true)));
     return () => void (live = false);
   }, []);
-  const labels = [...DOMAINS.map((d) => d.label), "Languages"];
+  return { repos, loaded };
+}
+
+const TABS = [...DOMAINS.map((d) => ({ key: d.label, label: d.label })), { key: "languages", label: "Languages" }];
+
+export default function Skills({ win }: AppProps) {
+  const [index, setIndex] = useState(0);
+  const { repos, loaded } = useCatalog();
   const id = (part: string) => `${win.id}-${part}`;
   return (
     <div className="split">
       <nav className="side" aria-label="Domains">
-        <div role="tablist" aria-orientation="vertical" aria-label="Technical domains" className="side-tabs" onKeyDown={tabKeys(labels.length, index, setIndex)}>
-          {labels.map((label, i) => (
-            <button key={label} type="button" role="tab" id={id(`tab-${i}`)} aria-selected={i === index} aria-controls={id("panel")} tabIndex={i === index ? 0 : -1} onClick={() => setIndex(i)}>
-              {label}
-            </button>
-          ))}
-        </div>
+        <SideTabs label="Technical domains" tabs={TABS} index={index} setIndex={setIndex} idOf={id} />
       </nav>
       <div className="panel" role="tabpanel" id={id("panel")} aria-labelledby={id(`tab-${index}`)} tabIndex={0}>
         {index === LANGUAGES_TAB ? <LanguagesPanel repos={repos} loaded={loaded} /> : <DomainPanel domain={DOMAINS[index]} repos={repos} />}

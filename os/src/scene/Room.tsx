@@ -5,7 +5,7 @@ import { ContactShadows } from "@react-three/drei";
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
-import type { Theme } from "../state/store";
+import type { Theme } from "@/state/store";
 import { Hoverable } from "./Hoverable";
 import { calm, usePulse } from "./focus";
 import { DESK_Y, SPOT, WALL_Z } from "./layout";
@@ -95,18 +95,26 @@ function WallLamp({ theme }: { theme: Theme }) {
   );
 }
 
-// The tiny door in the baseboard: a click opens it and a warm light spills out, then it closes.
-function TinyDoor({ theme }: { theme: Theme }) {
-  const [x, , z] = SPOT.door;
+// The tiny door in the wall: a click opens it and a warm light spills out, then it closes.
+const DOOR_OPEN_MS = 2600;
+const DOOR_SWING = 1.6; // radians when fully open
+
+function useDoorSwing() {
   const leaf = useRef<THREE.Group>(null);
   const open = useRef(0);
   const until = useRef(0);
-  usePulse("door", () => (until.current = performance.now() + 2600));
+  usePulse("door", () => (until.current = performance.now() + DOOR_OPEN_MS));
   useFrame((_, dt) => {
     const wanted = performance.now() < until.current ? 1 : 0;
     open.current = calm ? wanted : THREE.MathUtils.damp(open.current, wanted, 5, dt);
-    if (leaf.current) leaf.current.rotation.y = -open.current * 1.6;
+    if (leaf.current) leaf.current.rotation.y = -open.current * DOOR_SWING;
   });
+  return leaf;
+}
+
+function TinyDoor({ theme }: { theme: Theme }) {
+  const [x, , z] = SPOT.door;
+  const leaf = useDoorSwing();
   return (
     <Hoverable id="door" position={[x, DESK_Y, z + 0.004]}>
       <mesh position={[0, 0.05, 0]}>

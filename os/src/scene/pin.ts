@@ -3,7 +3,7 @@
 // glances away (wall map, tiny door) the glass is seen at an angle, so the OS follows it with a full
 // projective matrix3d computed from the four corners.
 import * as THREE from "three";
-import { SCREEN } from "../state/store";
+import { SCREEN } from "@/state/store";
 import { GLASS } from "./layout";
 
 const points = GLASS.corners.map(() => new THREE.Vector3());

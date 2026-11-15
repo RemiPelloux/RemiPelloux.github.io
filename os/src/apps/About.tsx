@@ -2,7 +2,7 @@
 // CV, security page); nothing is added for the OS.
 import { useState, type ReactNode } from "react";
 import type { AppProps } from "./registry";
-import { Badge, Ext, openApp, openProject, tabKeys } from "./kit";
+import { Badge, Ext, openApp, openProject, SideTabs } from "./kit";
 import "./apps.css";
 
 const LINKEDIN = "https://www.linkedin.com/in/remipelloux/";
@@ -130,15 +130,9 @@ export default function About({ win }: AppProps) {
           <span className="badge-name">Rémi Pelloux</span>
           <span className="badge-role">CTO · OpenPro</span>
         </div>
-        <div role="tablist" aria-orientation="vertical" aria-label="About Rémi" className="side-tabs" onKeyDown={tabKeys(PAGES.length, index, setIndex)}>
-          {PAGES.map((p, i) => (
-            <button key={p.id} type="button" role="tab" id={id(`tab-${p.id}`)} aria-selected={i === index} aria-controls={id("panel")} tabIndex={i === index ? 0 : -1} onClick={() => setIndex(i)}>
-              {p.label}
-            </button>
-          ))}
-        </div>
+        <SideTabs label="About Rémi" tabs={PAGES.map((p) => ({ key: p.id, label: p.label }))} index={index} setIndex={setIndex} idOf={id} />
       </nav>
-      <div className="panel" role="tabpanel" id={id("panel")} aria-labelledby={id(`tab-${page.id}`)} tabIndex={0}>
+      <div className="panel" role="tabpanel" id={id("panel")} aria-labelledby={id(`tab-${index}`)} tabIndex={0}>
         <page.body />
       </div>
     </div>

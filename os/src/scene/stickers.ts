@@ -4,7 +4,14 @@ import { canvasTexture, FONT, MONO, rounded } from "./textures";
 
 type Ctx = CanvasRenderingContext2D;
 
-function tilted(ctx: Ctx, x: number, y: number, angle: number, draw: () => void) {
+// Where a sticker sits on the sheet and how much it is turned.
+interface Spot {
+  x: number;
+  y: number;
+  angle: number;
+}
+
+function tilted(ctx: Ctx, { x, y, angle }: Spot, draw: () => void) {
   ctx.save();
   ctx.translate(x, y);
   ctx.rotate(angle);
@@ -16,7 +23,7 @@ function tilted(ctx: Ctx, x: number, y: number, angle: number, draw: () => void)
 }
 
 function riviera(ctx: Ctx) {
-  rounded(ctx, -150, -42, 300, 84, 16);
+  rounded(ctx, { x: -150, y: -42, w: 300, h: 84 }, 16);
   ctx.fillStyle = "#16142a";
   ctx.fill();
   ctx.shadowColor = "transparent";
@@ -30,16 +37,22 @@ function riviera(ctx: Ctx) {
   ctx.fillText("RIVIERA.OS", 40, 2);
 }
 
-function palm(ctx: Ctx) {
-  const sky = ctx.createLinearGradient(0, -70, 0, 70);
+const PALM_R = 70;
+
+// A sunset disc: warm sky over a band of sea.
+function sunset(ctx: Ctx) {
+  const sky = ctx.createLinearGradient(0, -PALM_R, 0, PALM_R);
   sky.addColorStop(0, "#ff7a59");
   sky.addColorStop(0.6, "#ffc46b");
   sky.addColorStop(0.61, "#2d6fb3");
   ctx.beginPath();
-  ctx.arc(0, 0, 70, 0, Math.PI * 2);
+  ctx.arc(0, 0, PALM_R, 0, Math.PI * 2);
   ctx.fillStyle = sky;
   ctx.fill();
   ctx.shadowColor = "transparent";
+}
+
+function palmTree(ctx: Ctx) {
   ctx.strokeStyle = "#2a1b2e";
   ctx.lineWidth = 7;
   ctx.beginPath();
@@ -52,10 +65,15 @@ function palm(ctx: Ctx) {
     ctx.ellipse(6 + Math.cos(a) * 22, -28 + Math.sin(a) * 12, 26, 6, a, 0, Math.PI * 2);
     ctx.fill();
   }
+}
+
+function palm(ctx: Ctx) {
+  sunset(ctx);
+  palmTree(ctx);
   ctx.lineWidth = 5;
   ctx.strokeStyle = "#fff";
   ctx.beginPath();
-  ctx.arc(0, 0, 70, 0, Math.PI * 2);
+  ctx.arc(0, 0, PALM_R, 0, Math.PI * 2);
   ctx.stroke();
 }
 
@@ -63,7 +81,7 @@ const INVADER = ["00100000100", "00010001000", "00111111100", "01101110110", "11
 
 function invader(ctx: Ctx) {
   const cell = 12;
-  rounded(ctx, -78, -60, 156, 120, 12);
+  rounded(ctx, { x: -78, y: -60, w: 156, h: 120 }, 12);
   ctx.fillStyle = "#101418";
   ctx.fill();
   ctx.shadowColor = "transparent";
@@ -95,7 +113,7 @@ function polaroid(ctx: Ctx) {
 }
 
 function nameTag(ctx: Ctx) {
-  rounded(ctx, -120, -56, 240, 112, 14);
+  rounded(ctx, { x: -120, y: -56, w: 240, h: 112 }, 14);
   ctx.fillStyle = "#e0413b";
   ctx.fill();
   ctx.shadowColor = "transparent";
@@ -111,11 +129,11 @@ function nameTag(ctx: Ctx) {
 
 // 512 x 640: the lower front of the tower, 0.16 m x 0.2 m.
 export function stickerSheet() {
-  return canvasTexture("stickers", 512, 640, (ctx) => {
-    tilted(ctx, 256, 70, -0.05, () => riviera(ctx));
-    tilted(ctx, 120, 230, 0.12, () => palm(ctx));
-    tilted(ctx, 370, 250, -0.1, () => polaroid(ctx));
-    tilted(ctx, 140, 420, -0.08, () => invader(ctx));
-    tilted(ctx, 340, 560, 0.06, () => nameTag(ctx));
+  return canvasTexture({ key: "stickers", w: 512, h: 640 }, (ctx) => {
+    tilted(ctx, { x: 256, y: 70, angle: -0.05 }, () => riviera(ctx));
+    tilted(ctx, { x: 120, y: 230, angle: 0.12 }, () => palm(ctx));
+    tilted(ctx, { x: 370, y: 250, angle: -0.1 }, () => polaroid(ctx));
+    tilted(ctx, { x: 140, y: 420, angle: -0.08 }, () => invader(ctx));
+    tilted(ctx, { x: 340, y: 560, angle: 0.06 }, () => nameTag(ctx));
   });
 }

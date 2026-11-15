@@ -1,11 +1,14 @@
 // Pictures painted once on a 2D canvas: the map of Antibes pinned on the wall (the real coastline, from
 // antibesOutline.ts), the view through the window by day and by night, and the desk mat.
-import type { Theme } from "../state/store";
+import type { Theme } from "@/state/store";
 import { BOUNDS, LAND, PLACES } from "./antibesOutline";
-import { canvasTexture, FONT, MONO } from "./textures";
+import { canvasTexture, FONT, MONO, type Box } from "./textures";
+
+type Project = (x: number, y: number) => [number, number];
+const MAP_FRAME: Box = { x: 24, y: 96, w: 552, h: 680 };
 
 // Draws the coastline into a box; returns the projection so labels can be placed on it.
-function coast(ctx: CanvasRenderingContext2D, box: { x: number; y: number; w: number; h: number }, fill: string, stroke: string) {
+function coast(ctx: CanvasRenderingContext2D, box: Box, ink: { fill: string; stroke: string }) {
   const [minX, minY, maxX, maxY] = BOUNDS;
   const scale = Math.min(box.w / (maxX - minX), box.h / (maxY - minY));
   const at = (x: number, y: number): [number, number] => [box.x + (x - minX) * scale, box.y + (maxY - y) * scale];
@@ -18,44 +21,49 @@ function coast(ctx: CanvasRenderingContext2D, box: { x: number; y: number; w: nu
     }
     ctx.closePath();
   }
-  ctx.fillStyle = fill;
+  ctx.fillStyle = ink.fill;
   ctx.fill("evenodd");
-  ctx.strokeStyle = stroke;
+  ctx.strokeStyle = ink.stroke;
   ctx.lineWidth = 2;
   ctx.stroke();
   return at;
 }
 
+// A red pin and a name for each place, kept clear of the right edge.
+function places(ctx: CanvasRenderingContext2D, at: Project, width: number) {
+  ctx.font = `600 20px ${FONT}`;
+  ctx.textAlign = "left";
+  for (const place of PLACES) {
+    const [px, py] = at(place.at[0], place.at[1]);
+    ctx.fillStyle = "#c0392b";
+    ctx.beginPath();
+    ctx.arc(px, py, 5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = "#2c2a26";
+    ctx.fillText(place.name, Math.min(px + 9, width - 170), py + 6);
+  }
+}
+
 export function mapPoster() {
-  return canvasTexture("map-poster", 600, 800, (ctx, w, h) => {
+  return canvasTexture({ key: "map-poster", w: 600, h: 800 }, (ctx, w, h) => {
     ctx.fillStyle = "#e9dfc6";
     ctx.fillRect(0, 0, w, h);
     ctx.fillStyle = "#9cc0cf";
-    ctx.fillRect(24, 96, w - 48, h - 120);
-    const at = coast(ctx, { x: 24, y: 96, w: w - 48, h: h - 120 }, "#efe6cf", "#3e5a6b");
+    ctx.fillRect(MAP_FRAME.x, MAP_FRAME.y, MAP_FRAME.w, MAP_FRAME.h);
+    const at = coast(ctx, MAP_FRAME, { fill: "#efe6cf", stroke: "#3e5a6b" });
     ctx.fillStyle = "#2c2a26";
     ctx.font = `800 52px ${FONT}`;
     ctx.textAlign = "center";
     ctx.fillText("ANTIBES", w / 2, 70);
-    ctx.font = `600 20px ${FONT}`;
-    ctx.textAlign = "left";
-    for (const place of PLACES) {
-      const [px, py] = at(place.at[0], place.at[1]);
-      ctx.fillStyle = "#c0392b";
-      ctx.beginPath();
-      ctx.arc(px, py, 5, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.fillStyle = "#2c2a26";
-      ctx.fillText(place.name, Math.min(px + 9, w - 170), py + 6);
-    }
+    places(ctx, at, w);
     ctx.strokeStyle = "#5b4a35";
     ctx.lineWidth = 3;
-    ctx.strokeRect(24, 96, w - 48, h - 120);
+    ctx.strokeRect(MAP_FRAME.x, MAP_FRAME.y, MAP_FRAME.w, MAP_FRAME.h);
   });
 }
 
 // The old town over the sea: ramparts, the Château Grimaldi's tower and the cathedral's bell tower.
-function skyline(ctx: CanvasRenderingContext2D, w: number, h: number, colour: string) {
+function skyline(ctx: CanvasRenderingContext2D, { w, h }: { w: number; h: number }, colour: string) {
   ctx.fillStyle = colour;
   ctx.beginPath();
   ctx.moveTo(0, h * 0.72);
@@ -77,7 +85,7 @@ function lights(ctx: CanvasRenderingContext2D, w: number, h: number) {
 }
 
 export function windowView(theme: Theme) {
-  return canvasTexture(`window-${theme}`, 512, 640, (ctx, w, h) => {
+  return canvasTexture({ key: `window-${theme}`, w: 512, h: 640 }, (ctx, w, h) => {
     const night = theme === "night";
     const sky = ctx.createLinearGradient(0, 0, 0, h * 0.7);
     sky.addColorStop(0, night ? "#141038" : "#5fa6e8");
@@ -90,17 +98,17 @@ export function windowView(theme: Theme) {
     ctx.fill();
     ctx.fillStyle = night ? "#0f1838" : "#1f6fb5";
     ctx.fillRect(0, h * 0.7, w, h * 0.3);
-    skyline(ctx, w, h, night ? "#1c1530" : "#c9a77e");
+    skyline(ctx, { w, h }, night ? "#1c1530" : "#c9a77e");
     if (night) lights(ctx, w, h);
   });
 }
 
 export function deskMat() {
-  return canvasTexture("desk-mat", 1024, 410, (ctx, w, h) => {
+  return canvasTexture({ key: "desk-mat", w: 1024, h: 410 }, (ctx, w, h) => {
     ctx.fillStyle = "#231b38";
     ctx.fillRect(0, 0, w, h);
     ctx.globalAlpha = 0.28;
-    coast(ctx, { x: w * 0.55, y: -h * 0.25, w: w * 0.5, h: h * 1.5 }, "#3a2f5c", "#8f7bff");
+    coast(ctx, { x: w * 0.55, y: -h * 0.25, w: w * 0.5, h: h * 1.5 }, { fill: "#3a2f5c", stroke: "#8f7bff" });
     ctx.globalAlpha = 1;
     ctx.fillStyle = "#8f7bff";
     ctx.font = `700 28px ${MONO}`;
