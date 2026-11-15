@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parent.parent
 PAGES = [
     "index.html", "cv/index.html", "wiki/index.html", "work/index.html", "404.html",
     "lab/index.html", "toolbox/index.html", "security/index.html", "work/openplod/index.html", "work/containust/index.html", "work/modelly/index.html",
+    "riviera/index.html",
 ]
 HASH_LENGTH = 8
 ASSET = re.compile(r'((?:href|src)="/(?:css|js)/[\w./-]+\.(?:css|js))(?:\?v=\w+)?(")')
