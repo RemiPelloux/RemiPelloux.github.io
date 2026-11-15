@@ -1,0 +1,91 @@
+/* The Antibes chart: parchment land on a deep Antibes-blue sea, amber pins, in the OS's pixel type.
+   Strokes use non-scaling-stroke so the coastline stays one crisp line at every zoom. */
+
+.map-app {
+  --sea: #0b2a66;
+  --sea-shoal: #2c5aa8;
+  --land: #e8dcb6;
+  --land-edge: #5a4a2a;
+  --road: #b8a57a;
+  --pin: var(--amber);
+  container-type: inline-size;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100%;
+  background: var(--sea);
+  font-family: var(--mono);
+}
+[data-theme="night"] .map-app { --sea: #071a44; --land: #cfc29c; }
+
+.map-tools { display: flex; align-items: center; gap: 4px; padding: 5px 6px; border-bottom: 2px solid var(--edge); background: var(--panel); }
+.map-title { flex: 1; overflow: hidden; color: var(--ink-3); font: 500 12px/1 var(--pixel); letter-spacing: 0.08em; text-align: center; text-overflow: ellipsis; white-space: nowrap; }
+.map-btn { min-height: 26px; padding: 3px 10px; border: 1px solid; border-color: var(--edge-light) var(--edge) var(--edge) var(--edge-light); background: var(--panel-2); font: 500 12px/1 var(--mono); cursor: pointer; }
+.map-btn:hover { background: var(--title-b); }
+.map-btn.icon { min-width: 30px; padding: 3px 6px; font-size: 16px; }
+
+.map-stage { position: relative; overflow: hidden; touch-action: none; cursor: grab; user-select: none; }
+.map-stage:active { cursor: grabbing; }
+.map-stage:focus-visible { outline: 2px solid var(--amber); outline-offset: -3px; }
+.map-svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.map-svg path { vector-effect: non-scaling-stroke; }
+.map-sea { fill: var(--sea); }
+.map-grid { fill: none; stroke: rgb(255 255 255 / 0.07); stroke-width: 1; }
+.map-shoal { fill: none; stroke: var(--sea-shoal); stroke-width: 9; stroke-linejoin: round; opacity: 0.55; }
+.map-land { fill: var(--land); stroke: var(--land-edge); stroke-width: 1.2; stroke-linejoin: round; }
+.map-beach { fill: #f3e2a0; }
+.map-marina { fill: #6f93cf; stroke: var(--land-edge); stroke-width: 0.6; }
+.map-road { fill: none; stroke: var(--road); stroke-width: 0.8; stroke-linecap: round; }
+.map-road.main { stroke: #a2793f; stroke-width: 1.6; }
+.map-fort { fill: #a2793f; stroke: var(--land-edge); stroke-width: 1; }
+
+/* Pins are real buttons placed over the chart, so they stay the same size at every zoom. */
+.map-pin { position: absolute; display: flex; align-items: center; gap: 5px; padding: 4px; border: 0; background: none; transform: translate(-13px, -50%); cursor: pointer; }
+.map-pin .dot { width: 12px; height: 12px; flex: none; border: 2px solid #3a2a08; background: var(--pin); transform: rotate(45deg); box-shadow: 0 0 0 2px rgb(255 255 255 / 0.5); }
+.map-pin .name { display: none; padding: 2px 5px; border: 1px solid #3a2a08; background: rgb(21 18 61 / 0.88); color: var(--ink); font: 500 12px/1.1 var(--pixel); white-space: nowrap; }
+.map-pin.labelled .name, .map-pin:hover .name, .map-pin:focus-visible .name, .map-pin.on .name { display: block; }
+.map-pin.on .dot { background: var(--rose); }
+.map-pin.edge .dot { border-radius: 50%; background: var(--green); }
+.map-pin:focus-visible { outline: 2px solid var(--amber); outline-offset: 1px; }
+.map-pin:hover, .map-pin:focus-visible, .map-pin.on { z-index: 2; }
+
+/* The secret: a tiny twinkle at sea, no label, no pin. */
+.map-glint { position: absolute; width: 14px; height: 14px; padding: 0; border: 0; border-radius: 50%; background: radial-gradient(circle, #fff 0 18%, rgb(255 255 255 / 0.35) 30%, transparent 62%); transform: translate(-50%, -50%); cursor: pointer; animation: map-glint 3.2s ease-in-out infinite; }
+.map-glint:focus-visible { outline: 2px solid var(--amber); }
+@keyframes map-glint { 0%, 70%, 100% { opacity: 0.15; } 80% { opacity: 1; transform: translate(-50%, -50%) scale(1.3); } }
+@media (prefers-reduced-motion: reduce) { .map-glint { animation: none; opacity: 0.5; } }
+
+.map-compass { position: absolute; top: 10px; right: 10px; width: 64px; height: 64px; pointer-events: none; }
+.map-compass .ring { fill: rgb(11 42 102 / 0.6); stroke: var(--land); stroke-width: 1.5; }
+.map-compass .ring.thin { fill: none; stroke-width: 0.6; stroke-dasharray: 2 3; }
+.map-compass .n { fill: var(--rose); }
+.map-compass .pt { fill: var(--land); }
+.map-compass .dark { filter: brightness(0.6); }
+.map-compass text { fill: var(--ink); font: 700 11px var(--pixel); }
+
+.map-scale { position: absolute; left: 10px; bottom: 22px; display: grid; gap: 2px; color: var(--land); font: 500 11px/1 var(--mono); pointer-events: none; }
+.map-scale span { height: 6px; border: 1.5px solid var(--land); border-top: 0; background: linear-gradient(90deg, var(--land) 50%, transparent 50%); }
+.map-credit { position: absolute; right: 6px; bottom: 4px; margin: 0; color: rgb(255 255 255 / 0.55); font-size: 10px; pointer-events: none; }
+
+.map-card, .map-list { position: absolute; z-index: 5; border: 2px solid var(--edge-light); background: var(--panel); box-shadow: 6px 6px 0 rgb(0 0 0 / 0.4); cursor: auto; user-select: text; }
+.map-card { top: 10px; right: 84px; width: min(280px, 46%); max-height: calc(100% - 20px); overflow: auto; padding: 12px 14px; font: 400 13px/1.45 var(--sans); }
+.map-card h3 { margin: 0 24px 6px 0; color: var(--amber); font: 600 15px/1.2 var(--pixel); }
+.map-card p { margin: 0 0 8px; color: var(--ink-2); }
+.map-card .map-edge { color: var(--green); font: 500 12px var(--mono); }
+.map-card:focus { outline: none; }
+.map-card:focus-visible { outline: 2px solid var(--amber); }
+.map-x { position: absolute; top: 6px; right: 6px; width: 24px; height: 24px; border: 1px solid var(--edge); background: var(--panel-2); line-height: 1; cursor: pointer; }
+.map-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.map-list { top: 6px; left: 6px; max-height: calc(100% - 12px); overflow: auto; }
+.map-list ul { margin: 0; padding: 4px; list-style: none; }
+.map-list button { display: block; width: 100%; padding: 7px 10px; border: 0; background: none; font: 500 13px/1.2 var(--mono); text-align: left; cursor: pointer; }
+.map-list button:hover, .map-list button:focus-visible { background: var(--title-b); outline: none; }
+
+/* Narrow windows and phones: the card becomes a bottom sheet, the compass shrinks. */
+@container (max-width: 480px) {
+  .map-title { display: none; }
+  .map-tools { justify-content: flex-end; }
+  .map-tools > .map-btn:first-child { margin-right: auto; }
+  .map-card { top: auto; left: 6px; right: 6px; bottom: 6px; width: auto; max-height: 55%; }
+  .map-compass { width: 48px; height: 48px; }
+}

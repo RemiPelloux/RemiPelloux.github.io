@@ -15,8 +15,8 @@ ROOT = Path(__file__).resolve().parent.parent
 PAGES = [
     "index.html", "cv/index.html", "wiki/index.html", "work/index.html", "404.html",
     "lab/index.html", "toolbox/index.html", "security/index.html", "work/openplod/index.html", "work/containust/index.html", "work/modelly/index.html",
-    "riviera/index.html",
 ]
+# riviera/ is RIVIERA.OS, built by Vite from os/: its files carry content hashes already.
 HASH_LENGTH = 8
 ASSET = re.compile(r'((?:href|src)="/(?:css|js)/[\w./-]+\.(?:css|js))(?:\?v=\w+)?(")')
 BLOCK = re.compile(r"<!-- stamp -->.*?<!-- /stamp -->", re.S)
@@ -36,8 +36,6 @@ def version(files):
 def import_map(files, stamp):
     modules = ["/" + file.relative_to(ROOT).as_posix() for file in files if file.suffix == ".js"]
     imports = {module: f"{module}?v={stamp}" for module in modules}
-    # The vendored three.js add-ons import the bare name "three"; it is the same file the site imports by path.
-    imports["three"] = "/vendor/three/three.module.min.js"
     return f'<script type="importmap">{json.dumps({"imports": imports}, separators=(",", ":"))}</script>'
 
 

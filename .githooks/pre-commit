@@ -1,8 +1,15 @@
 #!/bin/sh
-# Re-stamps the ?v= versions and the import map whenever a commit touches css/ or js/,
-# and adds the stamped pages to the same commit. Enable once per clone:
-#   git config core.hooksPath .githooks
-if git diff --cached --name-only | grep -qE '^(css|js)/'; then
+# Enable once per clone:  git config core.hooksPath .githooks
+#
+# 1. A commit that touches os/ rebuilds RIVIERA.OS into riviera/ and adds the build.
+# 2. A commit that touches css/ or js/ re-stamps the ?v= versions and the import map,
+#    and adds the stamped pages.
+staged=$(git diff --cached --name-only)
+if echo "$staged" | grep -qE '^os/'; then
+  (cd os && npm run --silent build) || { echo "RIVIERA.OS build failed: commit stopped." >&2; exit 1; }
+  git add -A -- riviera
+fi
+if echo "$staged" | grep -qE '^(css|js)/'; then
   python3 scripts/stamp.py >/dev/null || exit 1
   git add -- $(python3 -B -c 'import sys; sys.path.insert(0, "scripts"); import stamp; print(" ".join(stamp.PAGES))')
 fi

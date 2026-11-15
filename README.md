@@ -28,8 +28,19 @@ The source of [remipelloux.github.io](https://remipelloux.github.io/). Static fi
 | `js/stars.js` | Star and repository counts read live from the GitHub API, cached one hour, with the written numbers as fallback |
 | `js/intro.js`, `css/intro.css` | Opening sequence, once per browser session |
 | `js/welcome.js`, `css/welcome.css`, `assets/welcome/` | Welcome screen on `/`, once per browser session: Immersive goes to `/riviera/`, Lite stays on the classic site. `/?lite` skips it |
+| `os/` | RIVIERA.OS, the Immersive experience: React, TypeScript, Three.js and React Three Fiber, built with Vite into `riviera/` (committed). A 3D workstation with a working retro OS on its CRT, and a Lite 2D desktop for phones and slow machines |
+| `assets/riviera/repos.json` | Public repositories for RIVIERA.OS, regenerated daily by `scripts/riviera-repos.py` |
 | `scripts/stamp.py` | Versions the CSS and JavaScript links |
 | `scripts/refresh-ledger.sh` | Regenerates `js/ledger-data.js` from GitHub |
+
+## RIVIERA.OS
+
+```sh
+cd os && npm install   # once
+npm run build          # type-checks, then builds into ../riviera/
+```
+
+The pre-commit hook runs the build whenever a commit touches `os/` and adds `riviera/` to the commit. The OS reads `/assets/riviera/repos.json` at runtime, so the daily refresh updates it without a rebuild. Private repositories are listed by hand in `os/src/data/repos.ts`, with their description only.
 
 ## Versioning (automatic)
 
