@@ -2,8 +2,9 @@
 """Version the site's own CSS and JavaScript so a deploy never mixes old and new files.
 
 Writes ?v=<hash> on every local stylesheet and script in the HTML pages, and an
-import map that gives every module under js/ the same version. Run before each commit
-that touches css/ or js/:  python3 scripts/stamp.py
+import map that gives every module under js/ the same version. The pre-commit hook in
+.githooks/ runs it on every commit that touches css/ or js/ (enable it once per clone with
+git config core.hooksPath .githooks). By hand:  python3 scripts/stamp.py
 """
 import hashlib
 import json

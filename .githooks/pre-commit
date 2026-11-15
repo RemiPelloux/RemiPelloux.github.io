@@ -1,0 +1,8 @@
+#!/bin/sh
+# Re-stamps the ?v= versions and the import map whenever a commit touches css/ or js/,
+# and adds the stamped pages to the same commit. Enable once per clone:
+#   git config core.hooksPath .githooks
+if git diff --cached --name-only | grep -qE '^(css|js)/'; then
+  python3 scripts/stamp.py >/dev/null || exit 1
+  git add -- $(python3 -B -c 'import sys; sys.path.insert(0, "scripts"); import stamp; print(" ".join(stamp.PAGES))')
+fi

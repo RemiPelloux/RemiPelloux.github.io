@@ -31,13 +31,15 @@ The source of [remipelloux.github.io](https://remipelloux.github.io/). Static fi
 | `scripts/stamp.py` | Versions the CSS and JavaScript links |
 | `scripts/refresh-ledger.sh` | Regenerates `js/ledger-data.js` from GitHub |
 
-## Before committing
+## Versioning (automatic)
+
+Enable the hooks once per clone:
 
 ```sh
-python3 scripts/stamp.py
+git config core.hooksPath .githooks
 ```
 
-It writes one version on every local stylesheet, script and module (through an import map), so a deploy never serves a mix of old and new files. Run it after any change under `css/` or `js/`.
+From then on every commit that touches `css/` or `js/` runs `scripts/stamp.py` and adds the stamped pages to the commit. It writes one version on every local stylesheet, script and module (through an import map), so a deploy never serves a mix of old and new files. You never have to run it by hand.
 
 ## CV export
 

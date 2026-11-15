@@ -19,7 +19,7 @@ export function mountChapters() {
 // Public repositories by language, from the catalog. Hovering or focusing one lights up its towers.
 export async function mountLanguages(list) {
   if (!list) return;
-  const { repos } = await loadCatalog();
+  const { all: repos } = await loadCatalog();
   const counts = [...countBy(repos.filter((r) => !r.fork && r.language), "language")].sort((a, b) => b[1] - a[1]);
   list.innerHTML = counts.map(([language, n]) => `<li><button type="button" data-language="${language}">${language} <span>${n}</span></button></li>`).join("");
   const send = (language) => document.dispatchEvent(new CustomEvent("riviera:highlight", { detail: { language } }));
