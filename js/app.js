@@ -9,6 +9,7 @@ import { mountStars } from "./stars.js";
 import { mountWords } from "./words.js";
 import { startRouter } from "./router.js";
 import { playIntro } from "./intro.js";
+import { welcome } from "./welcome.js";
 import { mountReveal } from "./reveal.js";
 import { mountLab } from "./lab.js";
 import { mountArchive } from "./archive.js";
@@ -33,5 +34,5 @@ function mountAll() {
 ready.then(() => {
   mountAll();
   startRouter(mountAll);
-  playIntro();
+  welcome().then(playIntro);
 });

@@ -1,0 +1,113 @@
+/* Welcome screen: Immersive or Lite, once per browser session. */
+
+.welcome-open .wrap { visibility: hidden; }
+.welcome-open body { overflow: hidden; background: #030B1A; }
+
+.welcome {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  overflow-y: auto;
+  background: radial-gradient(120% 80% at 50% 0%, #0B3B74 0%, #072447 45%, #030B1A 100%);
+  color: #F2F7FC;
+}
+
+.welcome-inner {
+  min-height: 100%;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: var(--s8) var(--s4);
+  display: grid;
+  align-content: center;
+  gap: var(--s4);
+}
+
+.welcome-kicker,
+.welcome-foot {
+  font-family: var(--font-mono);
+  font-size: var(--t14);
+  color: #9DB9D9;
+}
+
+.welcome h1 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(2.25rem, 6vw, 4.5rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.welcome-lede { font-size: var(--t18); color: #C6D8EC; max-width: 36rem; }
+
+.welcome-options {
+  display: grid;
+  gap: var(--s5);
+  margin-block: var(--s5);
+}
+
+@media (min-width: 760px) {
+  .welcome-options { grid-template-columns: 1fr 1fr; }
+}
+
+.welcome-option {
+  all: unset;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  cursor: pointer;
+  border: 1px solid #1D4C80;
+  border-radius: var(--radius);
+  background: rgb(7 36 71 / 0.6);
+  overflow: hidden;
+  transition: transform 260ms var(--spring), border-color var(--fast);
+}
+
+.welcome-option img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  object-position: top;
+  transition: transform 600ms ease;
+}
+
+.welcome-copy { display: grid; gap: var(--s2); padding: var(--s5); }
+.welcome-copy b { font-family: var(--font-serif); font-size: var(--t32); font-weight: 600; line-height: 1.1; }
+.welcome-copy span { color: #C6D8EC; }
+.welcome-copy small { font-family: var(--font-mono); font-size: var(--t12); color: #7DB6EE; }
+
+.welcome-option.last .welcome-copy b::after {
+  content: "  ·  last time";
+  font-family: var(--font-mono);
+  font-size: var(--t12);
+  font-weight: 400;
+  color: #7DB6EE;
+  vertical-align: middle;
+}
+:root[data-lang="fr"] .welcome-option.last .welcome-copy b::after { content: "  ·  la dernière fois"; }
+
+.welcome-option:hover:not(:disabled),
+.welcome-option:focus-visible {
+  border-color: #7DB6EE;
+  transform: translateY(-4px);
+}
+.welcome-option:hover:not(:disabled) img { transform: scale(1.03); }
+.welcome-option:focus-visible { outline: 2px solid #7DB6EE; outline-offset: 4px; }
+.welcome-option:disabled { cursor: not-allowed; opacity: 0.55; }
+
+.welcome.leaving { opacity: 0.6; transition: opacity 300ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .welcome-option, .welcome-option img { transition: none; }
+  .welcome-option:hover:not(:disabled), .welcome-option:focus-visible { transform: none; }
+}
+
+/* On a phone Lite is the better fit, so it comes first. */
+@media (max-width: 759px) {
+  .welcome-option.lite { order: -1; }
+}
+
+@media (pointer: coarse) {
+  .welcome-foot { display: none; }
+}
