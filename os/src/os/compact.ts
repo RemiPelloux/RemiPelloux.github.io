@@ -1,6 +1,6 @@
 // Compact: Lite mode on a narrow screen. Windows then open full screen, one at a time in view.
 import { useSyncExternalStore } from "react";
-import { useOs } from "../state/store";
+import { useOs } from "@/state/store";
 
 const query = typeof window !== "undefined" ? window.matchMedia("(max-width: 760px)") : null;
 

@@ -2,9 +2,9 @@
 // Its mood comes from the store: asleep (breathing, eyes shut, Zzz), awake (head tilt, blinks),
 // happy (tail wag, little hops) and zoomies (spins on the spot). A click pets it (see actions.ts).
 import { useFrame } from "@react-three/fiber";
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, type RefObject } from "react";
 import * as THREE from "three";
-import { useOs } from "../state/store";
+import { useOs } from "@/state/store";
 import { Hoverable } from "./Hoverable";
 import { calm } from "./focus";
 import { DESK_Y, SPOT } from "./layout";
@@ -39,7 +39,7 @@ function Blocks({ blocks }: { blocks: Block[] }) {
 }
 
 const zzz = () =>
-  label("zzz", 128, 128, (ctx) => {
+  label({ key: "zzz", w: 128, h: 128 }, (ctx) => {
     ctx.fillStyle = "#e9e6ff";
     ctx.font = `700 64px ${MONO}`;
     ctx.fillText("z", 40, 90);
@@ -72,8 +72,8 @@ function animate(p: Parts, mood: string, t: number) {
   });
 }
 
-export function Shiba() {
-  const [x, , z] = SPOT.shiba;
+// The refs to the moving parts, and the frame loop that animates them from the current mood.
+function useShibaParts() {
   const mood = useOs((s) => s.shiba.mood);
   const refs = { root: useRef<THREE.Group>(null), head: useRef<THREE.Group>(null), tail: useRef<THREE.Group>(null), eyes: useRef<THREE.Group>(null), zs: useRef<THREE.Group>(null) };
   useFrame(({ clock }) => {
@@ -81,36 +81,63 @@ export function Shiba() {
     if (Object.values(parts).some((part) => !part)) return;
     animate(parts, mood, calm ? 0 : clock.elapsedTime);
   });
-  const zMaterial = useMemo(() => new THREE.MeshBasicMaterial({ map: zzz(), transparent: true, depthWrite: false }), []);
+  return refs;
+}
+
+const hoodLogo = () =>
+  label({ key: "hood-logo", w: 128, h: 80 }, (ctx) => {
+    ctx.fillStyle = C.accent;
+    ctx.font = `700 48px ${MONO}`;
+    ctx.fillText("</>", 14, 58);
+  });
+
+function Head({ eyes }: { eyes: RefObject<THREE.Group | null> }) {
+  return (
+    <>
+      <Blocks blocks={HEAD} />
+      <group ref={eyes} position={[0, 0.014, 0.0415]}>
+        {[-0.022, 0.022].map((ex) => (
+          <mesh key={ex} position={[ex, 0, 0]}>
+            <boxGeometry args={[0.016, 0.016, 0.004]} />
+            <meshBasicMaterial color={C.dark} />
+          </mesh>
+        ))}
+      </group>
+    </>
+  );
+}
+
+function Zzz({ group }: { group: RefObject<THREE.Group | null> }) {
+  const material = useMemo(() => new THREE.MeshBasicMaterial({ map: zzz(), transparent: true, depthWrite: false }), []);
+  return (
+    <group ref={group}>
+      {[0, 1, 2].map((i) => (
+        <mesh key={i} material={material}>
+          <planeGeometry args={[0.03, 0.03]} />
+        </mesh>
+      ))}
+    </group>
+  );
+}
+
+export function Shiba() {
+  const [x, , z] = SPOT.shiba;
+  const refs = useShibaParts();
   return (
     <Hoverable id="shiba" position={[x, DESK_Y, z]} rotation={[0, -0.55, 0]}>
       <group ref={refs.root} scale={1.25}>
         <Blocks blocks={BODY} />
         <mesh position={[0, 0.07, 0.0455]}>
           <planeGeometry args={[0.04, 0.025]} />
-          <meshBasicMaterial map={label("hood-logo", 128, 80, (ctx) => { ctx.fillStyle = C.accent; ctx.font = `700 48px ${MONO}`; ctx.fillText("</>", 14, 58); })} transparent toneMapped={false} />
+          <meshBasicMaterial map={hoodLogo()} transparent toneMapped={false} />
         </mesh>
         <group ref={refs.head} position={[0, 0.155, 0.01]}>
-          <Blocks blocks={HEAD} />
-          <group ref={refs.eyes} position={[0, 0.014, 0.0415]}>
-            {[-0.022, 0.022].map((ex) => (
-              <mesh key={ex} position={[ex, 0, 0]}>
-                <boxGeometry args={[0.016, 0.016, 0.004]} />
-                <meshBasicMaterial color={C.dark} />
-              </mesh>
-            ))}
-          </group>
+          <Head eyes={refs.eyes} />
         </group>
         <group ref={refs.tail} position={[0, 0.06, -0.06]} rotation={[-0.9, 0, 0]}>
           <Blocks blocks={TAIL} />
         </group>
-        <group ref={refs.zs}>
-          {[0, 1, 2].map((i) => (
-            <mesh key={i} material={zMaterial}>
-              <planeGeometry args={[0.03, 0.03]} />
-            </mesh>
-          ))}
-        </group>
+        <Zzz group={refs.zs} />
       </group>
     </Hoverable>
   );

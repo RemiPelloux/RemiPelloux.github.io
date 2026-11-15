@@ -1,10 +1,10 @@
 // The menu bar across the top of the screen: menus that open with a click or the keyboard, the sky and
 // 3D/Lite switches, and the clock in Antibes.
 import { useEffect, useRef, useState } from "react";
-import { useOs } from "../state/store";
-import { APPS } from "../apps/registry";
-import type { AppId } from "../apps/ids";
-import { GITHUB } from "../data/repos";
+import { useOs } from "@/state/store";
+import { APPS } from "@/apps/registry";
+import type { AppId } from "@/apps/ids";
+import { GITHUB } from "@/data/repos";
 
 interface Item {
   label: string;
@@ -43,47 +43,57 @@ function Clock() {
   return <time className="clock">{now.toLocaleString("en-GB", { timeZone: "Europe/Paris", weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}</time>;
 }
 
+interface MenuProps {
+  menu: { name: string; items: Item[] };
+  open: string | null;
+  setOpen: (name: string | null) => void;
+}
+
+function Menu({ menu, open, setOpen }: MenuProps) {
+  const pick = (item: Item) => (setOpen(null), runItem(item));
+  return (
+    <li className={menu.name === "RIVIERA.OS" ? "brand" : ""}>
+      <button type="button" aria-haspopup="menu" aria-expanded={open === menu.name} onClick={() => setOpen(open === menu.name ? null : menu.name)} onPointerEnter={() => open && setOpen(menu.name)}>
+        {menu.name}
+      </button>
+      {open === menu.name && (
+        <ul className="menu" role="menu" onKeyDown={(e) => e.key === "Escape" && (e.preventDefault(), setOpen(null))}>
+          {menu.items.map((item, i) => (
+            <li key={item.label} role="none">
+              <button type="button" role="menuitem" autoFocus={i === 0} onClick={() => pick(item)}>{item.label}</button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </li>
+  );
+}
+
+function Tray() {
+  const { theme, mode, setTheme, setMode } = useOs();
+  return (
+    <div className="tray">
+      <button type="button" className="tray-btn" onClick={() => setTheme(theme === "day" ? "night" : "day")} aria-label={theme === "day" ? "Switch to night" : "Switch to day"} title="Day / night">{theme === "day" ? "☀" : "☾"}</button>
+      <button type="button" className="tray-btn" onClick={() => setMode(mode === "3d" ? "lite" : "3d")} aria-label={mode === "3d" ? "Switch to Lite mode" : "Switch to 3D"} title="3D / Lite">{mode === "3d" ? "3D" : "2D"}</button>
+      <Clock />
+    </div>
+  );
+}
+
 export function MenuBar() {
   const [open, setOpen] = useState<string | null>(null);
-  const { theme, mode, setTheme, setMode } = useOs();
   const bar = useRef<HTMLElement>(null);
-
   useEffect(() => {
     const away = (event: PointerEvent) => !bar.current?.contains(event.target as Node) && setOpen(null);
     window.addEventListener("pointerdown", away);
     return () => window.removeEventListener("pointerdown", away);
   }, []);
-
-  const pick = (item: Item) => {
-    setOpen(null);
-    runItem(item);
-  };
-
   return (
     <nav className="menubar" ref={bar} aria-label="Menu bar">
       <ul className="menus" role="menubar">
-        {menus().map((menu) => (
-          <li key={menu.name} className={menu.name === "RIVIERA.OS" ? "brand" : ""}>
-            <button type="button" aria-haspopup="menu" aria-expanded={open === menu.name} onClick={() => setOpen(open === menu.name ? null : menu.name)} onPointerEnter={() => open && setOpen(menu.name)}>
-              {menu.name}
-            </button>
-            {open === menu.name && (
-              <ul className="menu" role="menu" onKeyDown={(e) => e.key === "Escape" && (e.preventDefault(), setOpen(null))}>
-                {menu.items.map((item, i) => (
-                  <li key={item.label} role="none">
-                    <button type="button" role="menuitem" autoFocus={i === 0} onClick={() => pick(item)}>{item.label}</button>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </li>
-        ))}
+        {menus().map((menu) => <Menu key={menu.name} menu={menu} open={open} setOpen={setOpen} />)}
       </ul>
-      <div className="tray">
-        <button type="button" className="tray-btn" onClick={() => setTheme(theme === "day" ? "night" : "day")} aria-label={theme === "day" ? "Switch to night" : "Switch to day"} title="Day / night">{theme === "day" ? "☀" : "☾"}</button>
-        <button type="button" className="tray-btn" onClick={() => setMode(mode === "3d" ? "lite" : "3d")} aria-label={mode === "3d" ? "Switch to Lite mode" : "Switch to 3D"} title="3D / Lite">{mode === "3d" ? "3D" : "2D"}</button>
-        <Clock />
-      </div>
+      <Tray />
     </nav>
   );
 }

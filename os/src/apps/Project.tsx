@@ -1,8 +1,8 @@
 // One project's window: what it is, what it is built with, when it last moved, and where to read it.
 // Private repositories show their description and a private badge only: no link, no stars, no dates.
 import { useEffect, useRef, useState } from "react";
-import { CATEGORIES, statusOf, STATUS_LABEL, VISUALS, type Repo } from "../data/repos";
-import { useOs } from "../state/store";
+import { CATEGORIES, statusOf, STATUS_LABEL, VISUALS, type Repo } from "@/data/repos";
+import { useOs } from "@/state/store";
 import { ICONS } from "./icons";
 import { formatDate, StatusLed, useRepos } from "./projectKit";
 import { APPS, type AppProps } from "./registry";

@@ -33,16 +33,9 @@ function useBrew(run: number) {
   return step; // 0..2 = working on STEPS[step], 3 = ready
 }
 
-export default function Coffee(_: AppProps) {
-  const [run, setRun] = useState(0);
-  const step = useBrew(run);
-  const ready = step >= STEPS.length;
+function BrewSteps({ step }: { step: number }) {
   return (
-    <div className={`coffee${ready ? " ready" : ""}`}>
-      <pre className="cup inset" aria-hidden="true">
-        <span className="steam">{"   ) ) )"}</span>
-        {ready ? CUP_FULL : CUP_EMPTY}
-      </pre>
+    <>
       <span className="brew-bar inset" role="progressbar" aria-label="Brewing" aria-valuemin={0} aria-valuemax={STEPS.length} aria-valuenow={step}>
         <i style={{ width: `${(step / STEPS.length) * 100}%` }} />
       </span>
@@ -53,6 +46,21 @@ export default function Coffee(_: AppProps) {
           </li>
         ))}
       </ol>
+    </>
+  );
+}
+
+export default function Coffee(_: AppProps) {
+  const [run, setRun] = useState(0);
+  const step = useBrew(run);
+  const ready = step >= STEPS.length;
+  return (
+    <div className={`coffee${ready ? " ready" : ""}`}>
+      <pre className="cup inset" aria-hidden="true">
+        <span className="steam">{"   ) ) )"}</span>
+        {ready ? CUP_FULL : CUP_EMPTY}
+      </pre>
+      <BrewSteps step={step} />
       <p className="coffee-msg" role="status">{ready ? "Your coffee is ready ☕ (virtual, sorry)" : ""}</p>
       <button type="button" className="btn" onClick={() => setRun((n) => n + 1)}>
         {ready ? "Brew another" : "Restart"}

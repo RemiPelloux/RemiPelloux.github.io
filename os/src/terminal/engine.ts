@@ -1,8 +1,8 @@
 // The terminal's engine: parsing, the command table, completion and a small virtual file system.
 // Commands are plain objects registered by name, so new ones (eggs.ts) plug in without touching this.
-import { useOs } from "../state/store";
-import type { AppId } from "../apps/ids";
-import { loadRepos, type Repo } from "../data/repos";
+import { useOs } from "@/state/store";
+import type { AppId } from "@/apps/ids";
+import { loadRepos, type Repo } from "@/data/repos";
 
 export type LineKind = "out" | "err" | "ok" | "dim" | "accent" | "cmd";
 

@@ -16,7 +16,7 @@ const BEIGE = "#d8cfb8";
 const BEIGE_DARK = "#bdb39a";
 
 const badge = () =>
-  label("crt-badge", 256, 40, (ctx, w, h) => {
+  label({ key: "crt-badge", w: 256, h: 40 }, (ctx, w, h) => {
     ctx.fillStyle = "#6d6656";
     ctx.font = `800 22px ${FONT}`;
     ctx.textBaseline = "middle";
@@ -28,7 +28,7 @@ const badge = () =>
   });
 
 const note = () =>
-  label("sticky", 256, 256, (ctx, w) => {
+  label({ key: "sticky", w: 256, h: 256 }, (ctx, w) => {
     ctx.fillStyle = "#ffe36e";
     ctx.fillRect(0, 0, w, w);
     ctx.fillStyle = "rgb(0 0 0 / 0.06)";
@@ -38,11 +38,9 @@ const note = () =>
     ["☑ Build", "☑ Endure", "☑ Become"].forEach((line, i) => ctx.fillText(line, 22, 94 + i * 62));
   });
 
-// The swivel base stays flat on the desk; the head (tube, bezel, glass) tilts back around the pivot.
-function Crt() {
-  const head: [number, number, number] = [HEAD_PIVOT.x, HEAD_PIVOT.y, HEAD_PIVOT.z];
+function CrtBase() {
   return (
-    <group>
+    <>
       <RoundedBox args={[0.3, 0.035, 0.24]} radius={0.012} position={[0, DESK_Y + 0.018, 0]} castShadow receiveShadow>
         <meshStandardMaterial color={BEIGE_DARK} roughness={0.7} />
       </RoundedBox>
@@ -50,7 +48,42 @@ function Crt() {
         <cylinderGeometry args={[0.07, 0.1, 0.04, 24]} />
         <meshStandardMaterial color={BEIGE_DARK} roughness={0.7} />
       </mesh>
-      <group position={head} rotation={[-TILT, 0, 0]}>
+    </>
+  );
+}
+
+// The badge, the power light, the three knobs and the sticky note on the bezel.
+function CrtFace() {
+  return (
+    <>
+      <mesh position={[-0.15, 0.058, 0.2412]}>
+        <planeGeometry args={[0.13, 0.0203]} />
+        <meshBasicMaterial map={badge()} transparent toneMapped={false} color="#d8d2c2" />
+      </mesh>
+      <mesh position={[0.2, 0.058, 0.243]} rotation={[Math.PI / 2, 0, 0]}>
+        <cylinderGeometry args={[0.009, 0.009, 0.008, 16]} />
+        <meshStandardMaterial color="#9ed36a" emissive="#7cf06a" emissiveIntensity={1.2} />
+      </mesh>
+      {[0.08, 0.105, 0.13].map((x) => (
+        <mesh key={x} position={[x, 0.058, 0.241]} rotation={[Math.PI / 2, 0, 0]}>
+          <cylinderGeometry args={[0.006, 0.006, 0.006, 12]} />
+          <meshStandardMaterial color={BEIGE_DARK} />
+        </mesh>
+      ))}
+      <mesh position={[0.232, 0.462, 0.2425]} rotation={[0, 0, -0.1]}>
+        <planeGeometry args={[0.068, 0.068]} />
+        <meshStandardMaterial map={note()} roughness={0.9} />
+      </mesh>
+    </>
+  );
+}
+
+// The swivel base stays flat on the desk; the head (tube, bezel, glass) tilts back around the pivot.
+function Crt() {
+  return (
+    <group>
+      <CrtBase />
+      <group position={[HEAD_PIVOT.x, HEAD_PIVOT.y, HEAD_PIVOT.z]} rotation={[-TILT, 0, 0]}>
         <RoundedBox args={[0.46, 0.4, 0.34]} radius={0.04} position={[0, 0.26, -0.08]} castShadow receiveShadow>
           <meshStandardMaterial color={BEIGE} roughness={0.62} />
         </RoundedBox>
@@ -65,26 +98,33 @@ function Crt() {
           <planeGeometry args={[GLASS.width, GLASS.height]} />
           <meshBasicMaterial color="#0a0f24" />
         </mesh>
-        <mesh position={[-0.15, 0.058, 0.2412]}>
-          <planeGeometry args={[0.13, 0.0203]} />
-          <meshBasicMaterial map={badge()} transparent toneMapped={false} color="#d8d2c2" />
-        </mesh>
-        <mesh position={[0.2, 0.058, 0.243]} rotation={[Math.PI / 2, 0, 0]}>
-          <cylinderGeometry args={[0.009, 0.009, 0.008, 16]} />
-          <meshStandardMaterial color="#9ed36a" emissive="#7cf06a" emissiveIntensity={1.2} />
-        </mesh>
-        {[0.08, 0.105, 0.13].map((x) => (
-          <mesh key={x} position={[x, 0.058, 0.241]} rotation={[Math.PI / 2, 0, 0]}>
-            <cylinderGeometry args={[0.006, 0.006, 0.006, 12]} />
-            <meshStandardMaterial color={BEIGE_DARK} />
-          </mesh>
-        ))}
-        <mesh position={[0.232, 0.462, 0.2425]} rotation={[0, 0, -0.1]}>
-          <planeGeometry args={[0.068, 0.068]} />
-          <meshStandardMaterial map={note()} roughness={0.9} />
-        </mesh>
+        <CrtFace />
       </group>
     </group>
+  );
+}
+
+// The CD drive (tray, slot), the floppy slot and the power light.
+function Drives() {
+  return (
+    <>
+      <mesh position={[0, 0.385, 0.201]}>
+        <boxGeometry args={[0.16, 0.036, 0.004]} />
+        <meshStandardMaterial color={BEIGE_DARK} roughness={0.5} />
+      </mesh>
+      <mesh position={[-0.01, 0.382, 0.2035]}>
+        <boxGeometry args={[0.12, 0.003, 0.002]} />
+        <meshStandardMaterial color="#5a5244" />
+      </mesh>
+      <mesh position={[0.01, 0.335, 0.2015]}>
+        <boxGeometry args={[0.1, 0.008, 0.004]} />
+        <meshStandardMaterial color="#2e2a24" />
+      </mesh>
+      <mesh position={[0.06, 0.31, 0.202]}>
+        <sphereGeometry args={[0.005, 10, 8]} />
+        <meshStandardMaterial color="#7cf06a" emissive="#7cf06a" emissiveIntensity={1.5} />
+      </mesh>
+    </>
   );
 }
 
@@ -95,24 +135,7 @@ function Tower() {
       <RoundedBox args={[0.19, 0.44, 0.4]} radius={0.014} position={[0, 0.22, 0]} castShadow receiveShadow>
         <meshStandardMaterial color={BEIGE} roughness={0.6} />
       </RoundedBox>
-      {/* the CD drive: a tray front, its slot and the eject button */}
-      <mesh position={[0, 0.385, 0.201]}>
-        <boxGeometry args={[0.16, 0.036, 0.004]} />
-        <meshStandardMaterial color={BEIGE_DARK} roughness={0.5} />
-      </mesh>
-      <mesh position={[-0.01, 0.382, 0.2035]}>
-        <boxGeometry args={[0.12, 0.003, 0.002]} />
-        <meshStandardMaterial color="#5a5244" />
-      </mesh>
-      {/* the floppy slot */}
-      <mesh position={[0.01, 0.335, 0.2015]}>
-        <boxGeometry args={[0.1, 0.008, 0.004]} />
-        <meshStandardMaterial color="#2e2a24" />
-      </mesh>
-      <mesh position={[0.06, 0.31, 0.202]}>
-        <sphereGeometry args={[0.005, 10, 8]} />
-        <meshStandardMaterial color="#7cf06a" emissive="#7cf06a" emissiveIntensity={1.5} />
-      </mesh>
+      <Drives />
       <Hoverable id="stickers" position={[0, 0.16, 0.2015]}>
         <mesh>
           <planeGeometry args={[0.17, 0.2125]} />
@@ -123,52 +146,63 @@ function Tower() {
   );
 }
 
-// 15 x 5 keys as one instanced mesh. A pulse presses a random key for a moment.
+// 15 x 5 keys as one instanced mesh, two of them in the accent colours.
 const COLS = 15;
 const ROWS = 5;
+const KEYS = COLS * ROWS;
+const PITCH = 0.028;
+const TRAVEL = 0.006;
+
 function keyAt(i: number, depth: number, m: THREE.Matrix4) {
-  const col = i % COLS;
-  const row = Math.floor(i / COLS);
-  return m.makeTranslation(-0.196 + col * 0.028, 0.02 - depth * 0.006, -0.056 + row * 0.028);
+  return m.makeTranslation(-0.196 + (i % COLS) * PITCH, 0.02 - depth * TRAVEL, -0.056 + Math.floor(i / COLS) * PITCH);
 }
 
-function Keyboard() {
-  const press = useRef(new Float32Array(COLS * ROWS));
-  const mesh = useMemo(() => {
-    const geometry = new THREE.BoxGeometry(0.024, 0.012, 0.024);
-    const material = new THREE.MeshStandardMaterial({ color: "#ffffff", roughness: 0.5 });
-    const keys = new THREE.InstancedMesh(geometry, material, COLS * ROWS);
+function keyColour(i: number) {
+  if (i === 0) return new THREE.Color("#4f7bff");
+  return new THREE.Color(i === COLS - 1 ? "#9b6bff" : "#e6dfcc");
+}
+
+function useKeys() {
+  return useMemo(() => {
+    const keys = new THREE.InstancedMesh(new THREE.BoxGeometry(0.024, 0.012, 0.024), new THREE.MeshStandardMaterial({ color: "#ffffff", roughness: 0.5 }), KEYS);
     const m = new THREE.Matrix4();
-    const base = new THREE.Color("#e6dfcc");
-    for (let i = 0; i < COLS * ROWS; i += 1) {
+    for (let i = 0; i < KEYS; i += 1) {
       keys.setMatrixAt(i, keyAt(i, 0, m));
-      keys.setColorAt(i, i === 0 ? new THREE.Color("#4f7bff") : i === COLS - 1 ? new THREE.Color("#9b6bff") : base);
+      keys.setColorAt(i, keyColour(i));
     }
     keys.castShadow = true;
     return keys;
   }, []);
+}
 
+// A pulse presses a random key (never the top row's accents); it springs back over a few frames.
+function useKeyPresses(keys: THREE.InstancedMesh) {
+  const press = useRef(new Float32Array(KEYS));
+  const m = useMemo(() => new THREE.Matrix4(), []);
   usePulse("keyboard", () => {
     press.current[COLS + Math.floor(Math.random() * COLS * (ROWS - 1))] = 1;
   });
   useFrame((_, delta) => {
-    const m = new THREE.Matrix4();
     let moved = false;
     press.current.forEach((depth, i) => {
       if (depth <= 0) return;
       press.current[i] = Math.max(0, depth - delta * (calm ? 12 : 6));
-      mesh.setMatrixAt(i, keyAt(i, press.current[i] > 0.5 ? 1 : press.current[i] * 2, m));
+      keys.setMatrixAt(i, keyAt(i, press.current[i] > 0.5 ? 1 : press.current[i] * 2, m));
       moved = true;
     });
-    if (moved) mesh.instanceMatrix.needsUpdate = true;
+    if (moved) keys.instanceMatrix.needsUpdate = true;
   });
+}
 
+function Keyboard() {
+  const keys = useKeys();
+  useKeyPresses(keys);
   return (
     <Hoverable id="keyboard" position={[0, DESK_Y, 0.42]} rotation={[0.06, 0, 0]}>
       <RoundedBox args={[0.46, 0.022, 0.17]} radius={0.008} position={[0, 0.011, 0]} castShadow receiveShadow>
         <meshStandardMaterial color={BEIGE} roughness={0.6} />
       </RoundedBox>
-      <primitive object={mesh} />
+      <primitive object={keys} />
     </Hoverable>
   );
 }

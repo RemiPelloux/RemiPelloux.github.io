@@ -2,7 +2,7 @@
 // terminal and this window always agree.
 import { useState } from "react";
 import type { AppProps } from "./registry";
-import { useOs, write, type Mode, type Theme } from "../state/store";
+import { useOs, write, type Mode, type Theme } from "@/state/store";
 import "./apps.css";
 
 interface Choice<T> {
@@ -70,13 +70,10 @@ function ResetAchievements() {
   );
 }
 
-export default function Settings(_: AppProps) {
-  const theme = useOs((s) => s.theme);
-  const mode = useOs((s) => s.mode);
+// What this computer is and how it behaves: nothing to change, just to know.
+function SystemInfo() {
   return (
-    <form className="app-pad settings" onSubmit={(e) => e.preventDefault()}>
-      <Radios legend="Appearance" name="theme" choices={THEMES} value={theme} onPick={pickTheme} />
-      <Radios legend="Experience" name="mode" choices={MODES} value={mode} onPick={pickMode} />
+    <>
       <fieldset>
         <legend>Motion</legend>
         <p>If your system asks for reduced motion, RIVIERA.OS respects it automatically and turns animations off.</p>
@@ -85,18 +82,36 @@ export default function Settings(_: AppProps) {
         <legend>Language</legend>
         <p>English. The classic site is also available in French.</p>
       </fieldset>
+    </>
+  );
+}
+
+function AboutComputer() {
+  return (
+    <fieldset>
+      <legend>About this computer</legend>
+      <dl className="sysinfo">
+        <dt>System</dt><dd>RIVIERA.OS v1.0</dd>
+        <dt>Built with</dt><dd>React, Three.js, React Three Fiber</dd>
+        <dt>Made by</dt><dd>Rémi Pelloux</dd>
+      </dl>
+      <div className="btn-row">
+        <a className="btn ghost btn-small" href="/?lite">Leave for the classic site</a>
+      </div>
+    </fieldset>
+  );
+}
+
+export default function Settings(_: AppProps) {
+  const theme = useOs((s) => s.theme);
+  const mode = useOs((s) => s.mode);
+  return (
+    <form className="app-pad settings" onSubmit={(e) => e.preventDefault()}>
+      <Radios legend="Appearance" name="theme" choices={THEMES} value={theme} onPick={pickTheme} />
+      <Radios legend="Experience" name="mode" choices={MODES} value={mode} onPick={pickMode} />
+      <SystemInfo />
       <ResetAchievements />
-      <fieldset>
-        <legend>About this computer</legend>
-        <dl className="sysinfo">
-          <dt>System</dt><dd>RIVIERA.OS v1.0</dd>
-          <dt>Built with</dt><dd>React, Three.js, React Three Fiber</dd>
-          <dt>Made by</dt><dd>Rémi Pelloux</dd>
-        </dl>
-        <div className="btn-row">
-          <a className="btn ghost btn-small" href="/?lite">Leave for the classic site</a>
-        </div>
-      </fieldset>
+      <AboutComputer />
     </form>
   );
 }

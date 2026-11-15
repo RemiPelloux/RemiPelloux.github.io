@@ -6,7 +6,7 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { AdaptiveDpr, PerformanceMonitor } from "@react-three/drei";
 import { useRef, useState, type ReactNode, type RefObject } from "react";
 import * as THREE from "three";
-import { SCREEN, useOs } from "../state/store";
+import { SCREEN, useOs } from "@/state/store";
 import { Computer } from "./Computer";
 import { Room } from "./Room";
 import { Props } from "./Props";
@@ -71,66 +71,86 @@ function glance(cam: THREE.PerspectiveCamera, s: RigState, dt: number) {
   cam.quaternion.slerp(glanceQuat, s.glance);
 }
 
+const DAMP = 3;
+const SWAY_EASE = 3.5;
+const MAX_DT = 0.1;
+
+// Eases the camera's distance and lift toward the overview or the focus framing.
+function frame(s: RigState, aspect: number, dt: number) {
+  const zoomed = useOs.getState().zoomed;
+  const wanted = distanceFor(aspect, zoomed ? FILL.focus : FILL.overview);
+  const lift = zoomed ? LIFT.focus : LIFT.overview;
+  s.distance = s.distance === 0 || calm ? wanted : THREE.MathUtils.damp(s.distance, wanted, DAMP, dt);
+  s.lift = calm ? lift : THREE.MathUtils.damp(s.lift, lift, DAMP, dt);
+}
+
+// Follows the pointer a little, except over the screen, during a glance or with reduced motion.
+function sway(s: RigState, pointer: THREE.Vector2, dt: number) {
+  const still = calm || s.onScreen || s.glance > 0;
+  aim.set(still ? 0 : pointer.x * SWAY.x, still ? 0 : pointer.y * SWAY.y);
+  s.sway.lerp(aim, Math.min(1, dt * SWAY_EASE));
+}
+
+// Pins the OS to the glass, and notes whether the pointer is over it.
+function pin(cam: THREE.PerspectiveCamera, s: RigState, view: { overlay: HTMLDivElement | null; size: { width: number; height: number }; pointer: THREE.Vector2 }) {
+  const style = glassTransform(cam, view.size.width, view.size.height);
+  if (style !== s.last && view.overlay) {
+    view.overlay.style.transform = style;
+    s.last = style;
+  }
+  const box = view.overlay?.getBoundingClientRect();
+  const x = ((view.pointer.x + 1) / 2) * view.size.width;
+  const y = ((1 - view.pointer.y) / 2) * view.size.height;
+  s.onScreen = Boolean(box && x >= box.left && x <= box.right && y >= box.top && y <= box.bottom);
+}
+
 function Rig({ overlay }: { overlay: RefObject<HTMLDivElement | null> }) {
   const { camera, size, pointer } = useThree();
   const state = useRef<RigState>({ distance: 0, lift: LIFT.overview, glance: 0, sway: new THREE.Vector2(), onScreen: false, last: "" });
-
   useFrame((_, delta) => {
     const s = state.current;
     const cam = camera as THREE.PerspectiveCamera;
-    const dt = Math.min(delta, 0.1);
+    const dt = Math.min(delta, MAX_DT);
     const aspect = size.width / size.height;
-    const zoomed = useOs.getState().zoomed;
-    const wanted = distanceFor(aspect, zoomed ? FILL.focus : FILL.overview);
-    s.distance = s.distance === 0 || calm ? wanted : THREE.MathUtils.damp(s.distance, wanted, 3, dt);
-    s.lift = calm ? (zoomed ? LIFT.focus : LIFT.overview) : THREE.MathUtils.damp(s.lift, zoomed ? LIFT.focus : LIFT.overview, 3, dt);
-    const still = calm || s.onScreen || s.glance > 0;
-    aim.set(still ? 0 : pointer.x * SWAY.x, still ? 0 : pointer.y * SWAY.y);
-    s.sway.lerp(aim, Math.min(1, dt * 3.5));
+    frame(s, aspect, dt);
+    sway(s, pointer, dt);
     seat(cam, s, aspect);
     glance(cam, s, dt);
     cam.updateMatrixWorld();
-
-    const style = glassTransform(cam, size.width, size.height);
-    if (style !== s.last && overlay.current) {
-      overlay.current.style.transform = style;
-      s.last = style;
-    }
-    const box = overlay.current?.getBoundingClientRect();
-    const x = ((pointer.x + 1) / 2) * size.width;
-    const y = ((1 - pointer.y) / 2) * size.height;
-    s.onScreen = Boolean(box && x >= box.left && x <= box.right && y >= box.top && y <= box.bottom);
+    pin(cam, s, { overlay: overlay.current, size, pointer });
   });
   return null;
 }
 
-export default function Workstation({ children }: { children: ReactNode }) {
-  const theme = useOs((s) => s.theme);
-  const overlay = useRef<HTMLDivElement>(null);
-  const [dpr, setDpr] = useState(1.5);
+const DPR = { high: 1.5, low: 1 };
 
+function Scene({ overlay, setDpr }: { overlay: RefObject<HTMLDivElement | null>; setDpr: (dpr: number) => void }) {
+  const theme = useOs((s) => s.theme);
+  return (
+    <>
+      <PerformanceMonitor onDecline={() => setDpr(DPR.low)} onIncline={() => setDpr(DPR.high)} />
+      <AdaptiveDpr pixelated={false} />
+      <color attach="background" args={[theme === "day" ? "#cdbb9c" : "#120d1c"]} />
+      <Room theme={theme} />
+      <Computer />
+      <Props theme={theme} />
+      <Shiba />
+      <Rig overlay={overlay} />
+    </>
+  );
+}
+
+export default function Workstation({ children }: { children: ReactNode }) {
+  const overlay = useRef<HTMLDivElement>(null);
+  const [dpr, setDpr] = useState(DPR.high);
+  const onCreated = ({ gl }: { gl: THREE.WebGLRenderer }) => {
+    gl.toneMapping = THREE.ACESFilmicToneMapping;
+    gl.outputColorSpace = THREE.SRGBColorSpace;
+  };
   return (
     <div className="workstation">
-      <Canvas
-        className="scene"
-        shadows
-        dpr={dpr}
-        camera={{ fov: FOV, near: 0.05, far: 30 }}
-        gl={{ antialias: true, powerPreference: "high-performance" }}
-        onPointerMissed={() => useOs.getState().setZoomed(false)}
-        onCreated={({ gl }) => {
-          gl.toneMapping = THREE.ACESFilmicToneMapping;
-          gl.outputColorSpace = THREE.SRGBColorSpace;
-        }}
-      >
-        <PerformanceMonitor onDecline={() => setDpr(1)} onIncline={() => setDpr(1.5)} />
-        <AdaptiveDpr pixelated={false} />
-        <color attach="background" args={[theme === "day" ? "#cdbb9c" : "#120d1c"]} />
-        <Room theme={theme} />
-        <Computer />
-        <Props theme={theme} />
-        <Shiba />
-        <Rig overlay={overlay} />
+      <Canvas className="scene" shadows dpr={dpr} camera={{ fov: FOV, near: 0.05, far: 30 }} gl={{ antialias: true, powerPreference: "high-performance" }} onPointerMissed={() => useOs.getState().setZoomed(false)} onCreated={onCreated}>
+        <Scene overlay={overlay} setDpr={setDpr} />
       </Canvas>
       <div className="screen-glass" ref={overlay} style={{ width: SCREEN.width, height: SCREEN.height }} onPointerDown={() => useOs.getState().setZoomed(true)}>
         {children}

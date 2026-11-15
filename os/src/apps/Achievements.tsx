@@ -1,9 +1,21 @@
 // Achievements: what you found, and hints for what you did not. Locked cards show the hint only,
 // never the trigger, so the hunt stays a hunt.
 import type { AppProps } from "./registry";
-import { ACHIEVEMENTS } from "../data/achievements";
-import { useOs } from "../state/store";
+import { ACHIEVEMENTS, type Achievement } from "@/data/achievements";
+import { useOs } from "@/state/store";
 import "./apps.css";
+
+function Trophy({ achievement, got }: { achievement: Achievement; got: boolean }) {
+  return (
+    <li className={`trophy${got ? "" : " locked"}`}>
+      <span className="medal" aria-hidden="true">{got ? "★" : "?"}</span>
+      <div>
+        <b>{achievement.title}<span className="sr-only">{got ? ", unlocked" : ", locked"}</span></b>
+        <span>{got ? achievement.description : `Hint: ${achievement.hint}`}</span>
+      </div>
+    </li>
+  );
+}
 
 export default function Achievements(_: AppProps) {
   const unlocked = useOs((s) => s.achievements);
@@ -19,18 +31,7 @@ export default function Achievements(_: AppProps) {
         <span>{done} / {total}</span>
       </div>
       <ul className="trophies">
-        {ACHIEVEMENTS.map((a) => {
-          const got = unlocked.includes(a.id);
-          return (
-            <li key={a.id} className={`trophy${got ? "" : " locked"}`}>
-              <span className="medal" aria-hidden="true">{got ? "★" : "?"}</span>
-              <div>
-                <b>{a.title}<span className="sr-only">{got ? ", unlocked" : ", locked"}</span></b>
-                <span>{got ? a.description : `Hint: ${a.hint}`}</span>
-              </div>
-            </li>
-          );
-        })}
+        {ACHIEVEMENTS.map((a) => <Trophy key={a.id} achievement={a} got={unlocked.includes(a.id)} />)}
       </ul>
     </div>
   );

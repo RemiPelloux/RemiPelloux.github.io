@@ -6,8 +6,22 @@ export type Paint = (ctx: CanvasRenderingContext2D, w: number, h: number) => voi
 
 const cache = new Map<string, THREE.CanvasTexture>();
 
+// A texture's cache key and pixel size.
+export interface Canvas {
+  key: string;
+  w: number;
+  h: number;
+}
+
+export interface Box {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+}
+
 // One texture per key, drawn once: StrictMode mounts twice and the themes swap back and forth.
-export function canvasTexture(key: string, w: number, h: number, paint: Paint) {
+export function canvasTexture({ key, w, h }: Canvas, paint: Paint) {
   const hit = cache.get(key);
   if (hit) return hit;
   const canvas = document.createElement("canvas");
@@ -25,13 +39,22 @@ export function canvasTexture(key: string, w: number, h: number, paint: Paint) {
 export const FONT = `"Inter", "Helvetica Neue", Arial, sans-serif`;
 export const MONO = `"JetBrains Mono", "Menlo", monospace`;
 
-export function rounded(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
+export function rounded(ctx: CanvasRenderingContext2D, { x, y, w, h }: Box, radius: number) {
   ctx.beginPath();
-  ctx.roundRect(x, y, w, h, r);
+  ctx.roundRect(x, y, w, h, radius);
 }
 
 // Text that shrinks until it fits the width it is given.
-export function fitText(ctx: CanvasRenderingContext2D, text: string, x: number, y: number, max: number, size: number, font = FONT, weight = 700) {
+export interface TextFit {
+  x: number;
+  y: number;
+  max: number; // widest the text may be, in pixels
+  size: number; // starting font size, in pixels
+  font?: string;
+  weight?: number;
+}
+
+export function fitText(ctx: CanvasRenderingContext2D, text: string, { x, y, max, size, font = FONT, weight = 700 }: TextFit) {
   let px = size;
   do {
     ctx.font = `${weight} ${px}px ${font}`;
@@ -42,7 +65,7 @@ export function fitText(ctx: CanvasRenderingContext2D, text: string, x: number, 
 
 // A book spine: a coloured cloth band, two gold rules, the title written sideways like a real shelf.
 export function spine(title: string, cloth: string, ink: string) {
-  return canvasTexture(`spine:${title}`, 512, 64, (ctx, w, h) => {
+  return canvasTexture({ key: `spine:${title}`, w: 512, h: 64 }, (ctx, w, h) => {
     ctx.fillStyle = cloth;
     ctx.fillRect(0, 0, w, h);
     ctx.fillStyle = "rgb(255 255 255 / 0.08)";
@@ -53,11 +76,11 @@ export function spine(title: string, cloth: string, ink: string) {
     ctx.fillStyle = ink;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    fitText(ctx, title, w / 2, h / 2 + 2, w - 70, 34);
+    fitText(ctx, title, { x: w / 2, y: h / 2 + 2, max: w - 70, size: 34 });
   });
 }
 
 // A flat label: background, text, optional border. Used by floppies, the sticky note, the badge.
-export function label(key: string, w: number, h: number, paint: Paint) {
-  return canvasTexture(`label:${key}`, w, h, paint);
+export function label(canvas: Canvas, paint: Paint) {
+  return canvasTexture({ ...canvas, key: `label:${canvas.key}` }, paint);
 }

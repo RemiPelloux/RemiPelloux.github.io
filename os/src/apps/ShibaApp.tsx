@@ -2,7 +2,7 @@
 // the terminal and this window share one dog.
 import { useState } from "react";
 import type { AppProps } from "./registry";
-import { useOs } from "../state/store";
+import { useOs } from "@/state/store";
 import "./apps.css";
 
 type Mood = "asleep" | "awake" | "happy" | "zoomies";
@@ -24,15 +24,16 @@ const FACE = [
 ];
 const COLOR: Record<string, string> = { o: "#d9822b", c: "#f6e7c8", e: "#1b1840", n: "#1b1840", t: "#ff7a9c" };
 
-function pixel(ch: string, x: number, y: number, mood: Mood) {
-  if (ch === "t" && mood !== "happy" && mood !== "zoomies") ch = "c";
+// One cell of the face. The tongue only shows when the dog is happy.
+function pixel({ ch: raw, x, y }: { ch: string; x: number; y: number }, mood: Mood) {
+  const ch = raw === "t" && mood !== "happy" && mood !== "zoomies" ? "c" : raw;
   // Closed eyes: a thin line in the lower half of the pixel.
   if (ch === "e" && mood === "asleep") return <rect key={`${x}-${y}`} x={x} y={y + 0.6} width="1" height="0.3" fill={COLOR.e} />;
   return <rect key={`${x}-${y}`} x={x} y={y} width="1" height="1" fill={COLOR[ch]} />;
 }
 
 function ShibaArt({ mood }: { mood: Mood }) {
-  const pixels = FACE.flatMap((row, y) => [...row].map((ch, x) => (ch === "." ? null : pixel(ch, x, y, mood))));
+  const pixels = FACE.flatMap((row, y) => [...row].map((ch, x) => (ch === "." ? null : pixel({ ch, x, y }, mood))));
   return (
     <div className={`shiba-art inset ${mood}`}>
       <svg viewBox="0 0 14 11" shapeRendering="crispEdges" role="img" aria-label={`Pixel-art Shiba, ${mood}`}>{pixels}</svg>

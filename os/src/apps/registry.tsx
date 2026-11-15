@@ -1,7 +1,7 @@
 // Every application: its title, icon, default window size and component. Components load lazily, so
 // the first screen only downloads the shell. `hidden` apps are left off the desktop and the dock.
 import { lazy, type ComponentType, type LazyExoticComponent } from "react";
-import type { WindowState } from "../state/store";
+import type { WindowState } from "@/state/store";
 import type { AppId } from "./ids";
 
 export interface AppProps {

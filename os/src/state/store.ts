@@ -2,7 +2,7 @@
 // achievements. The 3D scene and the OS both read and write it, so a click on the wall map and the
 // `map` command open the same window.
 import { create } from "zustand";
-import type { AppId } from "../apps/ids";
+import type { AppId } from "@/apps/ids";
 
 export type Theme = "day" | "night";
 export type Mode = "3d" | "lite";

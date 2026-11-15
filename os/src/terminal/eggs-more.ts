@@ -1,6 +1,6 @@
 // The longer Easter eggs: neofetch, the Matrix, a harmless "hack", and a few jokes every developer
 // expects a terminal to get. All hidden from `help`. Nothing here touches the network.
-import { useOs } from "../state/store";
+import { useOs } from "@/state/store";
 import { register, type Context, type Line } from "./engine";
 
 const sleep = (ms: number) => new Promise((done) => window.setTimeout(done, ms));

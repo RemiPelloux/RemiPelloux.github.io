@@ -1,7 +1,7 @@
 // A short note when an achievement unlocks. Clicking it opens the achievements.
 import { useEffect, useState } from "react";
-import { useOs } from "../state/store";
-import { APPS } from "../apps/registry";
+import { useOs } from "@/state/store";
+import { APPS } from "@/apps/registry";
 
 const SHOW_MS = 3600;
 
