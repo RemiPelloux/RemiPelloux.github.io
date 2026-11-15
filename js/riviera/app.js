@@ -1,28 +1,12 @@
-// Picks Immersive or Lite and wires the switches. Lite never downloads three.js or the world data;
-// the language, the repository explorer and the chapter list work the same in both.
+// Starts the 3D world and wires the switches. "Lite" is the classic portfolio at "/", so the Lite
+// button, the L key, a browser without WebGL 2 and a failed start all go there. The still-image
+// layout in this page is only what a visitor without JavaScript sees.
 import { mountLanguage } from "./lang.js";
 import { mountExplorer } from "./explorer.js";
 import { mountPanel } from "./panel.js";
 import { mountChapters, mountLanguages } from "./chapters.js";
 
-const KEY = "riviera-mode";
 const still = window.matchMedia("(prefers-reduced-motion: reduce)");
-
-function stored() {
-  try {
-    return localStorage.getItem(KEY);
-  } catch {
-    return null;
-  }
-}
-
-function remember(mode) {
-  try {
-    localStorage.setItem(KEY, mode);
-  } catch {
-    /* private window: the choice lasts until the page reloads */
-  }
-}
 
 function webgl() {
   try {
@@ -32,22 +16,22 @@ function webgl() {
   }
 }
 
-function chooseMode() {
-  if (!webgl()) return "lite";
-  return stored() || (still.matches || navigator.connection?.saveData ? "lite" : "immersive");
-}
-
-function show(mode) {
-  document.documentElement.dataset.mode = mode;
-  for (const button of document.querySelectorAll("[data-mode-button]")) {
-    button.setAttribute("aria-pressed", String(button.dataset.modeButton === mode));
+// Lite is the classic portfolio at "/": the old still-image layout here is only a no-JavaScript fallback.
+function toLite() {
+  try {
+    sessionStorage.setItem("experience", "lite");
+    localStorage.setItem("experience", "lite");
+  } catch {
+    /* "/?lite" skips the welcome screen anyway */
   }
+  window.location.href = "/?lite";
 }
 
-function switchTo(mode) {
-  if (mode === document.documentElement.dataset.mode) return;
-  remember(mode);
-  window.location.reload();
+function show() {
+  document.documentElement.dataset.mode = "immersive";
+  for (const button of document.querySelectorAll("[data-mode-button]")) {
+    button.setAttribute("aria-pressed", String(button.dataset.modeButton === "immersive"));
+  }
 }
 
 async function immerse() {
@@ -59,7 +43,7 @@ async function immerse() {
     companion: document.querySelector("[data-companion]"),
     boot: document.querySelector("[data-boot]"),
     calm: still.matches,
-    // ?still snaps the camera to each stop and hides the interface: used to render the Lite images.
+    // ?still snaps the camera to each stop and hides the interface: used to render the stills.
     still: new URLSearchParams(window.location.search).has("still"),
   };
   if (page.still) document.documentElement.classList.add("still-shot");
@@ -69,17 +53,16 @@ async function immerse() {
     document.documentElement.classList.add("world-ready");
   } catch (error) {
     console.error(error);
-    show("lite");
+    toLite();
   }
 }
 
-const mode = chooseMode();
-show(mode);
-for (const button of document.querySelectorAll("[data-mode-button]")) {
-  button.addEventListener("click", () => switchTo(button.dataset.modeButton));
-}
+const flies = webgl();
+if (!flies) toLite();
+show();
+for (const button of document.querySelectorAll('[data-mode-button="lite"]')) button.addEventListener("click", toLite);
 window.addEventListener("keydown", (event) => {
-  if (event.key.toLowerCase() === "l" && !event.target.closest("input, textarea")) switchTo(mode === "lite" ? "immersive" : "lite");
+  if (event.key.toLowerCase() === "l" && !event.target.closest("input, textarea")) toLite();
 });
 mountLanguage().then(() => {
   mountExplorer();
@@ -87,4 +70,4 @@ mountLanguage().then(() => {
   mountChapters();
   mountLanguages(document.querySelector("[data-languages]"));
 });
-if (mode === "immersive") immerse();
+if (flies) immerse();

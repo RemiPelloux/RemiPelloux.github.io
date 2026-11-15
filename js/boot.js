@@ -15,7 +15,15 @@
 
   var still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var home = /^\/(index\.html)?$/.test(window.location.pathname);
-  if (still || !home || read(sessionStorage, "intro")) return;
+  if (!home) return;
+  // First visit this session: the welcome screen asks Immersive or Lite, and stands in for the intro.
+  var lite = /[?&]lite\b/.test(window.location.search);
+  if (!lite && !read(sessionStorage, "experience")) {
+    root.classList.add("welcome-open");
+    try { sessionStorage.setItem("intro", "seen"); } catch (error) { /* no storage: welcome every load */ }
+    return;
+  }
+  if (still || read(sessionStorage, "intro")) return;
   try { sessionStorage.setItem("intro", "seen"); } catch (error) { return; }
   root.classList.add("intro-running");
   // If the scripts never arrive, show the page anyway.
