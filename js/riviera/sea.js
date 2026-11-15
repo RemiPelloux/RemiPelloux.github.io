@@ -1,7 +1,7 @@
 // The Mediterranean: deep blue offshore, turquoise in the shallows, the sky reflected at grazing angles.
 // The surface only shimmers; it does not roll. With reduced motion it is still.
 import * as THREE from "/vendor/three/three.module.min.js";
-import { BLUE } from "./palette.js";
+import { BLUE, MOON } from "./palette.js";
 
 const SIZE = 400000; // past the real horizon from the highest camera stop
 
@@ -17,7 +17,7 @@ void main() {
 }`;
 
 const fragmentShader = `
-uniform vec3 deep, mid, shallow, lagoon, sky, fogColor;
+uniform vec3 deep, mid, shallow, lagoon, sky, fogColor, moonDir;
 uniform float fogNear, fogFar, time;
 uniform sampler2D shore;
 uniform vec4 bounds;
@@ -41,8 +41,15 @@ void main() {
   float grazing = pow(1.0 - clamp(toEye.y / distanceToEye, 0.0, 1.0), 4.0);
   vec2 p = vWorld.xz * 0.035;
   float ripple = sin(p.x * 3.1 + time * 0.5) * sin(p.y * 2.3 - time * 0.4) + 0.5 * sin((p.x - p.y) * 5.7 + time * 0.9);
-  float glint = smoothstep(1.05, 1.4, ripple) * grazing;
-  vec3 color = mix(water, sky, grazing * 0.5) + glint * 0.6 * sky;
+  float glint = smoothstep(1.25, 1.45, ripple) * grazing;
+  vec3 color = mix(water, sky, grazing * 0.5) + glint * 0.25 * sky;
+  // The moon's path on the water: the view reflected off a slightly rippled surface.
+  vec2 q = vWorld.xz * 0.11;
+  float nx = sin(q.x * 1.7 + q.y * 0.6 + time * 0.7) + 0.6 * sin(q.x * 4.3 - q.y * 2.9 - time * 1.1) + 0.35 * sin(q.y * 9.1 + q.x * 3.3 + time * 1.7);
+  float nz = sin(q.y * 1.9 - q.x * 0.8 - time * 0.6) + 0.6 * sin(q.y * 4.7 + q.x * 2.1 + time * 0.9) + 0.35 * sin(q.x * 8.7 - q.y * 3.7 - time * 1.5);
+  vec3 normal = normalize(vec3(nx * 0.045, 1.0, nz * 0.045));
+  float path = pow(max(dot(reflect(-toEye / distanceToEye, normal), normalize(moonDir)), 0.0), 380.0);
+  color += vec3(0.85, 0.92, 1.0) * path * 0.9 * smoothstep(250.0, 1800.0, distanceToEye);
   float fog = smoothstep(fogNear, fogFar, distanceToEye);
   gl_FragColor = vec4(mix(color, fogColor, fog), 1.0);
   #include <colorspace_fragment>
@@ -64,6 +71,7 @@ export function makeSea(world, shore, fog) {
       fogNear: { value: fog.near },
       fogFar: { value: fog.far },
       time: { value: 0 },
+      moonDir: { value: new THREE.Vector3(...MOON) },
       shore: { value: shore },
       bounds: { value: new THREE.Vector4(minX, minY, maxX, maxY) },
     },

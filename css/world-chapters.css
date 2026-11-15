@@ -1,0 +1,170 @@
+/* Riviera chapters 02 to 07: domains, the repository explorer, flagships, engineering, the horizon. */
+
+/* Chapter list and controls in the bar */
+
+.bar nav ol { flex-wrap: wrap; gap: 6px 16px; }
+.bar nav a[aria-current] { color: var(--white); text-decoration: underline; text-underline-offset: 6px; }
+.controls { display: flex; gap: 10px; }
+
+@media (max-width: 1280px) {
+  .bar nav span { display: none; }
+}
+
+@media (max-width: 720px) {
+  .bar { padding-bottom: 8px; }
+  .bar nav { display: block; order: 3; width: 100%; overflow-x: auto; scrollbar-width: none; }
+  .bar nav ol { flex-wrap: nowrap; gap: 14px; }
+  .bar nav a { display: inline-block; padding: 8px 0; }
+  .switch button { padding: 8px 10px; }
+}
+
+/* Wider cards for chapters with lists */
+
+.card.wide { max-width: 46rem; }
+.card h3 { margin: 28px 0 8px; font: 600 1rem/1.3 var(--sans); }
+
+.domains, .facts, .languages { margin: 20px 0 0; padding: 0; list-style: none; }
+.domains { display: grid; gap: 12px 24px; }
+.domains strong { display: block; font: 500 0.8125rem/1.4 var(--mono); color: var(--glow); }
+.domains span { color: var(--soft); }
+.facts li { padding: 10px 0; border-top: 1px solid var(--deep); }
+.facts strong { color: var(--white); }
+
+@media (min-width: 720px) {
+  .domains { grid-template-columns: 1fr 1fr; }
+}
+
+.languages { display: flex; flex-wrap: wrap; gap: 8px; }
+.languages button, .chips button {
+  min-height: 40px;
+  padding: 6px 12px;
+  border: 1px solid var(--sea);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--white);
+  font: 500 0.8125rem/1 var(--mono);
+  cursor: pointer;
+}
+.languages button span, .chips button span { color: var(--glow); }
+.languages button:hover, .languages button:focus-visible, .chips button[aria-pressed="true"] { background: var(--white); color: var(--night); border-color: var(--white); }
+.chips button[aria-pressed="true"] span, .languages button:hover span { color: var(--antibes); }
+.hint, .source { color: var(--soft); font: 400 0.8125rem/1.5 var(--mono); }
+
+/* Explorer */
+
+.explore { align-items: start; }
+[data-mode="immersive"] .explore .card { max-height: none; }
+.explorer { margin-top: 24px; }
+.tools { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: end; }
+.tools label { display: grid; gap: 6px; color: var(--soft); font: 500 0.75rem/1 var(--mono); }
+.tools .check { display: flex; align-items: center; gap: 8px; min-height: 40px; }
+.tools input[type="search"], .tools select {
+  min-height: 40px;
+  min-width: 14rem;
+  padding: 0 12px;
+  border: 1px solid var(--sea);
+  border-radius: 2px;
+  background: var(--night);
+  color: var(--white);
+  font: 400 0.9375rem/1 var(--sans);
+}
+.tools select { min-width: 11rem; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.count { margin: 16px 0 8px; color: var(--glow); font: 500 0.8125rem/1 var(--mono); }
+
+.repos { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+.repos li { display: grid; gap: 6px; padding: 16px 0; border-top: 1px solid var(--deep); }
+.repos h3 { margin: 0; font: 600 1.125rem/1.3 var(--serif); }
+.repos h3 a { text-decoration: none; }
+.repos h3 a:hover { text-decoration: underline; }
+.repos p { margin: 0; color: var(--soft); }
+.repos .meta { display: flex; flex-wrap: wrap; gap: 4px 14px; color: var(--glow); font: 400 0.75rem/1.5 var(--mono); }
+.repos .show {
+  justify-self: start;
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--sea);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--white);
+  font: 500 0.75rem/1 var(--mono);
+  cursor: pointer;
+}
+.repos .show:hover { border-color: var(--white); }
+[data-mode="lite"] .repos .show { display: none; }
+
+@media (min-width: 880px) {
+  [data-mode="lite"] .repos { grid-template-columns: 1fr 1fr; column-gap: 32px; }
+}
+
+/* Flagships */
+
+.feature .card { max-width: 38rem; }
+.shot { margin: 16px 0; }
+.shot img { display: block; width: 100%; height: auto; border-radius: 2px; border: 1px solid var(--sea); }
+.shot figcaption { margin-top: 6px; color: var(--soft); font: 400 0.75rem/1.4 var(--mono); }
+.card .meta { display: flex; flex-wrap: wrap; gap: 4px 16px; color: var(--glow); font: 400 0.8125rem/1.5 var(--mono); }
+.links { display: flex; flex-wrap: wrap; gap: 8px 20px; font: 500 0.875rem/1.4 var(--mono); }
+[data-mode="immersive"] .feature { min-height: 120vh; }
+[data-mode="lite"] .feature { grid-template-columns: minmax(0, 1fr); }
+[data-mode="lite"] .feature .card { max-width: 46rem; }
+
+/* Tooltip over a tower, and the repository panel */
+
+.tip {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 35;
+  max-width: 320px;
+  margin: 0;
+  padding: 8px 10px;
+  background: var(--white);
+  color: var(--night);
+  border-radius: 2px;
+  font: 400 0.8125rem/1.4 var(--sans);
+  pointer-events: none;
+}
+.over-tower, .over-tower body { cursor: pointer; }
+
+.panel {
+  position: fixed;
+  left: clamp(8px, 3vw, 32px);
+  bottom: clamp(8px, 3vw, 32px);
+  z-index: 36;
+  width: min(420px, calc(100vw - 16px));
+  padding: 8px 20px 4px;
+  background: var(--night);
+  border: 1px solid var(--antibes);
+  border-radius: 2px;
+}
+.panel .repos li { border: 0; }
+.panel .close {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  background: transparent;
+  color: var(--white);
+  font: 400 1.5rem/1 var(--sans);
+  cursor: pointer;
+}
+
+/* Horizon */
+
+.horizon .card { max-width: 40rem; }
+[data-mode="immersive"] .horizon { min-height: 140vh; align-items: center; }
+
+/* District names on the platforms */
+.place.district { color: var(--glow); font-size: 0.8125rem; }
+.place.district::after { background: var(--antibes); }
+
+/* Lite: a solid bar, and chapters with lists (domains, repositories, engineering) take the full width */
+[data-mode="lite"] .bar { background: var(--night); border-bottom: 1px solid var(--deep); }
+@media (min-width: 880px) {
+  [data-mode="lite"] .stop:has(.wide) { grid-template-columns: minmax(0, 1fr); }
+  [data-mode="lite"] .stop:has(.wide) .still { order: 0; max-width: 64rem; }
+  [data-mode="lite"] .card.wide { max-width: 64rem; }
+}

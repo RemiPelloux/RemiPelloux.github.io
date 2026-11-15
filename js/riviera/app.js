@@ -1,4 +1,10 @@
-// Picks Immersive or Lite and wires the switch. Lite never downloads three.js or the world data.
+// Picks Immersive or Lite and wires the switches. Lite never downloads three.js or the world data;
+// the language, the repository explorer and the chapter list work the same in both.
+import { mountLanguage } from "./lang.js";
+import { mountExplorer } from "./explorer.js";
+import { mountPanel } from "./panel.js";
+import { mountChapters, mountLanguages } from "./chapters.js";
+
 const KEY = "riviera-mode";
 const still = window.matchMedia("(prefers-reduced-motion: reduce)");
 
@@ -74,5 +80,11 @@ for (const button of document.querySelectorAll("[data-mode-button]")) {
 }
 window.addEventListener("keydown", (event) => {
   if (event.key.toLowerCase() === "l" && !event.target.closest("input, textarea")) switchTo(mode === "lite" ? "immersive" : "lite");
+});
+mountLanguage().then(() => {
+  mountExplorer();
+  mountPanel();
+  mountChapters();
+  mountLanguages(document.querySelector("[data-languages]"));
 });
 if (mode === "immersive") immerse();

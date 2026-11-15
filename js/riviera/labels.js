@@ -1,6 +1,7 @@
 // Place names pinned to the 3D world, as HTML so they stay sharp and readable.
 import * as THREE from "/vendor/three/three.module.min.js";
 import { GAROUPE } from "./beacons.js";
+import { lang } from "./lang.js";
 
 const PLACES = [
   { name: "Fort Carré", note: "1550", x: 382, y: 2416, lift: 50 },
@@ -28,18 +29,26 @@ function visibility({ projected, distance, screen }, taken) {
   return Math.max(0, Math.min(1, (FAR - distance) / 900, (distance - NEAR) / 200));
 }
 
+function write(label, place) {
+  const name = typeof place.name === "string" ? place.name : place.name[lang()];
+  label.innerHTML = place.note ? `${name} <span>${place.note}</span>` : name;
+}
+
 function element(place) {
   const label = document.createElement("p");
-  label.className = "place";
-  label.innerHTML = place.note ? `${place.name} <span>${place.note}</span>` : place.name;
+  label.className = place.district ? "place district" : "place";
+  write(label, place);
   return label;
 }
 
-export function makeLabels(layer, heightAt) {
-  const pins = PLACES.map((place) => ({
-    point: new THREE.Vector3(place.x, heightAt(place.x, place.y) + place.lift, -place.y),
+// extra: more places, such as the district platforms, with an absolute height instead of a lift.
+export function makeLabels(layer, heightAt, extra = []) {
+  const pins = [...extra, ...PLACES].map((place) => ({
+    place,
+    point: new THREE.Vector3(place.x, place.height ?? heightAt(place.x, place.y) + place.lift, -place.y),
     label: layer.appendChild(element(place)),
   }));
+  document.addEventListener("riviera:lang", () => pins.forEach((pin) => write(pin.label, pin.place)));
   const projected = new THREE.Vector3();
   return function place(camera, size, textBlocks) {
     const taken = [...textBlocks];

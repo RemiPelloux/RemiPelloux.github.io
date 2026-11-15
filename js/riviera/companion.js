@@ -3,14 +3,23 @@
 import * as THREE from "/vendor/three/three.module.min.js";
 import { makeShiba } from "./voxels.js";
 
-const HINTS_EN = [
-  (facts) => `Every building down there is a real one from OpenStreetMap. ${facts.buildings} of them.`,
-  () => "The glowing lines are the real streets of Antibes.",
-  () => "Fort Carré dates from 1550. Vauban reworked it at the end of the 17th century.",
-  () => "The light on the plateau is the Garoupe lighthouse.",
-  () => "Rémi was born down there.",
-  () => "Press L for the Lite version. I will still be here.",
+const HINTS = [
+  (f) => [`Every building down there is a real one from OpenStreetMap. ${f.buildings} of them.`, `Chaque bâtiment, en bas, est un vrai, tiré d'OpenStreetMap. Il y en a ${f.buildings}.`],
+  () => ["The glowing lines are the real streets of Antibes.", "Les lignes lumineuses sont les vraies rues d'Antibes."],
+  () => ["Fort Carré dates from 1550. Vauban reworked it at the end of the 17th century.", "Le Fort Carré date de 1550. Vauban l'a remanié à la fin du XVIIe siècle."],
+  () => ["The light on the plateau is the Garoupe lighthouse.", "La lumière sur le plateau, c'est le phare de la Garoupe."],
+  () => ["Rémi was born down there.", "Rémi est né juste là, en bas."],
+  () => ["Press L for the Lite version. I will still be here.", "Appuyez sur L pour la version Lite. Je serai toujours là."],
 ];
+// One line the first time each chapter comes on screen.
+const CHAPTER_LINES = {
+  "02": ["Inland, every field Rémi works in gets its own platform.", "Dans les terres, chaque domaine de Rémi a sa plateforme."],
+  "03": ["Each tower is a public repository. Point at one, or search below.", "Chaque tour est un dépôt public. Pointez-en une, ou cherchez plus bas."],
+  "04": ["The flagships. Each one has its own object on top.", "Les projets phares. Chacun a son objet au sommet."],
+  "05": ["Hover a language and its towers light up.", "Survolez un langage et ses tours s'allument."],
+  "06": ["That is us on the boat. He steers, I keep watch.", "C'est nous, sur le bateau. Il tient la barre, je fais le guet."],
+  "07": ["End of the coast. LinkedIn is the fastest way to reach him.", "Fin de la côte. LinkedIn est le moyen le plus rapide de le joindre."],
+};
 const SECRET_CLICKS = 5;
 
 function stage(canvas) {
@@ -40,12 +49,22 @@ function pose(shiba, state, seconds) {
   state.hop = Math.max(0, state.hop - 0.06);
 }
 
-function speak(bubble, state, facts) {
-  const hint = HINTS_EN[state.clicks % HINTS_EN.length](facts);
-  bubble.textContent = hint;
+function say(bubble, state, line) {
+  bubble.textContent = line[document.documentElement.lang === "fr" ? 1 : 0];
   bubble.hidden = false;
   clearTimeout(state.timer);
   state.timer = setTimeout(() => (bubble.hidden = true), 5200);
+}
+
+function hearChapters(bubble, state) {
+  const heard = new Set();
+  document.addEventListener("riviera:chapter", (event) => {
+    const line = CHAPTER_LINES[event.detail.chapter];
+    if (!line || heard.has(event.detail.chapter)) return;
+    heard.add(event.detail.chapter);
+    state.perk = 1;
+    say(bubble, state, line);
+  });
 }
 
 export function mountCompanion(root, facts) {
@@ -61,9 +80,10 @@ export function mountCompanion(root, facts) {
   });
   root.querySelector("button").addEventListener("click", () => {
     Object.assign(state, { perk: 1, hop: state.calm ? 0 : 1, clicks: state.clicks + 1 });
-    speak(bubble, state, facts);
+    say(bubble, state, HINTS[state.clicks % HINTS.length](facts));
     if (state.clicks === SECRET_CLICKS) facts.onSecret();
   });
+  hearChapters(bubble, state);
   return (seconds) => {
     const box = renderer.domElement.getBoundingClientRect();
     renderer.setSize(box.width, box.height, false);

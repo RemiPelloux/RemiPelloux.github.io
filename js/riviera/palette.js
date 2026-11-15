@@ -16,6 +16,9 @@ export const BLUE = {
   white: "#F4F9FF",
 };
 
+// Where the moon hangs: low over the sea to the south-east, above the last chapter's horizon.
+export const MOON = [0.55, 0.12, 0.83];
+
 export const LAND = {
   ground: "#0F2D52",
   wood: "#0A2342",

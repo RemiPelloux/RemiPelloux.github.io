@@ -16,6 +16,8 @@ export default {
   lede: "CTO et cofondateur d'OpenPro, à Nice. Je construis des outils d'IA pour développeurs qui tournent sur vos propres modèles, des applications de bureau qui gardent vos données sur votre machine, et des logiciels système en Rust.",
   "lede-2": "Né à Antibes. Avant OpenPro : sécurité, R&amp;D et développement full-stack pour des clients comme Dassault Aviation, la DGA, Thales et Decathlon. Une CVE dans Symfony à ce jour.",
   "cta-linkedin": "M'écrire sur LinkedIn",
+  "nav-riviera": "Riviera 3D",
+  "cta-riviera": "Survoler Antibes",
   "cta-github": "Ouvrir GitHub",
   "cta-cv": "Lire le CV",
   "ledger-title": "Un an de commits, une barre par jour",
