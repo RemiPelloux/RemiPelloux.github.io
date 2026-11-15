@@ -44,6 +44,7 @@ function rampartMesh(world) {
 export function makeFort(world, textures) {
   const group = new THREE.Group();
   const material = new THREE.MeshLambertMaterial({ map: textures.stone, vertexColors: true, side: THREE.DoubleSide, emissive: BLUE.antibes, emissiveIntensity: 0.35 });
+  material.userData.daylight = "stone";
   const fort = fortMesh(world);
   const ramparts = rampartMesh(world);
   group.add(new THREE.Mesh(fort, material), outline(fort), new THREE.Mesh(ramparts, material), outline(ramparts));

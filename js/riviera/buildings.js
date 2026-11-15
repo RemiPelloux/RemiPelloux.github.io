@@ -19,14 +19,18 @@ function addBuilding(meshers, record, scene) {
 }
 
 function wallMaterial(facade) {
-  return new THREE.MeshLambertMaterial({ map: facade, vertexColors: true, side: THREE.DoubleSide, emissive: 0xffffff, emissiveMap: facade, emissiveIntensity: WINDOW_GLOW });
+  const material = new THREE.MeshLambertMaterial({ map: facade, vertexColors: true, side: THREE.DoubleSide, emissive: 0xffffff, emissiveMap: facade, emissiveIntensity: WINDOW_GLOW });
+  material.userData.daylight = "walls"; // windows go dark by day
+  return material;
 }
 
 export function makeBuildings(world, textures) {
   const meshers = { roofs: new Mesher(), walls: new Mesher() };
   const scene = { heightAt: world.heightAt, random: seeded(1550) };
   for (const record of world.buildings) addBuilding(meshers, record, scene);
-  const roofs = new THREE.Mesh(meshers.roofs.build(), new THREE.MeshLambertMaterial({ map: textures.roof, vertexColors: true, side: THREE.DoubleSide, emissive: BLUE_ROOF, emissiveIntensity: 0.25 }));
+  const roofMaterial = new THREE.MeshLambertMaterial({ map: textures.roof, vertexColors: true, side: THREE.DoubleSide, emissive: BLUE_ROOF, emissiveIntensity: 0.25 });
+  roofMaterial.userData.daylight = "roofs";
+  const roofs = new THREE.Mesh(meshers.roofs.build(), roofMaterial);
   const walls = new THREE.Mesh(meshers.walls.build(), wallMaterial(textures.facade));
   return new THREE.Group().add(roofs, walls);
 }

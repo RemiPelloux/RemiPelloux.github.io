@@ -20,6 +20,7 @@ import { Rig, STOPS } from "./rig.js";
 import { runBoot } from "./boot.js";
 import { loadTextures } from "./textures.js";
 import { makePost } from "./post.js";
+import { makeDaylight } from "./daylight.js";
 import { mountCompanion } from "./companion.js";
 
 const FOG = { near: 3500, far: 21000 };
@@ -88,10 +89,21 @@ function riseFor(rig) {
   return Math.min(1, Math.max(0, (rig.shown - (at - 0.9)) / 0.9));
 }
 
+// In chapter 04 the camera holds one overview; the flagship being read lights up instead.
+function lightFlagship(view) {
+  const stop = view.rig.current();
+  const name = stop?.startsWith("feature-") ? stop.slice("feature-".length) : null;
+  if (name === view.flagship) return;
+  view.flagship = name;
+  view.built.universe.highlight(name ? (repo) => repo.name === name : null);
+}
+
 function frame(view, seconds, delta) {
   const { built, rig, renderer, camera, size, post } = view;
   resize(renderer, camera, size, post);
   rig.update(delta);
+  view.daylight.update(delta);
+  lightFlagship(view);
   const rise = rig.calm ? Math.round(riseFor(rig)) : riseFor(rig);
   built.universe.setRise(rise);
   built.turnSculptures(seconds, rise);
@@ -112,7 +124,8 @@ export async function startImmersive(page) {
   const rig = new Rig(camera, page.sections, { ...STOPS, ...universeStops(built.universe) }, world.heightAt);
   rig.calm = page.calm || page.still;
   const facts = { buildings: world.buildings.length.toLocaleString("en-GB"), calm: page.calm, onSecret: () => giantShiba(built.scene, world) };
-  const view = { page, built, rig, renderer, camera, post: makePost(renderer, built.scene, camera), size: new THREE.Vector2(), placeLabels: makeLabels(page.labels, world.heightAt, districtPlaces(built.universe)), drawShiba: mountCompanion(page.companion, facts) };
+  const post = makePost(renderer, built.scene, camera);
+  const view = { page, built, rig, renderer, camera, post, daylight: makeDaylight(built, renderer, post, rig.calm), size: new THREE.Vector2(), placeLabels: makeLabels(page.labels, world.heightAt, districtPlaces(built.universe)), drawShiba: mountCompanion(page.companion, facts) };
   listen(built, rig);
   watchTowers(page.canvas, built.universe, camera);
   if (rig.calm) rig.jump();

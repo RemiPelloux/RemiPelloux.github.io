@@ -17,6 +17,7 @@ void main() {
 const fragmentShader = `
 uniform vec3 zenith, middle, horizon, afterglow, moonDir;
 uniform sampler2D stars;
+uniform float night; // 1 at night, 0 by day: the stars fade with it
 varying vec3 vDirection;
 #include <logdepthbuf_pars_fragment>
 void main() {
@@ -30,7 +31,7 @@ void main() {
   // The painted night sky, mirrored four times around the horizon so it has no seam.
   vec2 uv = vec2(atan(direction.x, -direction.z) / 6.2831853 * 4.0, clamp(up * 1.25, 0.0, 1.0));
   vec3 painted = texture2D(stars, uv).rgb;
-  color = mix(color, max(color, painted * 1.1), smoothstep(0.04, 0.4, up));
+  color = mix(color, max(color, painted * 1.1), smoothstep(0.04, 0.4, up) * night);
   float moon = dot(direction, normalize(moonDir));
   color += vec3(0.95, 0.97, 1.0) * smoothstep(0.99955, 0.9997, moon) + afterglow * pow(max(moon, 0.0), 900.0) * 0.5;
   gl_FragColor = vec4(color, 1.0);
@@ -53,6 +54,7 @@ export function makeSky(stars) {
       afterglow: { value: new THREE.Color(BLUE.glow) },
       moonDir: { value: new THREE.Vector3(...MOON) },
       stars: { value: stars },
+      night: { value: 1 },
     },
   });
   const sky = new THREE.Mesh(new THREE.SphereGeometry(RADIUS, 48, 24), material);

@@ -17,10 +17,10 @@ export const STOPS = {
   horizon: [1300, 60, 3300, 5200, 90, 8200],
 };
 
-const EASE_PER_SECOND = 3; // how fast the camera catches up with the scroll: smooth, never sluggish
-const HOLD = 0.45; // share of each section spent holding still on its place before the hop to the next
-const HOP_LIFT = 0.18; // a hop rises by this share of its length at its midpoint, so it passes over the town
-const MAX_LIFT = 600;
+const EASE_PER_SECOND = 2.2; // how fast the camera catches up with the scroll: smooth, never jumpy
+const HOLD = 0.6; // share of each section spent holding still on its place before the hop to the next
+const HOP_LIFT = 0.06; // a hop rises by this share of its length at its midpoint, so it passes over the town
+const MAX_LIFT = 180;
 const CLEARANCE = 70; // metres above land: clears the tallest rooftops in Antibes
 const SEA_CLEARANCE = 25; // over open water the camera may skim lower
 const RELEASE_SCROLL_PX = 90;
@@ -44,6 +44,11 @@ export class Rig {
 
   indexOf(name) {
     return this.names.indexOf(name);
+  }
+
+  // The name of the stop the camera is at or nearest to.
+  current() {
+    return this.names[Math.round(this.shown)];
   }
 
   // Stop i + 1 holds while section i's top is near the top of the viewport; the hop to the next stop
