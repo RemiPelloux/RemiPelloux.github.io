@@ -137,7 +137,7 @@ function frame(view, seconds, delta) {
   built.universe.time.value = seconds;
   built.beacons.userData.turn(seconds);
   view.placeLabels(camera, size, view.page.cards.map((card) => card.getBoundingClientRect()));
-  post.render(seconds);
+  post.render();
   view.drawShiba(seconds);
 }
 
