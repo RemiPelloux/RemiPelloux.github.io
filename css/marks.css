@@ -173,3 +173,48 @@
     display: none;
   }
 }
+
+/* A shiba sails on the footer sea, in both themes. */
+
+.footer {
+  position: relative;
+}
+
+.boat {
+  --accent-boat: #E8473C; /* unslop-ignore: the boat's pennant, red on the blue sea */
+  position: absolute;
+  right: 14%;
+  bottom: calc(100% + 26px);
+  width: 112px;
+  height: auto;
+  pointer-events: none;
+}
+
+.motion .boat {
+  animation: bob 4.2s ease-in-out infinite;
+  transform-origin: 50% 100%;
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+
+  50% {
+    transform: translateY(6px) rotate(2deg);
+  }
+}
+
+@media (min-width: 880px) {
+  .boat {
+    bottom: calc(100% + 36px);
+    width: 140px;
+  }
+}
+
+@media print {
+  .boat {
+    display: none;
+  }
+}
