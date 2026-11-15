@@ -13,7 +13,7 @@ export default {
   edition: "Mis à jour le <span data-ledger-date>11 novembre 2026</span>.",
   "nav-work": "Projets",
   "nav-security": "Sécurité",
-  lede: "CTO et cofondateur d'OpenPro, à Nice. Je construis des outils d'IA pour développeurs qui tournent sur vos propres modèles, des applications de bureau qui gardent les données sur votre machine, des outils système en Rust et un framework Python de modélisation multi-agents.",
+  lede: "CTO et cofondateur d'OpenPro, à Nice. Je construis des outils d'IA pour développeurs qui tournent sur vos propres modèles, des applications de bureau qui gardent vos données sur votre machine, et des logiciels système en Rust.",
   "lede-2": "Né à Antibes. Avant OpenPro : sécurité, R&amp;D et développement full-stack pour des clients comme Dassault Aviation, la DGA, Thales et Decathlon. Une CVE dans Symfony à ce jour.",
   "cta-linkedin": "M'écrire sur LinkedIn",
   "cta-github": "Ouvrir GitHub",

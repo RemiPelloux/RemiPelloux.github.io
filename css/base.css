@@ -1,25 +1,26 @@
 /* Tokens, reset and type. Palette and scales follow UNSLOP 1.6. */
 
 :root {
-  --paper: #F4F6F8;
-  --paper-2: #E7ECF1;
-  --paper-3: #D8E0E8;
-  --ink: #0F1B27;
-  --ink-2: #3A4756;
-  --ink-3: #566373;
-  --rule: #D0D8E1;
-  --rule-strong: #0F1B27;
-  --accent: #0B5CAD; /* unslop-ignore: Antibes blue, asked for by the owner, inside the banned hue band on purpose */
+  --paper: #F6F9FC;
+  --paper-2: #E8F0F8;
+  --paper-3: #D5E3F1;
+  --ink: #0A2A4D;
+  --ink-2: #2D4D72;
+  --ink-3: #4A6687;
+  --rule: #CFDDEC;
+  --rule-strong: #0A2A4D;
+  --accent: #0B5CAD; /* unslop-ignore: Antibes blue, the one colour of the site, asked for by the owner */
   --accent-ink: #FFFFFF;
-  --focus: #0F1B27;
+  --focus: #0B5CAD;
   --radius: 2px;
 
-  /* Ledger steps, lightest to darkest. */
-  --l0: #E7ECF1;
-  --l1: #C2CDD8;
-  --l2: #7D8C9C;
-  --l3: #3A4756;
-  --l4: #0F1B27;
+  /* Ledger steps, lightest to darkest, all Antibes blue. */
+  --l0: #E8F0F8;
+  --l1: #B7CFEA;
+  --l2: #6E9FD5;
+  --l3: #2F77C1;
+  --l4: #0B4A8C;
+  --l5: var(--accent);
 
   --s1: 4px;
   --s2: 8px;
@@ -51,24 +52,25 @@
   color-scheme: light;
 }
 
-/* Azur: the sea off Antibes, sand for ink, the sun for accent. */
+/* Azur: the sea off Antibes at night, in the same blue. */
 :root[data-theme="azur"] {
-  --paper: #06324F;
-  --paper-2: #0A3D60;
-  --paper-3: #104A72;
-  --ink: #F6EBD3;
-  --ink-2: #C9D3D6;
-  --ink-3: #9FB4BF;
-  --rule: #1C5A85;
-  --rule-strong: #F6EBD3;
-  --accent: #FFD23F;
-  --accent-ink: #06324F;
-  --focus: #FFD23F;
-  --l0: #0A3D60;
-  --l1: #1F6190;
-  --l2: #3F8FBF;
-  --l3: #8CC6E4;
-  --l4: #F6EBD3;
+  --paper: #072447;
+  --paper-2: #0A2E57;
+  --paper-3: #0F3A6B;
+  --ink: #F2F7FC;
+  --ink-2: #C6D8EC;
+  --ink-3: #9DB9D9;
+  --rule: #1D4C80;
+  --rule-strong: #F2F7FC;
+  --accent: #7DB6EE;
+  --accent-ink: #072447;
+  --focus: #7DB6EE;
+  --l0: #0A2E57;
+  --l1: #1D4C80;
+  --l2: #2F77C1;
+  --l3: #7DB6EE;
+  --l4: #F2F7FC;
+  --l5: var(--accent);
   color-scheme: dark;
 }
 

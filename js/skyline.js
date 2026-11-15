@@ -21,7 +21,7 @@ const WAVE_CROSSING_MS = 1700;
 const WAVE_WIDTH_WEEKS = 2.6;
 const WAVE_GAIN = 0.22; // extra height at the crest, as a share of the bar
 const WAVE_LIFT_COLS = 0.35; // extra height at the crest for every bar, in column widths
-const TOKENS = ["--l0", "--l1", "--l2", "--l3", "--l4", "--accent"];
+const TOKENS = ["--l0", "--l1", "--l2", "--l3", "--l4", "--l5"];
 const CORNERS = [[INSET, INSET], [1 - INSET, INSET], [1 - INSET, 1 - INSET], [INSET, 1 - INSET]];
 const still = window.matchMedia("(prefers-reduced-motion: reduce)");
 
@@ -104,7 +104,7 @@ export class Skyline {
     context.fillStyle = color;
     context.fill();
     if (!shade) return;
-    context.fillStyle = `rgba(0, 0, 0, ${shade})`;
+    context.fillStyle = `rgba(6, 43, 87, ${shade})`; // deep Antibes blue, so shaded faces stay blue
     context.fill();
   }
 
@@ -125,7 +125,7 @@ export class Skyline {
   }
 
   readColors() {
-    const style = getComputedStyle(document.documentElement);
+    const style = getComputedStyle(this.canvas);
     this.colors = TOKENS.map((token) => style.getPropertyValue(token).trim());
   }
 
