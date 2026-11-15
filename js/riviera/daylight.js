@@ -1,16 +1,17 @@
 // Night and day. The sky switch turns the world between blue hour and a bright Riviera day, as one eased
 // sunrise or sunset: the sky, fog, sea and lights move together, the stars fade, and the windows go dark.
-// The moon disc low over the sea becomes the sun, and its path on the water stays.
+// Switching to day, the moon sinks into the sea and the sun rises from the east to its day height;
+// switching back, the sun sets and the moon comes up again. Light and the path on the water follow them.
 import * as THREE from "/vendor/three/three.module.min.js";
-import { BLUE } from "./palette.js";
+import { BLUE, MOON } from "./palette.js";
 
 const CYCLE_SECONDS = 2.6;
 const KEY = "riviera-sky";
 
 // Each entry: [night, day]. Colours are lerped, numbers are lerped.
 const LOOK = {
-  zenith: [BLUE.night, "#2F77C1"],
-  middle: [BLUE.deep, "#6E9FD5"],
+  zenith: ["#081C3D", "#2F77C1"],
+  middle: ["#0E3366", "#6E9FD5"],
   horizon: [BLUE.horizon, "#C9DCF0"],
   afterglow: [BLUE.glow, "#FFFFFF"],
   seaDeep: [BLUE.abyss, BLUE.sea],
@@ -19,20 +20,42 @@ const LOOK = {
   seaSky: [BLUE.horizon, "#B7CFEA"],
   hemiSky: [BLUE.glow, "#FFFFFF"],
   hemiGround: [BLUE.deep, BLUE.sea],
-  hemi: [1.0, 2.1],
-  sun: [0.8, 2.6],
+  hemi: [1.55, 2.1],
+  sun: [1.15, 2.6],
   windows: [0.55, 0.04],
-  wallLight: [1, 1.6],
-  groundLight: [1, 2.8],
+  wallLight: [1.2, 1.6],
+  groundLight: [1.45, 2.8],
   roads: [0.85, 0.25],
   roofGlow: [0.25, 0.0],
   stoneGlow: [0.35, 0.08],
   bloom: [0.75, 0.22],
   threshold: [0.62, 0.92],
-  exposure: [1.0, 1.08],
+  exposure: [1.28, 1.08],
 };
 
 const smooth = (x) => x * x * (3 - 2 * x);
+const ramp = (from, to, x) => smooth(Math.min(1, Math.max(0, (x - from) / (to - from))));
+
+// Directions on the sky from an elevation and an azimuth measured from east toward south, in radians.
+// World axes: x east, y up, z south.
+function skyAt(elevation, azimuth, target) {
+  return target.set(Math.cos(elevation) * Math.cos(azimuth), Math.sin(elevation), Math.cos(elevation) * Math.sin(azimuth));
+}
+
+const MOON_AT = new THREE.Vector3(...MOON).normalize();
+const MOON_ELEVATION = Math.asin(MOON_AT.y);
+const MOON_AZIMUTH = Math.atan2(MOON_AT.z, MOON_AT.x);
+const BELOW = -0.14; // radians under the horizon: far enough that the disc and its glow are gone
+const SUN = { day: 0.19, fromAzimuth: 0.72, toAzimuth: 0.95 }; // rises in front of the horizon view, settles about 11 degrees up, south-east
+const LIGHT_DISTANCE = 6000;
+
+// t from 0 (night) to 1 (day): the moon sets over the first half, the sun rises over the second.
+function bodies(t, moon, sun) {
+  skyAt(MOON_ELEVATION + (BELOW - MOON_ELEVATION) * ramp(0, 0.55, t), MOON_AZIMUTH, moon);
+  const rise = ramp(0.4, 1, t);
+  skyAt(BELOW + (SUN.day - BELOW) * rise, SUN.fromAzimuth + (SUN.toAzimuth - SUN.fromAzimuth) * rise, sun);
+  return moon.y >= sun.y ? moon : sun; // whichever is higher lights the world and the water
+}
 
 function stored() {
   try {
@@ -75,6 +98,9 @@ function blend(key, t) {
 
 function apply(world, t) {
   const sky = world.sky.uniforms;
+  const lit = bodies(t, sky.moonDir.value, sky.sunDir.value);
+  world.sea.uniforms.moonDir.value.copy(lit);
+  world.sun.position.copy(lit).multiplyScalar(LIGHT_DISTANCE);
   for (const key of ["zenith", "middle", "afterglow"]) sky[key].value.copy(blend(key, t));
   sky.horizon.value.copy(blend("horizon", t));
   world.fog.color.copy(sky.horizon.value); // the sea reads this same colour object for its fog

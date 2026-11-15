@@ -57,8 +57,12 @@ export function makeLabels(layer, heightAt, extra = []) {
       const screen = { x: ((projected.x + 1) / 2) * size.x, y: ((1 - projected.y) / 2) * size.y };
       const fade = visibility({ projected, distance: camera.position.distanceTo(pin.point), screen }, taken);
       if (fade > 0) taken.push(screen);
-      pin.label.style.opacity = fade.toFixed(2);
-      pin.label.style.transform = `translate(${screen.x}px, ${screen.y}px)`;
+      // Only touch the DOM when something changed: most labels sit hidden most of the time.
+      const opacity = fade.toFixed(2);
+      if (opacity !== pin.opacity) pin.label.style.opacity = pin.opacity = opacity;
+      if (fade === 0) continue;
+      const transform = `translate(${screen.x.toFixed(1)}px, ${screen.y.toFixed(1)}px)`;
+      if (transform !== pin.transform) pin.label.style.transform = pin.transform = transform;
     }
   };
 }

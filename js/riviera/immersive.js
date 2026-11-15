@@ -21,17 +21,40 @@ import { runBoot } from "./boot.js";
 import { loadTextures } from "./textures.js";
 import { makePost } from "./post.js";
 import { makeDaylight } from "./daylight.js";
+import { makeQuality } from "./quality.js";
 import { mountCompanion } from "./companion.js";
 
 const FOG = { near: 3500, far: 21000 };
 const GIANT = { scale: 7, x: 382, y: 2416 };
 
 function makeRenderer(canvas) {
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, logarithmicDepthBuffer: true, powerPreference: "high-performance" });
-  renderer.setPixelRatio(Math.min(1.5, window.devicePixelRatio || 1));
+  // No anti-aliasing on the screen buffer: the post passes overwrite it, and the scene is
+  // anti-aliased once in the multisampled target of the post chain (see post.js).
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, logarithmicDepthBuffer: true, powerPreference: "high-performance" });
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.0;
   return renderer;
+}
+
+// The town, the sea and the sky never move: work their matrices out once, not on every frame.
+function freeze(objects) {
+  for (const root of objects) {
+    root.traverse((object) => {
+      object.updateMatrix();
+      object.matrixAutoUpdate = false;
+    });
+    root.updateMatrixWorld(true);
+  }
+}
+
+// Compiles every shader and uploads every texture before the first frame, so nothing stalls
+// the first time a part of the world comes into view. The towers are hidden until chapter 02,
+// so they are shown for the compile only.
+async function warmUp(renderer, built, camera, painted) {
+  for (const texture of Object.values(painted.textures)) renderer.initTexture(texture);
+  built.universe.group.visible = true;
+  await renderer.compileAsync(built.scene, camera);
+  built.universe.group.visible = false;
 }
 
 function buildWorld(world, repos, { images, textures }) {
@@ -39,8 +62,9 @@ function buildWorld(world, repos, { images, textures }) {
   scene.fog = new THREE.Fog(HORIZON, FOG.near, FOG.far);
   const parts = { sea: makeSea(world, shoreMask(world), scene.fog), beacons: makeBeacons(world), universe: new Universe(repos), voyage: makeVoyage() };
   parts.turnSculptures = placeSculptures(parts.universe, ALTITUDE);
-  scene.add(makeSky(textures.sky), makeLights(), parts.sea, makeTerrain(world, images), makeBuildings(world, textures), makeFort(world, textures), makePort(world, textures), makePines(world));
-  scene.add(parts.beacons, parts.universe.group, parts.voyage.boat);
+  const still = [makeSky(textures.sky), parts.sea, makeTerrain(world, images), makeBuildings(world, textures), makeFort(world, textures), makePort(world, textures), makePines(world)];
+  scene.add(makeLights(), ...still, parts.beacons, parts.universe.group, parts.voyage.boat);
+  freeze(still);
   return { scene, ...parts };
 }
 
@@ -101,6 +125,7 @@ function lightFlagship(view) {
 function frame(view, seconds, delta) {
   const { built, rig, renderer, camera, size, post } = view;
   resize(renderer, camera, size, post);
+  view.measure(delta);
   rig.update(delta);
   view.daylight.update(delta);
   lightFlagship(view);
@@ -125,7 +150,8 @@ export async function startImmersive(page) {
   rig.calm = page.calm || page.still;
   const facts = { buildings: world.buildings.length.toLocaleString("en-GB"), calm: page.calm, onSecret: () => giantShiba(built.scene, world) };
   const post = makePost(renderer, built.scene, camera);
-  const view = { page, built, rig, renderer, camera, post, daylight: makeDaylight(built, renderer, post, rig.calm), size: new THREE.Vector2(), placeLabels: makeLabels(page.labels, world.heightAt, districtPlaces(built.universe)), drawShiba: mountCompanion(page.companion, facts) };
+  await warmUp(renderer, built, camera, painted);
+  const view = { page, built, rig, renderer, camera, post, measure: makeQuality(renderer, post), daylight: makeDaylight(built, renderer, post, rig.calm), size: new THREE.Vector2(), placeLabels: makeLabels(page.labels, world.heightAt, districtPlaces(built.universe)), drawShiba: mountCompanion(page.companion, facts) };
   listen(built, rig);
   watchTowers(page.canvas, built.universe, camera);
   if (rig.calm) rig.jump();
