@@ -1,0 +1,25 @@
+{
+  "languages": [
+    "typescript"
+  ],
+  "tolerance": 0.1,
+  "file": {
+    "target": 300,
+    "limit": 400
+  },
+  "module": {
+    "limit": 200,
+    "paths": []
+  },
+  "function": {
+    "limit": 25
+  },
+  "params": {},
+  "exclude": [
+    "riviera/**"
+  ],
+  "sizeExempt": [
+    "os/src/data/antibes.ts",
+    "os/src/scene/antibesOutline.ts"
+  ]
+}

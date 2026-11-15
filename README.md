@@ -33,10 +33,21 @@ The source of [remipelloux.github.io](https://remipelloux.github.io/). Static fi
 | `scripts/stamp.py` | Versions the CSS and JavaScript links |
 | `scripts/refresh-ledger.sh` | Regenerates `js/ledger-data.js` from GitHub |
 
+## Pelloux Guidelines
+
+This repository follows the [Pelloux Guidelines](https://github.com/RemiPelloux/pelloux-guidelines) (`CLAUDE.md`, `.pelloux/GUIDELINES.md`): files under 400 lines, functions under 25, three parameters at most, no debug output, tests for every behaviour. Check before calling a change done:
+
+```sh
+sh scripts/ci-local.sh   # the Pelloux audit, then RIVIERA.OS's type check, tests and build
+```
+
+The pre-commit hook audits the staged files, and the `pelloux` workflow runs the same checks on every push. `pelloux-baseline.json` lists the one known legacy violation (`js/wipe.js`); it may shrink, never grow.
+
 ## RIVIERA.OS
 
 ```sh
 cd os && npm install   # once
+npm test               # unit tests (Vitest): terminal, data, store, map, explorer
 npm run build          # type-checks, then builds into ../riviera/
 ```
 

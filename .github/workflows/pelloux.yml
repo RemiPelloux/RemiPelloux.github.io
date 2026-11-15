@@ -1,0 +1,36 @@
+name: pelloux
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Pelloux audit
+        run: python3 .pelloux/pelloux.py audit
+  os:
+    # RIVIERA.OS: type check, tests, build, and the committed riviera/ must match the build.
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: os
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: os/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+      - name: The committed build is up to date
+        run: git diff --exit-code -- ../riviera
