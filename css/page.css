@@ -67,30 +67,34 @@
   padding-block: var(--s5) var(--s6);
 }
 
-/* Home hero: the top bar, the name and the intro sit on Antibes blue, edge to edge.
-   Tokens are swapped locally so links, buttons and focus rings follow. */
+/* Home hero: the top bar, the name, the intro and the commit skyline sit on Antibes blue,
+   edge to edge. Tokens are swapped locally so links, buttons, focus rings and bars follow. */
 
 [data-page="index"] .topbar,
-.masthead,
-.about {
+.hero {
   --paper: #0B5CAD;
   --paper-2: #0A5299;
   --ink: #FFFFFF;
-  --ink-2: #DDE9F6;
-  --ink-3: #C4D7EC;
-  --rule: #3D7DC0;
+  --ink-2: #DCE9F7;
+  --ink-3: #BCD4EE;
+  --rule: #3A7CC2;
   --rule-strong: #FFFFFF;
-  --accent: #FFD23F;
-  --accent-ink: #0B2A4A;
-  --focus: #FFD23F;
+  --accent: #FFFFFF;
+  --accent-ink: #0B5CAD;
+  --focus: #FFFFFF;
+  --l0: #2C6DB6;
+  --l1: #5A8FCB;
+  --l2: #8DB3DE;
+  --l3: #C4D9EF;
+  --l4: #FFFFFF;
+  --l5: #062B57;
   position: relative;
   isolation: isolate;
   color: var(--ink);
 }
 
 [data-page="index"] .topbar::before,
-.masthead::before,
-.about::before {
+.hero::before {
   content: "";
   position: absolute;
   inset: 0 calc(50% - 50vw) -1px; /* -1px reaches under the top bar's bottom rule */
@@ -100,6 +104,48 @@
 
 [data-page="index"] .topbar {
   border-bottom-color: var(--rule);
+}
+
+.hero .ledger {
+  padding-block: var(--s6) var(--s6);
+  border-top: 0;
+}
+
+/* The skyline runs the full width of the screen, like the coast seen from the sea. */
+.hero .skyline {
+  display: block;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+}
+
+.hero + .band {
+  border-top: 0;
+}
+
+/* On a phone the skyline comes straight after the name, so it is on the first screen. */
+@media (max-width: 720px) {
+  .hero {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero .masthead {
+    order: 1;
+  }
+
+  .hero .ledger {
+    order: 2;
+    padding-block: var(--s5) 0;
+  }
+
+  .hero .about {
+    order: 3;
+  }
+
+  .hero .ledger-head .faint,
+  .hero .ledger-read {
+    display: none;
+  }
 }
 
 .name {
