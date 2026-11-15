@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "tool": "pelloux-audit 1.1.0",
+  "note": "Known violations. Each value is a ceiling: it may go down, never up. Re-seed only on purpose, in its own commit.",
+  "entries": {
+    "params::js/wipe.js::tide": 4
+  }
+}
