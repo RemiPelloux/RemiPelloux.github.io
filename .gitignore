@@ -1,1 +1,5 @@
 .serena/
+
+# RIVIERA.OS dependencies
+os/node_modules/
+.agent-build/

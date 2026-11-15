@@ -58,12 +58,12 @@ function build(canFly) {
   const immersive = option(
     "immersive",
     t("Immersive", "Immersif"),
-    t("Fly along the coast of a 3D Antibes. My top ten repositories stand over the town as towers.", "Survolez la côte d'un Antibes en 3D. Mes dix meilleurs dépôts se dressent sur la ville comme des tours."),
-    canFly ? t("3D, about 2 MB, best on a computer", "3D, environ 2 Mo, idéal sur ordinateur") : t("Needs WebGL 2, not available in this browser", "Demande WebGL 2, absent de ce navigateur"),
-    "/assets/riviera/stills/arrival.webp",
-    t("Antibes at blue hour, seen from the sea", "Antibes à l'heure bleue, vue depuis la mer"),
+    t("Sit at my computer: RIVIERA.OS, with a terminal that works, my projects, a map of Antibes and a Shiba on the desk.", "Asseyez-vous à mon ordinateur : RIVIERA.OS, avec un vrai terminal, mes projets, une carte d'Antibes et un Shiba sur le bureau."),
+    canFly ? t("3D workstation, best on a computer", "Poste de travail en 3D, idéal sur ordinateur") : t("Opens as a 2D desktop in this browser", "S'ouvre en bureau 2D dans ce navigateur"),
+    "/assets/welcome/immersive.webp",
+    t("A retro computer on a desk at night, running RIVIERA.OS", "Un ordinateur rétro sur un bureau, la nuit, sous RIVIERA.OS"),
   );
-  immersive.disabled = !canFly;
+  // RIVIERA.OS falls back to its 2D desktop without WebGL, so Immersive always works.
   const lite = option(
     "lite",
     t("Lite", "Lite"),
@@ -75,7 +75,7 @@ function build(canFly) {
   const options = overlay.querySelector(".welcome-options");
   options.append(immersive, lite);
   const previous = last();
-  const mark = previous === "immersive" && canFly ? immersive : previous === "lite" ? lite : null;
+  const mark = previous === "immersive" ? immersive : previous === "lite" ? lite : null;
   if (mark) mark.classList.add("last");
   overlay.querySelector(".welcome-foot").textContent = t("Press I or L. Escape opens Lite.", "Touche I ou L. Échap ouvre Lite.");
   document.body.append(overlay);
@@ -105,10 +105,10 @@ export function welcome() {
     function onKey(event) {
       const key = event.key.toLowerCase();
       if (key === "escape" || key === "l") stay();
-      else if (key === "i" && canFly) fly();
+      else if (key === "i") fly();
       else if (key === "tab") {
         // Keep focus inside the dialog.
-        const target = event.shiftKey ? (document.activeElement === immersive || !canFly ? lite : immersive) : (document.activeElement === lite && canFly ? immersive : lite);
+        const target = document.activeElement === immersive ? lite : immersive;
         event.preventDefault();
         target.focus();
       }
