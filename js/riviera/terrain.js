@@ -48,6 +48,7 @@ function fadeEdges(context, bounds, color) {
 }
 
 const GROUND_TILE = 240; // metres of painted ground per repeat
+const GROUND_DETAIL = 0.28; // how much of the painted ground shows over the navy
 
 function groundPattern(context, image) {
   const pattern = context.createPattern(image, "repeat");
@@ -58,12 +59,16 @@ function groundPattern(context, image) {
 function paintLand(world, ground) {
   const paint = canvasFor(world);
   const { context } = paint;
-  context.fillStyle = groundPattern(context, ground);
-  for (const land of world.land) {
-    context.beginPath();
-    trace(context, land.o);
-    land.h.forEach((hole) => trace(context, hole));
-    context.fill("evenodd");
+  // The navy ground first, then the painted ground over it as a light layer of detail.
+  for (const [style, alpha] of [[LAND.ground, 1], [groundPattern(context, ground), GROUND_DETAIL]]) {
+    context.fillStyle = style;
+    context.globalAlpha = alpha;
+    for (const land of world.land) {
+      context.beginPath();
+      trace(context, land.o);
+      land.h.forEach((hole) => trace(context, hole));
+      context.fill("evenodd");
+    }
   }
   context.globalAlpha = 0.45;
   fill(context, world.woods, LAND.wood);
