@@ -56,6 +56,7 @@ export const VISUALS: Record<string, { shot?: string; caseStudy?: string }> = {
   HackoogleMini: { shot: "/assets/shots/hackooglemini.webp" },
   "pelloux-guidelines": { shot: "/assets/shots/pelloux-guidelines.webp" },
   SmarttyTest: { shot: "/assets/shots/smarttytest.webp" },
+  iadevlearn: { shot: "/assets/shots/iadevlearn.webp" },
 };
 
 const DAY_MS = 86_400_000;
