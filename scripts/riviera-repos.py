@@ -14,7 +14,7 @@ OUT = ROOT / "assets" / "riviera" / "repos.json"
 OWNER = "RemiPelloux"
 # Left out on the owner's request, plus the profile README repository.
 SKIP = {"piou-autoloader", "steamio", "marine-courtois", "RemiPelloux"}
-FEATURED = ["OpenVision", "OpenPlod", "Modelly", "Containust", "HackoogleMini", "pelloux-guidelines", "SmarttyTest", "OpenSw"]
+FEATURED = ["OpenVision", "OpenPlod", "Modelly", "Containust", "HackoogleMini", "pelloux-guidelines", "SmarttyTest", "iadevlearn", "OpenSw"]
 CATEGORY = {
     "ai": ["agent-mangaka-forge", "Concerto", "kill-my-idea", "OpenAgents", "molt-official", "InsideGPT", "JarvisCodeGPT"],
     "devtools": ["OpenVision", "openterm", "SmarttyTest", "pelloux-guidelines", "unslop", "rjs", "RouteMaster", "gitverse", "openpro-connector-sdk", "openwhistle-sdks"],
